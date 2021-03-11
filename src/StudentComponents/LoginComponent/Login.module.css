@@ -1,0 +1,18 @@
+
+.Login{
+    background: #222831;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoginForm {
+    background: #F2994A;
+    border-radius: 14px;
+    width: 25vw;
+    min-width: 325px;
+    height: 60vh;
+    min-height: 360px;
+}
