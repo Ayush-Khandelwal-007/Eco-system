@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import StudentDashboard from './pages/StudentDashboard';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import FnA from './pages/FnA';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             {/* {state.user ? <Checkout /> : <SignIn />} */}
           </Route>
           <Route exact path="/FnADashBoard">
+            <FnA/>
             {/* {state.user ? <Redirect to="/" /> : <SignIn />} */}
           </Route>
           <Route exact path="/Login">
@@ -27,7 +29,6 @@ function App() {
             <Login/>
           </Route>
           <Route path="/">
-            {/* {} */}
             <Landing/>
           </Route>
         </Switch>
