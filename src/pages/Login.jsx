@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { useHistory } from "react-router-dom";
 
 
 const LoginButton = withStyles(() => ({
@@ -60,6 +61,8 @@ function Login() {
     const handleChange = (event) => {
         setLoginType(event.target.value);
       };
+    const history = useHistory();
+    const goTo = () => history.push('/studentDashboard');
 
     return (
         <div className={LoginCss.Login}>
@@ -90,7 +93,7 @@ function Login() {
                     type="password"
                     autoComplete="current-password" 
                 />
-                <LoginButton variant="contained" color="primary">
+                <LoginButton variant="contained" color="primary" onClick={goTo}>
                     LOGIN
                 </LoginButton>
                 <ResetPassButton variant="contained" color="secondary">
