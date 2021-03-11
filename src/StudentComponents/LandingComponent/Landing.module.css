@@ -2,8 +2,13 @@
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 85px;
+}
+
+.HelloTxt{
     font-style: normal;
     font-weight: 500;
     font-size: 36px;
