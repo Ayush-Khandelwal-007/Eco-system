@@ -62,7 +62,21 @@ function Login() {
         setLoginType(event.target.value);
       };
     const history = useHistory();
-    const goTo = () => history.push('/studentDashboard');
+    const goTo = () => {
+          switch (loginType) {
+            case 1:
+              history.push('/studentDashboard');
+              break;
+            case 2:
+              history.push('/FnADashBoard');
+              break;
+            case 3:
+              history.push('/HODDashboard');
+              break;
+            default:
+              return null;
+          }
+      };
 
     return (
         <div className={LoginCss.Login}>
