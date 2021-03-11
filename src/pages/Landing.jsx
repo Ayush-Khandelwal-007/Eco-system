@@ -2,6 +2,7 @@ import React from 'react'
 import LandingCss from '../StudentComponents/LandingComponent/Landing.module.css';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
 
 const LoginBtn = withStyles(() => ({
     root: {
@@ -19,10 +20,13 @@ const LoginBtn = withStyles(() => ({
   }))(Button);
 
 export default function Landing() {
+  const history = useHistory();
+  const goLogin = () => history.push('login');
+
     return (
         <div className={LandingCss.main}>
             <div className={LandingCss.HelloTxt}>Hello Amigos!</div>
-            <LoginBtn variant="contained" color="primary">
+            <LoginBtn variant="contained" color="primary" onClick={goLogin}>
                 Login
             </LoginBtn>
         </div>
