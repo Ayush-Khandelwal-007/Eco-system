@@ -9,6 +9,7 @@ const LoginButton = withStyles(() => ({
       width: "60%",
       color: "#fff",
       backgroundColor: "#27AE60",
+      letterSpacing: "1.25px",
       '&:hover': {
         backgroundColor: "#219653",
       },
@@ -20,6 +21,7 @@ const ResetPassButton = withStyles(() => ({
       width: "60%",
       color: "#fff",
       backgroundColor: "#333333",
+      letterSpacing: "1.25px",
       fontFamily: "Roboto",
       '&:hover': {
         backgroundColor: "#222831",
@@ -27,14 +29,26 @@ const ResetPassButton = withStyles(() => ({
     },
   }))(Button);
 
+const LoginInput = withStyles(() => ({
+    root: {
+        width: "60%",
+        color: "#070D59 !important",
+        fontSize: "10px",
+    }
+}))(TextField);
 
 
 function Login() {
     return (
         <div className={LoginCss.Login}>
             <div className={LoginCss.LoginForm}>
-                <TextField required id="standard-required" label="Username" />
-                <TextField required id="standard-required" label="Password" />
+                <LoginInput required id="standard-required" label="Username" />
+                <LoginInput 
+                    id="standard-password-input"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password" 
+                />
                 <LoginButton variant="contained" color="primary">
                     LOGIN
                 </LoginButton>
