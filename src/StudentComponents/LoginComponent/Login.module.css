@@ -15,4 +15,10 @@
     min-width: 325px;
     height: 60vh;
     min-height: 360px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 50px;
 }

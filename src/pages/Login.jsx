@@ -4,20 +4,43 @@ import TextField from '@material-ui/core/TextField';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+const LoginButton = withStyles(() => ({
+    root: {
+      width: "60%",
+      color: "#fff",
+      backgroundColor: "#27AE60",
+      '&:hover': {
+        backgroundColor: "#219653",
+      },
+    },
+  }))(Button);
+
+const ResetPassButton = withStyles(() => ({
+    root: {
+      width: "60%",
+      color: "#fff",
+      backgroundColor: "#333333",
+      fontFamily: "Roboto",
+      '&:hover': {
+        backgroundColor: "#222831",
+      },
+    },
+  }))(Button);
+
+
+
 function Login() {
     return (
         <div className={LoginCss.Login}>
             <div className={LoginCss.LoginForm}>
-            <form  noValidate autoComplete="off">
                 <TextField required id="standard-required" label="Username" />
                 <TextField required id="standard-required" label="Password" />
-            </form>
-                <Button variant="contained" color="primary">
+                <LoginButton variant="contained" color="primary">
                     LOGIN
-                </Button>
-                <Button variant="contained" color="secondary">
+                </LoginButton>
+                <ResetPassButton variant="contained" color="secondary">
                     Reset Password
-                </Button>
+                </ResetPassButton>
             </div>
         </div>
     )
