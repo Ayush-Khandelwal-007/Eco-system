@@ -1,0 +1,31 @@
+.main{
+    height: 100vh;
+    width: 100vw;
+    background: #222831;
+    font-style: normal;
+    color: rgba(242, 153, 74, 1);
+    position: absolute;
+}
+
+.HeadingTxt{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.Nav{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 20px;
+}
+
+.DasboardOptions{
+
+}
+
+.Option{
+    
+}
+
+.OptionTxt{
+
+}
