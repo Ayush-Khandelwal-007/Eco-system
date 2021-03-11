@@ -3,6 +3,8 @@ import LoginCss from '../StudentComponents/LoginComponent/Login.module.css';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import logo from '../images/logo.svg';
+
 
 const LoginButton = withStyles(() => ({
     root: {
@@ -42,6 +44,12 @@ function Login() {
     return (
         <div className={LoginCss.Login}>
             <div className={LoginCss.LoginForm}>
+            <div className={LoginCss.LogoDiv}>
+            <img
+                src={logo}
+                alt="logo"
+                />
+            </div>
                 <LoginInput required id="standard-required" label="Username" />
                 <LoginInput 
                     id="standard-password-input"
