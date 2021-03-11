@@ -1,0 +1,12 @@
+.main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 11px;
+    color: #000000;
+}

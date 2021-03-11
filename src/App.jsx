@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import StudentDashboard from './pages/StudentDashboard';
 import Login from './pages/Login';
+import Landing from './pages/Landing';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path="/">
             {/* {} */}
+            <Landing/>
           </Route>
         </Switch>
       </div>
