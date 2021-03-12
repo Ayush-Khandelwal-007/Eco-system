@@ -1,11 +1,14 @@
 
 .Login{
     background: #FFCCBC;
-    width: 100vw;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .LoginForm {
