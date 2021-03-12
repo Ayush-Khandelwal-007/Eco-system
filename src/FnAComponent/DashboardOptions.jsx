@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "center",
       alignItems: "center",
       flexDirection: "column",
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: '#D3E3FC',
+        boxShadow: 'none',
+      }
     },
     control: {
       padding: theme.spacing(2),
