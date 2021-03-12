@@ -37,7 +37,7 @@ export default function FnADashboard() {
                     Logout
                 </LogoutBtn>
             </div>
-            <div className={FnADesign.DasboardOptions}>
+            <div className={FnADesign.DashboardFeat}>
                 <DashboardOptions />
             </div>
         </div>
