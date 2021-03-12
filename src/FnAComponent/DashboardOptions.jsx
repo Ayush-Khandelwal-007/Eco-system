@@ -35,28 +35,39 @@ export default function DashboardOptions() {
 
         <Grid item xs={12}>
         <Grid container justify="center" spacing={2}>
-          {[0, 1, 2].map((value) => (
-            <Grid key={value} item>
-              <Paper className={classes.paper} />
+            <Grid item>
+              <Paper className={classes.paper}>
+                <img
+                    src={bell}
+                    alt="logo"
+                />
+              </Paper>
             </Grid>
-          ))}
-        </Grid>
-            <img
-                src={bell}
-                alt="logo"
-            />
-            <img
+            <Grid item>
+              <Paper className={classes.paper}>
+              <img
                 src={deadline}
                 alt="logo"
-            />
-            <img
+                />
+              </Paper>
+            </Grid>
+            <Grid item>
+              <Paper className={classes.paper}>
+              <img
                 src={list}
                 alt="logo"
-            />
-            <img
+                />
+              </Paper>
+            </Grid>
+            <Grid item>
+              <Paper className={classes.paper}>
+              <img
                 src={fee}
                 alt="logo"
             />
+              </Paper>
+            </Grid>
+        </Grid>
       </Grid>
       </Grid>
     )
