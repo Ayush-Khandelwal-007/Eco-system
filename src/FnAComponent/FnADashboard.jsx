@@ -11,11 +11,14 @@ const LogoutBtn = withStyles(() => ({
       width: "180px",
       height: "45px",
       color: "#000000",
-      background: "#F2994A",
+      background: "#FFCCBC",
+      boxShadow: "0px 4px 20px #525CDD",
       borderRadius: "10px",
       letterSpacing: "1.25px",
       '&:hover': {
-        backgroundColor: "#FCA353",
+        backgroundColor: "#070D59",
+        color: '#ffffff',
+        boxShadow: 'none'
       },
     },
   }))(Button);
