@@ -21,14 +21,8 @@
     margin: 10px 20px;
 }
 
-.DasboardOptions{
-
-}
-
-.Option{
-    
-}
-
-.OptionTxt{
-
+.paperTxt{
+    font-family: Segoe UI;
+    color: #000000;
+    font-size: 15px;
 }
