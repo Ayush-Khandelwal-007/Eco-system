@@ -14,6 +14,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import FnADesign from './FnADashboard.module.css';
 import { useHistory } from "react-router-dom";
 import {
@@ -100,11 +102,18 @@ const DialogTitle = withStyles(styles)((props) => {
   }))(MuiDialogActions);
 
 
+//Alert on sending notifications
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+
 export default function DashboardOptions() {
 
     const classes = useStyles();
     const history = useHistory();
 
+    // Notification Dialog
     const [open, setOpen] = React.useState(false);
   
     const handleClickOpen = () => {
@@ -112,6 +121,22 @@ export default function DashboardOptions() {
     };
     const handleClose = () => {
       setOpen(false);
+      setOpenAlert(true);
+    };
+
+    //Alert 
+    const [openAlert, setOpenAlert] = React.useState(false);
+
+    const handleClickAlert = () => {
+      setOpenAlert(true);
+    };
+
+    const handleCloseAlert = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpenAlert(false);
     };
 
     return (
@@ -142,6 +167,12 @@ export default function DashboardOptions() {
                 </DialogActions>
           </NotifyDialog>
 
+          {/* Alert */}
+          <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+            <Alert onClose={handleCloseAlert} severity="success">
+              This is a success message!
+            </Alert>
+          </Snackbar>
 
           <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
