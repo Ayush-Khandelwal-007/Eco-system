@@ -3,9 +3,16 @@ import bell from "../images/Bell.svg";
 import deadline from "../images/Deadline.svg";
 import list from "../images/DefaulterList.svg";
 import fee from "../images/Fee.svg";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles,withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
 import FnADesign from './FnADashboard.module.css';
 import { useHistory } from "react-router-dom";
 import {
@@ -41,13 +48,63 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  const styles = (theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2),
+    },
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    },
+  });
+
+const DialogTitle = withStyles(styles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
+  
+  const DialogContent = withStyles((theme) => ({
+    root: {
+      padding: theme.spacing(2),
+    },
+  }))(MuiDialogContent);
+  
+  const DialogActions = withStyles((theme) => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(1),
+    },
+  }))(MuiDialogActions);
+
 
 export default function DashboardOptions() {
 
     const classes = useStyles();
     const history = useHistory();
 
+    const [open, setOpen] = React.useState(false);
+  
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
+
     return (
+      <div>
           <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
           <Grid container justify="center" spacing={5}>
@@ -73,8 +130,7 @@ export default function DashboardOptions() {
                 </Paper>
                 </Link>
               </Grid>
-              <Grid item>
-              <Link to="/sendnotification">
+              <Grid item  onClick={handleClickOpen}>
                 <Paper className={classes.paper}>
                   <img
                       src={bell}
@@ -82,7 +138,6 @@ export default function DashboardOptions() {
                   />
                   <div className={FnADesign.paperTxt}>Send Notifications</div>
                 </Paper>
-              </Link>
               </Grid>
               <Grid item>
               <Link to="/deadlineext">
@@ -98,5 +153,6 @@ export default function DashboardOptions() {
           </Grid>
         </Grid>
         </Grid>
+      </div>
     )
 }
