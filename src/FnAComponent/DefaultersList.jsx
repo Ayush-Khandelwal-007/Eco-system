@@ -20,7 +20,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-      backgroundColor: '#D3E3FC',
+      backgroundColor: '#fffff',
   },
 }))(TableRow);
 
