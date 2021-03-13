@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
       top: theme.spacing(1),
       color: theme.palette.grey[500],
     },
+    paper: {
+      borderRadius: 20,
+    }
   });
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -76,6 +79,13 @@ const DialogTitle = withStyles(styles)((props) => {
     );
   });
   
+  const NotifyDialog = withStyles((theme) => ({
+    paper: {
+      borderRadius: 20,
+    },
+  }))(Dialog);
+
+
   const DialogContent = withStyles((theme) => ({
     root: {
       padding: theme.spacing(2),
@@ -107,31 +117,30 @@ export default function DashboardOptions() {
     return (
       <div>
 
-        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+        <NotifyDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                  Modal title
+                  Notify Students
                 </DialogTitle>
                 <DialogContent dividers>
                   <Typography gutterBottom>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                    in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+                    Dear Navneet Bhole, you are requested to pay
+                    your due fees.Please ignore if already paid.
                   </Typography>
                   <Typography gutterBottom>
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                    lacus vel augue laoreet rutrum faucibus dolor auctor.
+                    Dear Navneet Bhole, you are requested to pay
+                    your due fees.Please ignore if already paid.
                   </Typography>
                   <Typography gutterBottom>
-                    Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                    scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                    auctor fringilla.
+                    Dear Navneet Bhole, you are requested to pay
+                    your due fees.Please ignore if already paid.
                   </Typography>
                 </DialogContent>
                 <DialogActions>
                   <Button autoFocus onClick={handleClose} color="primary">
-                    Save changes
+                    SEND
                   </Button>
                 </DialogActions>
-          </Dialog>
+          </NotifyDialog>
 
 
           <Grid container className={classes.root} spacing={2}>
