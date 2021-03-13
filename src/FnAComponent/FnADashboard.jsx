@@ -4,7 +4,12 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import DashboardOptions from './DashboardOptions';
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 const LogoutBtn = withStyles(() => ({
     root: {
