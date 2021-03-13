@@ -31,11 +31,13 @@ function createData(Sno, Enrollno, Name, Batch, OutstandingFee, Deadline) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData(1, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(2, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
 ];
 
 const useStyles = makeStyles({
@@ -53,11 +55,11 @@ export default function DefaultersList() {
         <TableHead>
           <TableRow>
             <StyledTableCell>#</StyledTableCell>
-            <StyledTableCell align="right">Enrollno</StyledTableCell>
-            <StyledTableCell align="right">Name&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Batch&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">OutstandingFee&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">DEADLINE/EXTENSION&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>Batch</StyledTableCell>
+            <StyledTableCell align="right">Outstanding&nbsp;Fee</StyledTableCell>
+            <StyledTableCell align="right">DEADLINE/EXTENSION</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,9 +68,9 @@ export default function DefaultersList() {
               <StyledTableCell component="th" scope="row">
                 {row.Sno}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.Enrollno}</StyledTableCell>
-              <StyledTableCell align="right">{row.Name}</StyledTableCell>
-              <StyledTableCell align="right">{row.Batch}</StyledTableCell>
+              <StyledTableCell>{row.Enrollno}</StyledTableCell>
+              <StyledTableCell>{row.Name}</StyledTableCell>
+              <StyledTableCell>{row.Batch}</StyledTableCell>
               <StyledTableCell align="right">{row.OutstandingFee}</StyledTableCell>
             </StyledTableRow>
           ))}
