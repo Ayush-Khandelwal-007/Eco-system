@@ -121,8 +121,8 @@ export default function DashboardOptions() {
     };
     const handleClose = () => {
       setOpen(false);
-      setOpenAlert(true);
     };
+    
 
     //Alert 
     const [openAlert, setOpenAlert] = React.useState(false);
@@ -139,6 +139,12 @@ export default function DashboardOptions() {
       setOpenAlert(false);
     };
 
+    const handleSend = () => {
+      setOpen(false);
+      setOpenAlert(true);
+    };
+
+  
     return (
       <div>
 
@@ -161,7 +167,7 @@ export default function DashboardOptions() {
                   </Typography>
                 </DialogContent>
                 <DialogActions>
-                  <Button autoFocus onClick={handleClose} color="primary">
+                  <Button autoFocus onClick={handleSend} color="primary">
                     SEND
                   </Button>
                 </DialogActions>
@@ -170,7 +176,7 @@ export default function DashboardOptions() {
           {/* Alert */}
           <Snackbar open={openAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
             <Alert onClose={handleCloseAlert} severity="success">
-              This is a success message!
+              Notifications sent successfully!
             </Alert>
           </Snackbar>
 
