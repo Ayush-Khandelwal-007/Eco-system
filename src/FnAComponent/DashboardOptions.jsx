@@ -14,7 +14,6 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import DefaultersList from './DefaultersList';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +48,6 @@ export default function DashboardOptions() {
     const history = useHistory();
 
     return (
-    <Router>
           <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
           <Grid container justify="center" spacing={5}>
@@ -100,18 +98,5 @@ export default function DashboardOptions() {
           </Grid>
         </Grid>
         </Grid>
-
-        <Switch>
-          <Route path="/feechart">
-          </Route>
-          <Route path="/DefaulterList">
-          <DefaultersList />
-          </Route>
-          <Route path="/sendnotification">
-          </Route>
-          <Route path="/deadlineext">
-          </Route>
-        </Switch>
-    </Router>
     )
 }
