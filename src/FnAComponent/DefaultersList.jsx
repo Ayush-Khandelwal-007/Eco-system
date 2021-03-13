@@ -26,8 +26,8 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(Sno, Enrollno, Name, Batch, OutstandingFee, Deadline) {
+  return { Sno, Enrollno, Name, Batch, OutstandingFee, Deadline };
 }
 
 const rows = [
@@ -52,23 +52,24 @@ export default function DefaultersList() {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>#</StyledTableCell>
+            <StyledTableCell align="right">Enrollno</StyledTableCell>
+            <StyledTableCell align="right">Name&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">Batch&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">OutstandingFee&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">DEADLINE/EXTENSION&nbsp;(g)</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.Sno}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.Sno}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="right">{row.Enrollno}</StyledTableCell>
+              <StyledTableCell align="right">{row.Name}</StyledTableCell>
+              <StyledTableCell align="right">{row.Batch}</StyledTableCell>
+              <StyledTableCell align="right">{row.OutstandingFee}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
