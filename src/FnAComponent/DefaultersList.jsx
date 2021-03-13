@@ -10,8 +10,8 @@ import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: '#FFCCBC',
+    color: '#000000',
   },
   body: {
     fontSize: 14,
@@ -20,9 +20,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
+      backgroundColor: '#D3E3FC',
   },
 }))(TableRow);
 
@@ -58,7 +56,7 @@ export default function DefaultersList() {
             <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
             <StyledTableCell>Name</StyledTableCell>
             <StyledTableCell>Batch</StyledTableCell>
-            <StyledTableCell align="right">Outstanding&nbsp;Fee</StyledTableCell>
+            <StyledTableCell align="right">Outstanding&nbsp;FEE</StyledTableCell>
             <StyledTableCell align="right">DEADLINE/EXTENSION</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -72,6 +70,7 @@ export default function DefaultersList() {
               <StyledTableCell>{row.Name}</StyledTableCell>
               <StyledTableCell>{row.Batch}</StyledTableCell>
               <StyledTableCell align="right">{row.OutstandingFee}</StyledTableCell>
+              <StyledTableCell align="right">{row.Deadline}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
