@@ -7,6 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import FnADesign from './FnADashboard.module.css';
+import Button from '@material-ui/core/Button';
+import { useHistory } from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -36,19 +39,54 @@ const rows = [
   createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
   createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
   createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
 ];
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
   },
+  container: {
+    width: 'auto',
+    margin: 25,
+  }
 });
+
+const GoBackBtn = withStyles(() => ({
+    root: {
+      width: "180px",
+      height: "45px",
+      color: "#000000",
+      background: "#FFCCBC",
+      boxShadow: "0px 4px 20px #525CDD",
+      borderRadius: "10px",
+      letterSpacing: "1.25px",
+      '&:hover': {
+        backgroundColor: "#070D59",
+        color: '#ffffff',
+        boxShadow: 'none'
+      },
+    },
+  }))(Button);
 
 export default function DefaultersList() {
     const classes = useStyles();
+    const history = useHistory();
 
   return (
-    <TableContainer component={Paper}>
+    <div className={FnADesign.main}>
+    <div className={FnADesign.Nav}>
+        <div className={FnADesign.HeadingTxt}>
+            DEFAULTERS LIST
+        </div>
+        <GoBackBtn variant="contained" color="primary" onClick={() => {history.goBack();}} >
+            Go&nbsp;Back&nbsp;to&nbsp;Menu
+        </GoBackBtn>
+    </div>
+    <TableContainer component={Paper} className={classes.container}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -76,5 +114,6 @@ export default function DefaultersList() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 }
