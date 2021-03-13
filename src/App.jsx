@@ -12,20 +12,14 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/studentDashboard">
-            {
               <StudentDashboard/>
-            }
-            {/* {state.user ? <Orders /> : <SignIn />} */}
           </Route>
           <Route exact path="/HODDashboard">
-            {/* {state.user ? <Checkout /> : <SignIn />} */}
           </Route>
           <Route exact path="/FnADashBoard">
             <FnA/>
-            {/* {state.user ? <Redirect to="/" /> : <SignIn />} */}
           </Route>
           <Route exact path="/Login">
-            {/* {state.user ? <Redirect to="/" /> : <SignUp />} */}
             <Login/>
           </Route>
           <Route path="/">

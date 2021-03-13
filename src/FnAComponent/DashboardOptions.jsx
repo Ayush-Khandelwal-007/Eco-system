@@ -7,6 +7,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import FnADesign from './FnADashboard.module.css';
+import { useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import DefaultersList from './DefaultersList';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,50 +46,72 @@ const useStyles = makeStyles((theme) => ({
 export default function DashboardOptions() {
 
     const classes = useStyles();
+    const history = useHistory();
 
     return (
-        <Grid container className={classes.root} spacing={2}>
-
-        <Grid item xs={12}>
-        <Grid container justify="center" spacing={5}>
-            <Grid item>
-              <Paper className={classes.paper}>
-                <img
-                src={fee}
-                alt="logo"
-                />
-                <div className={FnADesign.paperTxt}>Fee Chart</div>
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper}>
-              <img
-                src={list}
-                alt="logo"
-                />
-                <div className={FnADesign.paperTxt}>Defaulters List</div>
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper}>
-                <img
-                    src={bell}
+    <Router>
+          <Grid container className={classes.root} spacing={2}>
+          <Grid item xs={12}>
+          <Grid container justify="center" spacing={5}>
+              <Grid item>
+              <Link to="/feechart">
+                  <Paper className={classes.paper}>
+                    <img
+                    src={fee}
                     alt="logo"
-                />
-                <div className={FnADesign.paperTxt}>Send Notifications</div>
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper}>
-              <img
-                src={deadline}
-                alt="logo"
-                />
-                <div className={FnADesign.paperTxt}>Deadline Extension</div>
-              </Paper>
-            </Grid>
+                    />
+                    <div className={FnADesign.paperTxt}>Fee Chart</div>
+                  </Paper>
+                </Link>
+              </Grid>
+              <Grid item>
+              <Link to="/DefaulterList">
+                <Paper className={classes.paper}>
+                <img
+                  src={list}
+                  alt="logo"
+                  />
+                  <div className={FnADesign.paperTxt}>Defaulters List</div>
+                </Paper>
+                </Link>
+              </Grid>
+              <Grid item>
+              <Link to="/sendnotification">
+                <Paper className={classes.paper}>
+                  <img
+                      src={bell}
+                      alt="logo"
+                  />
+                  <div className={FnADesign.paperTxt}>Send Notifications</div>
+                </Paper>
+              </Link>
+              </Grid>
+              <Grid item>
+              <Link to="/deadlineext">
+                <Paper className={classes.paper}>
+                <img
+                  src={deadline}
+                  alt="logo"
+                  />
+                  <div className={FnADesign.paperTxt}>Deadline Extension</div>
+                </Paper>
+                </Link>
+              </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-      </Grid>
+        </Grid>
+
+        <Switch>
+          <Route path="/feechart">
+          </Route>
+          <Route path="/DefaulterList">
+          <DefaultersList />
+          </Route>
+          <Route path="/sendnotification">
+          </Route>
+          <Route path="/deadlineext">
+          </Route>
+        </Switch>
+    </Router>
     )
 }
