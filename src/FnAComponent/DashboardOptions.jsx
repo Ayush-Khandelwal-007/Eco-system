@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import bell from "../images/Bell.svg";
 import deadline from "../images/Deadline.svg";
 import list from "../images/DefaulterList.svg";
@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import Grow from '@material-ui/core/Grow';
 import FnADesign from './FnADashboard.module.css';
 import { useHistory } from "react-router-dom";
 import {
@@ -113,6 +114,17 @@ export default function DashboardOptions() {
     const classes = useStyles();
     const history = useHistory();
 
+    //Glow Effect
+    const [checked, setChecked] = React.useState(false);
+
+    const handleChangeEffect = () => {
+      setChecked((prev) => !prev);
+    };
+
+    useEffect(() => {
+      handleChangeEffect();
+    },[]);
+
     // Notification Dialog
     const [open, setOpen] = React.useState(false);
   
@@ -183,6 +195,7 @@ export default function DashboardOptions() {
           <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
           <Grid container justify="center" spacing={5}>
+            <Grow in={checked}>
               <Grid item>
               <Link to="/feechart">
                   <Paper className={classes.paper}>
@@ -194,6 +207,11 @@ export default function DashboardOptions() {
                   </Paper>
                 </Link>
               </Grid>
+            </Grow>
+            <Grow
+                in={checked}
+                {...(checked ? { timeout: 500 } : {})}
+              >
               <Grid item>
               <Link to="/DefaulterList">
                 <Paper className={classes.paper}>
@@ -205,6 +223,11 @@ export default function DashboardOptions() {
                 </Paper>
                 </Link>
               </Grid>
+              </Grow>
+              <Grow
+                in={checked}
+                {...(checked ? { timeout: 500 } : {})}
+              >
               <Grid item  onClick={handleClickOpen}>
                 <Paper className={classes.paper}>
                   <img
@@ -214,6 +237,11 @@ export default function DashboardOptions() {
                   <div className={FnADesign.paperTxt}>Send Notifications</div>
                 </Paper>
               </Grid>
+              </Grow>
+              <Grow
+                in={checked}
+                {...(checked ? { timeout: 500 } : {})}
+              >
               <Grid item>
               <Link to="/deadlineext">
                 <Paper className={classes.paper}>
@@ -225,9 +253,10 @@ export default function DashboardOptions() {
                 </Paper>
                 </Link>
               </Grid>
+              </Grow>
           </Grid>
-        </Grid>
-        </Grid>
+          </Grid>
+          </Grid>
       </div>
     )
 }
