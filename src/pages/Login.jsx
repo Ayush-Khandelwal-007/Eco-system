@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import LoginCss from '../StudentComponents/LoginComponent/Login.module.css';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Fade from '@material-ui/core/Fade';
 import { useHistory } from "react-router-dom";
 
 
@@ -57,7 +58,18 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
     const classes = useStyles();
-    const [loginType, setLoginType] = React.useState('');
+
+    //Login form Transition
+    const [show, setShow] = useState(false);
+    const handleShow = () => {
+      setShow((prev) => !prev);
+    };
+    useEffect(() => {
+      handleShow();
+    },[]);
+
+    //handlelogin
+    const [loginType, setLoginType] = useState('');
     const handleChange = (event) => {
         setLoginType(event.target.value);
       };
@@ -78,8 +90,12 @@ function Login() {
           }
       };
 
+
+
+
     return (
         <div className={LoginCss.Login}>
+        <Fade in={show}>
             <div className={LoginCss.LoginForm}>
             <div className={LoginCss.LogoDiv}>
             <img
@@ -114,6 +130,7 @@ function Login() {
                     Reset Password
                 </ResetPassButton>
             </div>
+          </Fade>
         </div>
     )
 }
