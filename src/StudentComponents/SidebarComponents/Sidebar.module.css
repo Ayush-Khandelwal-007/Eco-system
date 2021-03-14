@@ -1,10 +1,11 @@
 .sidebar{
-    height: 100%;
-    background-color: #070D59;
-    width: 30vw;
+    height: 92vh;
+    background-color: #77A6F7;
+    width: 27vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
     color: #F6F5F5;
 }
 
@@ -13,14 +14,46 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    padding: 2vw;
+    padding: 3vh 0vw;
+    font-size: calc(4px + 0.8vw);
 }
 
-.links
-{
+.profilepic{
+    height: calc(9vh + 9vw);
+    width: calc(9vh + 9vw);
+    border-radius: 50%;
+    border: 3px solid #222831;
+    margin-bottom: 6vh;
+}
+
+.enroll{
+    margin-bottom: 2vh;
+}
+
+.name{
+    margin-bottom: 2vh;
+}
+
+.sem{
+    margin-bottom: 2vh;
+}
+
+.links{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    padding: 2vw;
+    width: 75%;
+    height: 100%;
+}
+
+.links>a{
+    color: #222831;
+    font-size: calc(4px + 1vw);
+    text-decoration: none;
+    padding: 2vh;
+    width: 100%;
+    border-radius: 5px;
+    background-color:white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

@@ -1,7 +1,7 @@
 .header{
-    height: 4vh;
+    height: 8vh;
     min-height: 45px;
-    background-color: #070D59;
+    background-color: #77A6F7;
     padding: 0.2vh 1vw;
     display: flex;
     align-items: center;
@@ -12,7 +12,7 @@
   }
 
 .logo{
-    height: 4vh;
+    height: 8vh;
     min-height: 45px;
     object-fit: contain;
     padding: 4px 0 0 0;

@@ -1,21 +1,22 @@
-import { Avatar } from '@material-ui/core'
 import React from 'react'
 import sidebar from './SidebarComponents/Sidebar.module.css'
+import garbage from '../images/garbage.svg'
+import { Link } from 'react-router-dom'
 
 function Sidebar() {
     return (
         <div className={sidebar.sidebar}>
             <div className={sidebar.info}>
-                <Avatar />
-                <div className={sidebar.name}>IIT2019240</div>
-                <div>Ayush Khandelwal</div>
-                <div> 4th Semester</div>
+                <img src={garbage} alt="Profile gic" className={sidebar.profilepic}/>
+                <div className={sidebar.enroll}>IIT2019240</div>
+                <div className={sidebar.name}>Ayush Khandelwal</div>
+                <div className={sidebar.sem}> 4th Semester</div>
             </div>
             <div className={sidebar.links}>
-                <div>Dashboard</div>
-                <div>Fees</div>
-                <div>Timetable</div>
-                <div>Courses</div>
+                <Link to='/studentDashboard'><div>Dashboard</div></Link>
+                <Link to='/studentDashboard/fees'><div>Fees</div></Link>
+                <Link to='/studentDashboard/timetable'><div>Timetable</div></Link>
+                <Link to='/studentDashboard/courses'><div>Courses</div></Link>
             </div>
         </div>
     )
