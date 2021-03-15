@@ -26,16 +26,16 @@ function StudentDashboard() {
                     }}>
                         <Switch>
                         <Route exact path="/studentDashboard">
-                            {/* <Calendar/> */}
+                            {/* <Calendar/> */}<p>"Calendar"</p>
                         </Route>
                         <Route exact path="/studentDashboard/fees">
-                            {/* <FeeScreem/> */}
+                            {/* <FeeScreem/> */}<p>"Fees"</p>
                         </Route>
                         <Route exact path="/studentDashboard/timetable">
-                            {/* <Timetable/> */}
+                            {/* <Timetable/> */}<p>"Timetable"</p>
                         </Route>
                         <Route exact path="/studentDashboard/courses">
-                            {/* <Courses/> */}
+                            {/* <Courses/> */}<p>"Courses"</p>
                         </Route>
                         </Switch>
                     </div>

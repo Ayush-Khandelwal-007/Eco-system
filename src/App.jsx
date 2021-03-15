@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/Login">
             <Login/>
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             <Landing/>
           </Route>
         </Switch>
