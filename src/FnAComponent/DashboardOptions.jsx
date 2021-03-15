@@ -196,7 +196,7 @@ export default function DashboardOptions() {
           <Grid container justify="center" spacing={5}>
             <Grow in={checked}>
               <Grid item>
-                <Link to="/FnA/feechart">
+                <Link to="/feechart">
                   <Paper className={classes.paper}>
                     <img src={fee} alt="logo" />
                     <div className={FnADesign.paperTxt}>Fee Chart</div>
@@ -206,7 +206,7 @@ export default function DashboardOptions() {
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
               <Grid item>
-                <Link to="/FnA/DefaulterList">
+                <Link to="/DefaulterList">
                   <Paper className={classes.paper}>
                     <img src={list} alt="logo" />
                     <div className={FnADesign.paperTxt}>Defaulters List</div>
@@ -224,7 +224,7 @@ export default function DashboardOptions() {
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
               <Grid item>
-                <Link to="/FnA/deadlineext">
+                <Link to="/deadlineext">
                   <Paper className={classes.paper}>
                     <img src={deadline} alt="logo" />
                     <div className={FnADesign.paperTxt}>Deadline Extension</div>
