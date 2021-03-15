@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import StudentDashboard from './pages/StudentDashboard';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
