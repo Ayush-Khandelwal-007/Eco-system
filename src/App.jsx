@@ -11,15 +11,15 @@ function App() {
       <Router>
       <div className="App">
         <Switch>
-          <Route exact path="/studentDashboard">
+          <Route path="/studentDashboard">
               <StudentDashboard/>
           </Route>
-          <Route exact path="/HODDashboard">
+          <Route path="/HODDashboard">
           </Route>
-          <Route exact path="/FnADashBoard">
+          <Route path="/FnADashBoard">
             <FnA/>
           </Route>
-          <Route exact path="/Login">
+          <Route path="/Login">
             <Login/>
           </Route>
           <Route exact path="/">
