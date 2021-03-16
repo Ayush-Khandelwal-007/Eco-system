@@ -1,9 +1,11 @@
 import React from 'react'
 import sidebar from './SidebarComponents/Sidebar.module.css'
 import garbage from '../images/garbage.svg'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { Button } from '@material-ui/core'
 
 function Sidebar() {
+    const location = useLocation();
     return (
         <div className={sidebar.sidebar}>
             <div className={sidebar.info}>
@@ -13,10 +15,10 @@ function Sidebar() {
                 <div className={sidebar.sem}> 4th Semester</div>
             </div>
             <div className={sidebar.links}>
-                <Link to='/studentDashboard'><div>Dashboard</div></Link>
-                <Link to='/studentDashboard/fees'><div>Fees</div></Link>
-                <Link to='/studentDashboard/timetable'><div>Timetable</div></Link>
-                <Link to='/studentDashboard/courses'><div>Courses</div></Link>
+                <Link to='/studentDashboard'><Button className={location.pathname==='/studentDashboard' ? (sidebar.active):null}>Dashboard</Button></Link>
+                <Link to='/studentDashboard/fees'><Button className={location.pathname==='/studentDashboard/fees' ? (sidebar.active):null}>Fees</Button></Link>
+                <Link to='/studentDashboard/timetable'><Button className={location.pathname==='/studentDashboard/timetable' ? (sidebar.active):null}>Timetable</Button></Link>
+                <Link to='/studentDashboard/courses'><Button className={location.pathname==='/studentDashboard/courses' ? (sidebar.active):null}>Courses</Button></Link>
             </div>
         </div>
     )
