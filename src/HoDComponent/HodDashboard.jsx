@@ -293,6 +293,12 @@ function HodDashboard(props) {
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <img src={Hod} alt="" />
+        <Typography variant="h5" noWrap>
+          Welcome, Sir
+        </Typography>
+        <Typography variant="h7">
+          Manage academic calender, course allotment, exam schedule and more
+        </Typography>
       </Container>
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
