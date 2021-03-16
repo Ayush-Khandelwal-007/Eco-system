@@ -100,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     background: "#070D59",
   },
+
+  paper: {
+    background: "#FFCCBC",
+  },
 }));
 
 function ScrollTop(props) {
@@ -303,35 +307,17 @@ function HodDashboard(props) {
         <Typography variant="h7">
           Manage academic calender, course allotment, exam schedule and more
         </Typography>
-        <Paper>
-          <Grid container spacing={2}>
+        <Paper className={classes.paper}>
+          <Grid container>
+            <Grid item xs={12} sm container>
+              <Typography gutterBottom variant="subtitle1">
+                Academic Calender
+              </Typography>
+            </Grid>
             <Grid item>
               <ButtonBase>
                 <img alt="complex" src={calender} />
               </ButtonBase>
-            </Grid>
-            <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <Typography gutterBottom variant="subtitle1">
-                    Standard license
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    Full resolution 1920x1080 • JPEG
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    ID: 1030114
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="body2" style={{ cursor: "pointer" }}>
-                    Remove
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1">$19.00</Typography>
-              </Grid>
             </Grid>
           </Grid>
         </Paper>
