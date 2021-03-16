@@ -1,6 +1,6 @@
 import React from 'react'
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-
+import FeesPortal from '../StudentComponents/FeesPortal';
 import Header from '../StudentComponents/Header'
 import SDashboard from '../StudentComponents/SDashboard';
 import Sidebar from '../StudentComponents/Sidebar'
@@ -20,6 +20,7 @@ function StudentDashboard() {
                 <Router>
                     <div style={{
                             height:'92vh',
+                            width:'100%',
                             overflow:'hidden',
                             display:"flex",
                             flexDirection:'column',
@@ -27,10 +28,10 @@ function StudentDashboard() {
                     }}>
                         <Switch>
                         <Route exact path="/studentDashboard">
-                            {/* <Calendar/> */}<SDashboard/>
+                            <SDashboard/>
                         </Route>
                         <Route exact path="/studentDashboard/fees">
-                            {/* <FeeScreem/> */}<p>"Fees"</p>
+                            <FeesPortal/>
                         </Route>
                         <Route exact path="/studentDashboard/timetable">
                             {/* <Timetable/> */}<p>"Timetable"</p>
