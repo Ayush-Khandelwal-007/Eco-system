@@ -25,6 +25,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Hod from "../images/Hod.svg";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import calender from "../images/calender.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -299,6 +303,38 @@ function HodDashboard(props) {
         <Typography variant="h7">
           Manage academic calender, course allotment, exam schedule and more
         </Typography>
+        <Paper>
+          <Grid container spacing={2}>
+            <Grid item>
+              <ButtonBase>
+                <img alt="complex" src={calender} />
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={12} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography gutterBottom variant="subtitle1">
+                    Standard license
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    Full resolution 1920x1080 • JPEG
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    ID: 1030114
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                    Remove
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle1">$19.00</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
       </Container>
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
