@@ -12,17 +12,15 @@ import DefaultersList from '../FnAComponent/DefaultersList';
       return (
             <Router>
                 <Switch>
-                    <Route path="/FnADashboard">
+                    <Route exact path="/FnADashboard">
                     <FnADashboard />
                     </Route>
-                    <Route path="/feechart">
+                    <Route exact path="/FnADashboard/feechart">
                     </Route>
-                    <Route path="/DefaulterList">
+                    <Route exact path="/FnADashboard/DefaulterList">
                     <DefaultersList />
                     </Route>
-                    <Route path="/sendnotification">
-                    </Route>
-                    <Route path="/deadlineext">
+                    <Route exact path="/FnADashboard/deadlineext">
                     </Route>
                 </Switch>
             </Router>

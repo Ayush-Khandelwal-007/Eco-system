@@ -197,7 +197,7 @@ export default function DashboardOptions() {
           <Grid container justify="center" spacing={5}>
             <Grow in={checked}>
               <Grid item>
-              <Link to="/feechart">
+              <Link to="FnADashboard/feechart">
                   <Paper className={classes.paper}>
                     <img
                     src={fee}
@@ -213,7 +213,7 @@ export default function DashboardOptions() {
                 {...(checked ? { timeout: 500 } : {})}
               >
               <Grid item>
-              <Link to="/DefaulterList">
+              <Link to="FnADashboard/DefaulterList">
                 <Paper className={classes.paper}>
                 <img
                   src={list}
@@ -243,7 +243,7 @@ export default function DashboardOptions() {
                 {...(checked ? { timeout: 500 } : {})}
               >
               <Grid item>
-              <Link to="/deadlineext">
+              <Link to="FnADashboard/deadlineext">
                 <Paper className={classes.paper}>
                 <img
                   src={deadline}
