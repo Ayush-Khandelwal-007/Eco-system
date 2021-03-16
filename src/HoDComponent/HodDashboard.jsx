@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  appBar: {
+    background: "#070D59",
+  },
 }));
 
 function ScrollTop(props) {
@@ -222,7 +225,7 @@ function HodDashboard(props) {
   return (
     <div className={classes.grow}>
       <CssBaseline />
-      <AppBar>
+      <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -230,10 +233,10 @@ function HodDashboard(props) {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            Amigo
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
