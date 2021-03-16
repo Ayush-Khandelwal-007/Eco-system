@@ -25,6 +25,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Hod from "../images/Hod.svg";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import calender from "../images/calender.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +99,15 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     background: "#070D59",
+  },
+
+  paper: {
+    background: "#FFCCBC",
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "#D3E3FC",
+      boxShadow: "none",
+    },
   },
 }));
 
@@ -293,6 +306,110 @@ function HodDashboard(props) {
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <img src={Hod} alt="" />
+        <Typography variant="h5" noWrap>
+          Welcome, Sir
+        </Typography>
+        <Typography variant="h7">
+          Manage academic calender, course allotment, exam schedule and more
+        </Typography>
+        <Grid container justify="center" spacing={2}>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
       </Container>
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
