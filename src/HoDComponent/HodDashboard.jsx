@@ -307,7 +307,55 @@ function HodDashboard(props) {
         <Typography variant="h7">
           Manage academic calender, course allotment, exam schedule and more
         </Typography>
-        <Grid container>
+        <Grid container justify="center" spacing={2}>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container>
