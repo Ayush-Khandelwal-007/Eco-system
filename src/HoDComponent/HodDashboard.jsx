@@ -307,20 +307,56 @@ function HodDashboard(props) {
         <Typography variant="h7">
           Manage academic calender, course allotment, exam schedule and more
         </Typography>
-        <Paper className={classes.paper}>
-          <Grid container>
-            <Grid item xs={12} sm container>
-              <Typography gutterBottom variant="subtitle1">
-                Academic Calender
-              </Typography>
-            </Grid>
-            <Grid item>
-              <ButtonBase>
-                <img alt="complex" src={calender} />
-              </ButtonBase>
-            </Grid>
+        <Grid container>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
-        </Paper>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper className={classes.paper}>
+              <Grid container>
+                <Grid item xs={12} sm container>
+                  <Typography gutterBottom variant="subtitle1">
+                    Academic Calender
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <ButtonBase>
+                    <img alt="complex" src={calender} />
+                  </ButtonBase>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
       </Container>
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
