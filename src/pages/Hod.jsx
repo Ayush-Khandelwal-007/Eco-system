@@ -6,7 +6,7 @@ function Hod() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/FnADashboard">
+        <Route exact path="/HoDDashboard">
           <HodDashboard />
         </Route>
       </Switch>
