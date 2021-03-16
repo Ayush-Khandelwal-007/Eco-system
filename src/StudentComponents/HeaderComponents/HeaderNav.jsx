@@ -1,22 +1,125 @@
-import { Avatar, Button, Menu, MenuItem } from '@material-ui/core'
+import { Avatar, Button, Dialog, DialogContent, IconButton, Menu, MenuItem, Typography, withStyles,  } from '@material-ui/core'
+import CloseIcon from "@material-ui/icons/Close";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import header from "./Header.module.css"
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-
+import NotificationsNoneTwoToneIcon from '@material-ui/icons/NotificationsNoneTwoTone';
 
 function HeaderNav() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] =useState(false);
 
     const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
-  
+
+    const handleClosen = () => {
+        setOpen(false);
+    };
+    
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
+    const styles = (theme) => ({
+        root: {
+          margin: 0,
+          padding: theme.spacing(2),
+        },
+        closeButton: {
+          position: "absolute",
+          right: theme.spacing(1),
+          top: theme.spacing(1),
+          color: theme.palette.grey[500],
+        },
+        paper: {
+          borderRadius: 20,
+        },
+      });
+    const NotifyDialog = withStyles((theme) => ({
+        paper: {
+          borderRadius: 20,
+        },
+      }))(Dialog);
+    const DialogTitle = withStyles(styles)((props) => {
+        const { children, classes, onClose, ...other } = props;
+        return (
+            <MuiDialogTitle disableTypography className={classes.root} {...other}>
+            <Typography variant="h6">{children}</Typography>
+            {onClose ? (
+                <IconButton
+                aria-label="close"
+                className={classes.closeButton}
+                onClick={onClose}
+                >
+                <CloseIcon />
+                </IconButton>
+            ) : null}
+            </MuiDialogTitle>
+        );
+    });
     return (
         <div className={header.nav}>
-            {/* <Notification/> */}
+            <div>
+                <NotificationsNoneTwoToneIcon
+                    style={{
+                        fontSize: '4vh',
+                        color: '#ffffff',
+                        marginRight: '2vw',
+                        cursor:'pointer',
+                    }}
+                    onClick={handleClickOpen }
+                />
+                <NotifyDialog
+                    onClose={handleClosen}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                >
+                    <DialogTitle id="customized-dialog-title" onClose={handleClosen}>
+                        Notifications
+                    </DialogTitle>
+                    <DialogContent dividers>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                        <hr/>
+                        <Typography gutterBottom>
+                            Dear Navneet Bhole, you are requested to pay your due fees.Please
+                            ignore if already paid.
+                        </Typography>
+                    </DialogContent>
+                </NotifyDialog>
+            </div>
             <div>
                 <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                     <Avatar />
