@@ -2,6 +2,7 @@ import React from 'react'
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from '../StudentComponents/Header'
+import SDashboard from '../StudentComponents/SDashboard';
 import Sidebar from '../StudentComponents/Sidebar'
 
 function StudentDashboard() {
@@ -21,12 +22,12 @@ function StudentDashboard() {
                             height:'92vh',
                             overflow:'hidden',
                             display:"flex",
+                            flexDirection:'column',
                             alignItems:'center',
-                            justifyContent:'flex-start'
                     }}>
                         <Switch>
                         <Route exact path="/studentDashboard">
-                            {/* <Calendar/> */}<p>"Calendar"</p>
+                            {/* <Calendar/> */}<SDashboard/>
                         </Route>
                         <Route exact path="/studentDashboard/fees">
                             {/* <FeeScreem/> */}<p>"Fees"</p>

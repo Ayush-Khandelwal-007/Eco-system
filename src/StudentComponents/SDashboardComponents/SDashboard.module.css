@@ -1,0 +1,13 @@
+.sDashboard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carouselDiv{
+    padding: 0vh 5vw;
+}
+
+.carouselDiv img{
+    height: 50vh;
+}
