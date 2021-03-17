@@ -25,7 +25,7 @@ function SDashboard() {
 
     return (
         <div className={sDashboard.sDashboard}>
-            {/* <div className={sDashboard.carouselDiv}>
+            <div className={sDashboard.carouselDiv}>
                 <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
                     <div>
                         <img src={carimage1} />
@@ -40,7 +40,7 @@ function SDashboard() {
                         <img src={carimage4} />
                     </div>
                 </Carousel>
-            </div> */}
+            </div>
             <div className={sDashboard.calendarDiv}>
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -51,7 +51,7 @@ function SDashboard() {
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                   }}
                 events={events}
-                height={780}
+                contentHeight={200}
                 editable={true}
                 selectable={true}
                 selectMirror={true}
