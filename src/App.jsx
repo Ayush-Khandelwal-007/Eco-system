@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import FnA from "./pages/FnA";
 import Hod from "./pages/Hod";
+import { auth, db } from "./Firebase";
 
 function App() {
   return (
