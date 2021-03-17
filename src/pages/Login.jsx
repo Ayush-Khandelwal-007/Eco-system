@@ -86,7 +86,7 @@ function Login() {
     const user = await master();
     setUser(user);
 
-    // console.log(user.logintype);
+    console.log("user is", { user });
 
     switch (loginType) {
       case 1:

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import bell from "../images/Bell.svg";
 import deadline from "../images/Deadline.svg";
 import list from "../images/DefaulterList.svg";
@@ -196,7 +196,7 @@ export default function DashboardOptions() {
           <Grid container justify="center" spacing={5}>
             <Grow in={checked}>
               <Grid item>
-              <Link to="FnADashboard/feechart">
+                <Link to="FnADashboard/feechart">
                   <Paper className={classes.paper}>
                     <img src={fee} alt="logo" />
                     <div className={FnADesign.paperTxt}>Fee Chart</div>
@@ -206,14 +206,11 @@ export default function DashboardOptions() {
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
               <Grid item>
-              <Link to="FnADashboard/DefaulterList">
-                <Paper className={classes.paper}>
-                <img
-                  src={list}
-                  alt="logo"
-                  />
-                  <div className={FnADesign.paperTxt}>Defaulters List</div>
-                </Paper>
+                <Link to="FnADashboard/DefaulterList">
+                  <Paper className={classes.paper}>
+                    <img src={list} alt="logo" />
+                    <div className={FnADesign.paperTxt}>Defaulters List</div>
+                  </Paper>
                 </Link>
               </Grid>
             </Grow>
@@ -227,14 +224,11 @@ export default function DashboardOptions() {
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
               <Grid item>
-              <Link to="FnADashboard/deadlineext">
-                <Paper className={classes.paper}>
-                <img
-                  src={deadline}
-                  alt="logo"
-                  />
-                  <div className={FnADesign.paperTxt}>Deadline Extension</div>
-                </Paper>
+                <Link to="FnADashboard/deadlineext">
+                  <Paper className={classes.paper}>
+                    <img src={deadline} alt="logo" />
+                    <div className={FnADesign.paperTxt}>Deadline Extension</div>
+                  </Paper>
                 </Link>
               </Grid>
             </Grow>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import FnADesign from "./FnADashboard.module.css";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core/styles";
 import DashboardOptions from "./DashboardOptions";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 const LogoutBtn = withStyles(() => ({
   root: {
@@ -29,8 +30,14 @@ const LogoutBtn = withStyles(() => ({
 }))(Button);
 
 export default function FnADashboard() {
+  const { user, setUser } = useContext(AuthContext);
+
   const history = useHistory();
-  const goLogout = () => history.push("login");
+  const goLogout = () => {
+    setUser(null);
+    console.log("user is", { user });
+    history.push("login");
+  };
 
   return (
     <div className={FnADesign.main}>
