@@ -11,3 +11,9 @@
 .carouselDiv img{
     height: 50vh;
 }
+
+.calendarDiv{
+    width: 100%;
+    padding: 2vh 4vw;
+    height: 100%;
+}

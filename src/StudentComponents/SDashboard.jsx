@@ -1,7 +1,9 @@
 import React from 'react'
 import sDashboard from './SDashboardComponents/SDashboard.module.css'
-import moment from 'moment'
-import { Calendar, momentLocalizer } from 'react-big-calendar'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
 import { Carousel } from 'react-responsive-carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import carimage1 from '../images/clg1.jpg'
@@ -10,14 +12,24 @@ import carimage3 from '../images/clg4.jpg'
 import carimage4 from '../images/clg5.jpg'
 
 function SDashboard() {
-    const localizer = momentLocalizer(moment)
-    // Event {
-    //     title: string,
-    //     start: Date,
-    //     end: Date,
-    //     allDay?: boolean
-    //     resource?: any,
-    //   }
+    function createEventId() {
+        return String(eventGuid++)
+    }
+    let eventGuid = 0
+    let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+
+    const INITIAL_EVENTS = [
+    {
+        id: createEventId(),
+        title: 'All-day event',
+        start: todayStr
+    },
+    {
+        id: createEventId(),
+        title: 'Timed event',
+        start: todayStr + 'T12:00:00'
+    }
+    ]
     return (
         <div className={sDashboard.sDashboard}>
             <div className={sDashboard.carouselDiv}>
@@ -37,13 +49,34 @@ function SDashboard() {
                 </Carousel>
             </div>
             <div className={sDashboard.calendarDiv}>
-            {/* <Calendar
-                localizer={localizer}
-                events={myEventsList}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 500 }}
-                /> */}
+            <FullCalendar
+                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                  }}
+                events={[
+                    { title: 'event 1', date: '2021-03-17' },
+                    { title: 'event 2', date: '2021-03-12' }
+                  ]}
+                editable={true}
+                selectable={true}
+                selectMirror={true}
+                dayMaxEvents={true}
+                // weekends={this.state.weekendsVisible}
+                // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+                // select={this.handleDateSelect}
+                // eventContent={renderEventContent} // custom render function
+                // eventClick={this.handleEventClick}
+                // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+                /* you can update a remote database when these fire:
+                eventAdd={function(){}}
+                eventChange={function(){}}
+                eventRemove={function(){}}
+                */
+            />
             </div>
         </div>
     )
