@@ -14,7 +14,7 @@ import Hod from "./pages/Hod";
 import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
@@ -27,7 +27,7 @@ function App() {
                 <StudentDashboard />
               </Route>
               <Route path="/HODDashboard">
-                <Hod />
+                {user ? <Hod /> : <Redirect to="/Login" />}
               </Route>
               <Route path="/FnADashBoard">
                 <FnA />
