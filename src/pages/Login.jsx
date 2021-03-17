@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import LoginCss from "../StudentComponents/LoginComponent/Login.module.css";
 import TextField from "@material-ui/core/TextField";
 import {
@@ -15,7 +15,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Fade from "@material-ui/core/Fade";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { master } from "../utils/master";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -61,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
+  const { user, setUser } = useContext(AuthContext);
+
   const classes = useStyles();
 
   //Login form Transition
@@ -73,12 +77,17 @@ function Login() {
   }, []);
 
   //handlelogin
-  const [loginType, setLoginType] = useState("");
+  const [loginType, setLoginType] = useState(null);
   const handleChange = (event) => {
     setLoginType(event.target.value);
   };
   const history = useHistory();
-  const goTo = () => {
+  const goTo = async () => {
+    const user = await master();
+    setUser(user);
+
+    // console.log(user.logintype);
+
     switch (loginType) {
       case 1:
         history.push("/studentDashboard");
