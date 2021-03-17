@@ -12,24 +12,24 @@ import carimage3 from '../images/clg4.jpg'
 import carimage4 from '../images/clg5.jpg'
 
 function SDashboard() {
-    function createEventId() {
-        return String(eventGuid++)
-    }
-    let eventGuid = 0
-    let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+    // function createEventId() {
+    //     return String(eventGuid++)
+    // }
+    // let eventGuid = 0
+    // let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 
-    const INITIAL_EVENTS = [
-    {
-        id: createEventId(),
-        title: 'All-day event',
-        start: todayStr
-    },
-    {
-        id: createEventId(),
-        title: 'Timed event',
-        start: todayStr + 'T12:00:00'
-    }
-    ]
+    // const INITIAL_EVENTS = [
+    // {
+    //     id: createEventId(),
+    //     title: 'All-day event',
+    //     start: todayStr
+    // },
+    // {
+    //     id: createEventId(),
+    //     title: 'Timed event',
+    //     start: todayStr + 'T12:00:00'
+    // }
+    // ]
     return (
         <div className={sDashboard.sDashboard}>
             <div className={sDashboard.carouselDiv}>
@@ -58,13 +58,17 @@ function SDashboard() {
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                   }}
                 events={[
-                    { title: 'event 1', date: '2021-03-17' },
-                    { title: 'event 2', date: '2021-03-12' }
+                    { title: 'event 1', start: '2021-03-17' ,end: '2021-03-19' , display: 'background'},
+                    { title: 'event 2', date: '2021-03-12' , display: 'background'}
                   ]}
+                height={400}
                 editable={true}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
+                dateClick={(info)=>{
+                    console.log(info);
+                }}
                 // weekends={this.state.weekendsVisible}
                 // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
                 // select={this.handleDateSelect}
