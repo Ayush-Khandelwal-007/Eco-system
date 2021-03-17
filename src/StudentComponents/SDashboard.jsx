@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import sDashboard from './SDashboardComponents/SDashboard.module.css'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -10,29 +10,22 @@ import carimage1 from '../images/clg1.jpg'
 import carimage2 from '../images/clg2.jpg'
 import carimage3 from '../images/clg4.jpg'
 import carimage4 from '../images/clg5.jpg'
+import { db } from '../Firebase'
 
 function SDashboard() {
-    // function createEventId() {
-    //     return String(eventGuid++)
-    // }
-    // let eventGuid = 0
-    // let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 
-    // const INITIAL_EVENTS = [
-    // {
-    //     id: createEventId(),
-    //     title: 'All-day event',
-    //     start: todayStr
-    // },
-    // {
-    //     id: createEventId(),
-    //     title: 'Timed event',
-    //     start: todayStr + 'T12:00:00'
-    // }
-    // ]
+    const [events, setevents] = useState(null)
+
+  useEffect(() => {
+    db.collection('calendar').onSnapshot(snapshot => {
+      setevents(snapshot.docs.map((doc) => doc.data()))
+    //{ title: 'event 1', start: '2021-03-17' ,end: '2021-03-19' , display: 'background'} format of event
+    })
+  }, [db])
+
     return (
         <div className={sDashboard.sDashboard}>
-            <div className={sDashboard.carouselDiv}>
+            {/* <div className={sDashboard.carouselDiv}>
                 <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
                     <div>
                         <img src={carimage1} />
@@ -47,7 +40,7 @@ function SDashboard() {
                         <img src={carimage4} />
                     </div>
                 </Carousel>
-            </div>
+            </div> */}
             <div className={sDashboard.calendarDiv}>
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -57,17 +50,34 @@ function SDashboard() {
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                   }}
-                events={[
-                    { title: 'event 1', start: '2021-03-17' ,end: '2021-03-19' , display: 'background'},
-                    { title: 'event 2', date: '2021-03-12' , display: 'background'}
-                  ]}
-                height={400}
+                events={events}
+                height={780}
                 editable={true}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
                 dateClick={(info)=>{
                     console.log(info);
+                }}
+                customButtons={{
+                    addEventButton: {
+                        text: 'add event...',
+                        click: function() {
+                          var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                          var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+                
+                          if (!isNaN(date.valueOf())) { // valid?
+                            // calendar.addEvent({
+                            //   title: 'dynamic event',
+                            //   start: date,
+                            //   allDay: true
+                            // });
+                            alert('Great. Now, update your database...');
+                          } else {
+                            alert('Invalid date.');
+                          }
+                        }
+                      }
                 }}
                 // weekends={this.state.weekendsVisible}
                 // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
