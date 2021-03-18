@@ -18,7 +18,6 @@ import Fade from "@material-ui/core/Fade";
 import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { master } from "../utils/master";
 import { db } from "../Firebase";
 
 const LoginButton = withStyles(() => ({
