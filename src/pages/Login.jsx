@@ -215,7 +215,6 @@ function Login() {
         history.push("/FnADashBoard");
         break;
       case 3:
-        console.log("Hello");
         history.push("/HODDashboard");
         break;
       default:
