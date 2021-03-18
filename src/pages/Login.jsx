@@ -138,24 +138,48 @@ function Login() {
     //   });
 
     // working but have to create extra collection
-    var docRef = db
-      .collection("users")
-      .doc(userType)
-      .collection(username)
-      .doc(username);
+    var workingPass;
 
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          console.log("Document data:", doc.data().name);
-        } else {
-          console.log("No such document!");
-        }
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
+    if (userType == "Students") {
+      var docRef = db
+        .collection("users")
+        .doc(userType)
+        .collection(username)
+        .doc(username);
+
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            console.log("Document data:", doc.data().password);
+            workingPass = doc.data().password;
+            console.log("working pass", workingPass);
+            console.log("your pass", password);
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch(function (error) {
+          console.log("Error getting document:", error);
+        });
+    }
+    // var UserRef = db.collection("users").doc(userType).collection(username);
+
+    // UserRef.get()
+    //   .then((doc) => {
+    //     if (doc.exists) {
+    //       console.log(
+    //         "Document data:",
+    //         UserRef.doc(username).get().doc.data().name
+    //       );
+    //       console.log("Document data:", doc.data().name);
+    //     } else {
+    //       console.log("No such document!");
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Error getting document:", error);
+    //   });
 
     // var docRef = db.collection("users").doc(userType).id();
 
@@ -180,10 +204,12 @@ function Login() {
     //   });
 
     // console.log("user is", { user });
-
     switch (loginType) {
       case 1:
-        history.push("/studentDashboard");
+        if (password == workingPass) {
+          console.log("pass matching");
+          history.push("/studentDashboard");
+        }
         break;
       case 2:
         history.push("/FnADashBoard");
