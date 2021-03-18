@@ -141,29 +141,35 @@ function Login() {
     // working but have to create extra collection
     var workingPass;
 
-    if (userType == "Students") {
-      var docRef = db
-        .collection("users")
-        .doc(userType)
-        .collection(username)
-        .doc(username);
+    try {
+      if (userType == "Students") {
+        var docRef = db
+          .collection("users")
+          .doc(userType)
+          .collection(username)
+          .doc(username);
 
-      docRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            console.log("Document data:", doc.data().password);
-            workingPass = doc.data().password;
-            console.log("working pass", workingPass);
-            console.log("your pass", password);
-          } else {
-            console.log("No such document!");
-          }
-        })
-        .catch(function (error) {
-          console.log("Error getting document:", error);
-        });
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              console.log("Document data:", doc.data().password);
+              workingPass = doc.data().password;
+              console.log("working pass", workingPass);
+              console.log("your pass", password);
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch(function (error) {
+            console.log("Error getting document:", error);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+      setInvalidAlert(true);
     }
+
     // var UserRef = db.collection("users").doc(userType).collection(username);
 
     // UserRef.get()
