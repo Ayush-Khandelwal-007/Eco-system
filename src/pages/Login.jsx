@@ -18,6 +18,7 @@ import Fade from "@material-ui/core/Fade";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { master } from "../utils/master";
+import { db } from "../Firebase";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
-  const { user, setUser } = useContext(AuthContext);
+  // const { user, setUser } = useContext();
 
   const classes = useStyles();
 
@@ -78,15 +79,63 @@ function Login() {
 
   //handlelogin
   const [loginType, setLoginType] = useState(null);
+
   const handleChange = (event) => {
     setLoginType(event.target.value);
   };
   const history = useHistory();
-  const goTo = async () => {
-    const user = await master();
-    setUser(user);
 
-    console.log("user is", { user });
+  const goTo = async () => {
+    // const user = await master();
+    // setUser(user);
+
+    // const userType = () => {
+    //   switch (loginType) {
+    //     case 1:
+    //       return "Students";
+    //       break;
+    //     case 2:
+    //       return "FnA";
+    //       break;
+    //     case 3:
+    //       return "HoD";
+    //       break;
+    //     default:
+    //       return null;
+    //   }
+    // };
+    let userType;
+
+    switch (loginType) {
+      case 1:
+        userType = "Students";
+        break;
+      case 2:
+        userType = "FnA";
+        break;
+      case 3:
+        userType = "HoD";
+        break;
+      default:
+        return null;
+    }
+    // console.log("1");
+    console.log(userType);
+
+    // db.collection("users")
+    //   .doc("FnA")
+    //   .get()
+    //   .then((doc) => {
+    //     console.log(doc.data());
+    //   });
+
+    db.collection("users")
+      .doc(userType)
+      .onSnapshot((doc) => {
+        console.log("Current data: ", doc.data());
+      });
+
+    // console.log("user is", { user });
 
     switch (loginType) {
       case 1:
