@@ -121,7 +121,6 @@ function Login() {
       default:
         return null;
     }
-    // console.log("1");
     console.log(userType);
 
     // db.collection("users")
