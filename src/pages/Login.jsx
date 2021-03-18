@@ -206,7 +206,7 @@ function Login() {
     // console.log("user is", { user });
     switch (loginType) {
       case 1:
-        if (password == workingPass) {
+        if (password.toString() == workingPass.toString()) {
           console.log("pass matching");
           history.push("/studentDashboard");
         }
