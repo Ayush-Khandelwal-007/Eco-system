@@ -129,11 +129,53 @@ function Login() {
     //     console.log(doc.data());
     //   });
 
-    db.collection("users")
+    // db.collection("users")
+    //   .doc(userType)
+    //   .onSnapshot((doc) => {
+    //     console.log("Current data: ", doc.data());
+    //   });
+
+    // working but have to create extra collection
+    var docRef = db
+      .collection("users")
       .doc(userType)
-      .onSnapshot((doc) => {
-        console.log("Current data: ", doc.data());
+      .collection("iit2019198@amigo.com")
+      .doc("iit2019198@amigo.com");
+
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data().name);
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Error getting document:", error);
       });
+
+    // var docRef = db.collection("users").doc(userType).id();
+
+    // docRef
+    //   .get()
+    //   .then((doc) => {
+    //     if (doc.exists) {
+    //       console.log("Document data:", doc.data().name);
+    //     } else {
+    //       console.log("No such document!");
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Error getting document:", error);
+    //   });
+
+    // db.collection("users")
+    //   .doc(userType)
+    //   .collection("iit2019198@amigo.com")
+    //   .onSnapshot((doc) => {
+    //     console.log("Current data: ", doc.id());
+    //   });
 
     // console.log("user is", { user });
 
