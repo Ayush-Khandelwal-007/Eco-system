@@ -65,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
   // const { user, setUser } = useContext();
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
 
   const classes = useStyles();
 
@@ -120,7 +122,7 @@ function Login() {
         return null;
     }
     // console.log("1");
-    console.log(userType);
+    console.log(userType,"hhhhhhh");
 
     // db.collection("users")
     //   .doc("FnA")
@@ -139,8 +141,8 @@ function Login() {
     var docRef = db
       .collection("users")
       .doc(userType)
-      .collection("iit2019198@amigo.com")
-      .doc("iit2019198@amigo.com");
+      .collection("username")
+      .doc("username");
 
     docRef
       .get()
@@ -214,12 +216,13 @@ function Login() {
               <MenuItem value={3}>Head of Department</MenuItem>
             </Select>
           </FormControl>
-          <LoginInput required id="standard-required" label="Username" />
+          <LoginInput required id="standard-required" label="Username" value={username}/>
           <LoginInput
             id="standard-password-input"
             label="Password"
             type="password"
             autoComplete="current-password"
+            value={password}
           />
           <LoginButton variant="contained" color="primary" onClick={goTo}>
             LOGIN
