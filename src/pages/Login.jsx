@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
   // const { user, setUser } = useContext();
-  const [username, setusername] = useState('');
-  const [password, setpassword] = useState('');
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
 
   const classes = useStyles();
 
@@ -122,7 +122,7 @@ function Login() {
         return null;
     }
     // console.log("1");
-    console.log(userType,"hhhhhhh");
+    console.log(userType, "hhhhhhh");
 
     // db.collection("users")
     //   .doc("FnA")
@@ -141,8 +141,8 @@ function Login() {
     var docRef = db
       .collection("users")
       .doc(userType)
-      .collection("username")
-      .doc("username");
+      .collection(username)
+      .doc(username);
 
     docRef
       .get()
@@ -216,13 +216,18 @@ function Login() {
               <MenuItem value={3}>Head of Department</MenuItem>
             </Select>
           </FormControl>
-          <LoginInput required id="standard-required" label="Username" value={username}/>
+          <LoginInput
+            required
+            id="standard-required"
+            label="Username"
+            onChange={(e) => setusername(e.target.value)}
+          />
           <LoginInput
             id="standard-password-input"
             label="Password"
             type="password"
             autoComplete="current-password"
-            value={password}
+            onChange={(e) => setpassword(e.target.value)}
           />
           <LoginButton variant="contained" color="primary" onClick={goTo}>
             LOGIN
