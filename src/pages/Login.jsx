@@ -15,6 +15,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Fade from "@material-ui/core/Fade";
+import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { master } from "../utils/master";
@@ -228,6 +229,9 @@ function Login() {
           <div className={LoginCss.LogoDiv}>
             <img src={logo} alt="logo" />
           </div>
+          <Alert className={LoginCss.InvalidAlert} severity="error">
+            Invalid id/password
+          </Alert>
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
             <Select
