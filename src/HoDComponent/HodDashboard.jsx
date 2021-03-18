@@ -175,6 +175,10 @@ function HodDashboard(props) {
       end: enddate,
       display: 'background'
     });
+    setOpen(false);
+    setTitle('');
+    setstartdate(null);
+    setenddate(null);
     console.log({ title: title, title: startdate, end: enddate, display: 'background' })
   }
 
