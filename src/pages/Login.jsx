@@ -122,7 +122,7 @@ function Login() {
         return null;
     }
     // console.log("1");
-    console.log(userType, "hhhhhhh");
+    console.log(userType);
 
     // db.collection("users")
     //   .doc("FnA")
