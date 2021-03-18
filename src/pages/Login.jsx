@@ -69,6 +69,8 @@ function Login() {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
 
+  const [invalidAlert, setInvalidAlert] = useState(false);
+
   const classes = useStyles();
 
   //Login form Transition
@@ -209,6 +211,8 @@ function Login() {
         if (password.toString() == 123) {
           console.log("pass matching");
           history.push("/studentDashboard");
+        } else {
+          setInvalidAlert(true);
         }
         break;
       case 2:
@@ -229,9 +233,11 @@ function Login() {
           <div className={LoginCss.LogoDiv}>
             <img src={logo} alt="logo" />
           </div>
-          <Alert className={LoginCss.InvalidAlert} severity="error">
-            Invalid id/password
-          </Alert>
+          {invalidAlert ? (
+            <Alert className={LoginCss.InvalidAlert} severity="error">
+              Invalid id/password
+            </Alert>
+          ) : null}
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
             <Select
