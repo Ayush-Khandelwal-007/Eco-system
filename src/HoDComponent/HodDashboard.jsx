@@ -29,6 +29,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import calender from "../images/calender.svg";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextField } from "@material-ui/core";
+import { db } from '../Firebase'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -155,12 +157,36 @@ function HodDashboard(props) {
   const history = useHistory();
   const goLogout = () => history.push("login");
 
+  const [title, setTitle] = React.useState("");
+  const [startdate, setstartdate] = React.useState(null);
+  const [enddate, setenddate] = React.useState(null);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handlesubmitevent = (event) => {
+    event.preventDefault();
+    db.collection("calendar").add({
+      title: title,
+      start: startdate,
+      end: enddate,
+      display: 'background'
+    });
+    console.log({ title: title, title: startdate, end: enddate, display: 'background' })
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -238,6 +264,53 @@ function HodDashboard(props) {
 
   return (
     <div className={classes.grow}>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            *The End Date would not be included in the event.
+          </DialogContentText>
+          <form>
+            <label>
+              <div>Event Title</div>
+               <TextField
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </label>
+            <label>
+              <div>Start Date</div>
+              <Input
+                type='date'
+                value={startdate}
+                onChange={(e) => {
+                  setstartdate(e.target.value);
+                }}
+              />
+            </label>
+            <label>
+              <div>End Date</div>
+              <Input
+                type='date'
+                value={enddate}
+                onChange={(e) => {
+                  setenddate(e.target.value);
+                }}
+              />
+            </label>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handlesubmitevent} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CssBaseline />
       <AppBar className={classes.appBar}>
         <Toolbar>
@@ -315,10 +388,10 @@ function HodDashboard(props) {
         <Grid container justify="center" spacing={2}>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
+              <Grid container onClick={handleClickOpen}>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Add Event
                   </Typography>
                 </Grid>
                 <Grid item>
