@@ -27,7 +27,7 @@ function App() {
                 <StudentDashboard />
               </Route>
               <Route path="/HODDashboard">
-                {user ? <Hod /> : <Redirect to="/Login" />}
+                <Hod />
               </Route>
               <Route path="/FnADashBoard">
                 <FnA />
