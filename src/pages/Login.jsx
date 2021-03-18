@@ -15,9 +15,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Fade from "@material-ui/core/Fade";
+import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { master } from "../utils/master";
 import { db } from "../Firebase";
 
 const LoginButton = withStyles(() => ({
@@ -67,6 +67,8 @@ function Login() {
   // const { user, setUser } = useContext();
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
+
+  const [invalidAlert, setInvalidAlert] = useState(false);
 
   const classes = useStyles();
 
@@ -121,7 +123,6 @@ function Login() {
       default:
         return null;
     }
-    // console.log("1");
     console.log(userType);
 
     // db.collection("users")
@@ -140,29 +141,35 @@ function Login() {
     // working but have to create extra collection
     var workingPass;
 
-    if (userType == "Students") {
-      var docRef = db
-        .collection("users")
-        .doc(userType)
-        .collection(username)
-        .doc(username);
+    try {
+      if (userType == "Students") {
+        var docRef = db
+          .collection("users")
+          .doc(userType)
+          .collection(username)
+          .doc(username);
 
-      docRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            console.log("Document data:", doc.data().password);
-            workingPass = doc.data().password;
-            console.log("working pass", workingPass);
-            console.log("your pass", password);
-          } else {
-            console.log("No such document!");
-          }
-        })
-        .catch(function (error) {
-          console.log("Error getting document:", error);
-        });
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              console.log("Document data:", doc.data().password);
+              workingPass = doc.data().password;
+              console.log("working pass", workingPass);
+              console.log("your pass", password);
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch(function (error) {
+            console.log("Error getting document:", error);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+      setInvalidAlert(true);
     }
+
     // var UserRef = db.collection("users").doc(userType).collection(username);
 
     // UserRef.get()
@@ -209,13 +216,14 @@ function Login() {
         if (password.toString() == 123) {
           console.log("pass matching");
           history.push("/studentDashboard");
+        } else {
+          setInvalidAlert(true);
         }
         break;
       case 2:
         history.push("/FnADashBoard");
         break;
       case 3:
-        console.log("Hello");
         history.push("/HODDashboard");
         break;
       default:
@@ -230,6 +238,11 @@ function Login() {
           <div className={LoginCss.LogoDiv}>
             <img src={logo} alt="logo" />
           </div>
+          {invalidAlert ? (
+            <Alert className={LoginCss.InvalidAlert} severity="error">
+              Invalid id/password
+            </Alert>
+          ) : null}
           <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
             <Select
