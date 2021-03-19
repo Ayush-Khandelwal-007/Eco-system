@@ -70,6 +70,12 @@ function Login() {
 
   const [invalidAlert, setInvalidAlert] = useState(false);
 
+  const path=(type) =>{
+    if(type==='Students')return 'studentDashboard'
+    if(type==='FnA')return 'FnADashBoard'
+    if(type==='HoD')return 'HODDashBoard'
+  }
+
   const classes = useStyles();
 
   //Login form Transition
@@ -82,7 +88,7 @@ function Login() {
   }, []);
 
   //handlelogin
-  const [loginType, setLoginType] = useState(null);
+  const [loginType, setLoginType] = useState('');
 
   const handleChange = (event) => {
     setLoginType(event.target.value);
@@ -90,24 +96,7 @@ function Login() {
   const history = useHistory();
 
   const goTo = async () => {
-    // const user = await master();
-    // setUser(user);
 
-    // const userType = () => {
-    //   switch (loginType) {
-    //     case 1:
-    //       return "Students";
-    //       break;
-    //     case 2:
-    //       return "FnA";
-    //       break;
-    //     case 3:
-    //       return "HoD";
-    //       break;
-    //     default:
-    //       return null;
-    //   }
-    // };
     let userType;
 
     switch (loginType) {
@@ -123,7 +112,7 @@ function Login() {
       default:
         return null;
     }
-    console.log(userType);
+    // console.log(userType);
 
     // db.collection("users")
     //   .doc("FnA")
@@ -139,32 +128,37 @@ function Login() {
     //   });
 
     // working but have to create extra collection
-    var workingPass;
-
-    try {
-      if (userType == "Students") {
-        var docRef = db
+    var temp;
+    var docRef = db
           .collection("users")
           .doc(userType)
           .collection(username)
-          .doc(username);
+    try {
+        var alldata= await docRef.get();
+        console.log("ahahhahhahahahhah")
+        alldata.forEach(doc => {
+          if(doc.data().password===password)
+          history.push(`/${path(userType)}`);
 
-        docRef
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              console.log("Document data:", doc.data().password);
-              workingPass = doc.data().password;
-              console.log("working pass", workingPass);
-              console.log("your pass", password);
-            } else {
-              console.log("No such document!");
-            }
-          })
-          .catch(function (error) {
-            console.log("Error getting document:", error);
-          });
-      }
+          else{
+            setInvalidAlert(true);
+          }
+      });
+        console.log("your pass", password);
+        // docRef
+        //   .then((doc) => {
+        //     if (doc.exists) {
+        //       console.log("Document data:", doc.data().password);
+        //       setworkingPass(doc.data().password);
+        //       console.log("working pass", workingPass);
+        //       console.log("your pass", password);
+        //     } else {
+        //       console.log("No such document!");
+        //     }
+        //   })
+        //   .catch(function (error) {
+        //     console.log("Error getting document:", error);
+        //   });
     } catch (error) {
       console.log(error);
       setInvalidAlert(true);
@@ -211,24 +205,31 @@ function Login() {
     //   });
 
     // console.log("user is", { user });
-    switch (loginType) {
-      case 1:
-        if (password.toString() == 123) {
-          console.log("pass matching");
-          history.push("/studentDashboard");
-        } else {
-          setInvalidAlert(true);
-        }
-        break;
-      case 2:
-        history.push("/FnADashBoard");
-        break;
-      case 3:
-        history.push("/HODDashboard");
-        break;
-      default:
-        return null;
-    }
+    // switch (loginType) {
+    //   case 1:
+    //     if (password.toString() == workingPass?.toString() && password!== "") {
+    //       history.push("/studentDashboard");
+    //     } else {
+    //       setInvalidAlert(true);
+    //     }
+    //     break;
+    //   case 2:
+    //     if (password.toString() == 123) {
+    //       history.push("/FnADashBoard");
+    //     } else {
+    //       setInvalidAlert(true);
+    //     }
+    //     break;
+    //   case 3:
+    //     if (password.toString() == 123) {
+    //       history.push("/HODDashboard");
+    //     } else {
+    //       setInvalidAlert(true);
+    //     }
+    //     break;
+    //   default:
+    //     return null;
+    // }
   };
 
   return (
@@ -260,6 +261,7 @@ function Login() {
             required
             id="standard-required"
             label="Username"
+            value={username}
             onChange={(e) => setusername(e.target.value)}
           />
           <LoginInput
@@ -267,6 +269,7 @@ function Login() {
             label="Password"
             type="password"
             autoComplete="current-password"
+            value={password}
             onChange={(e) => setpassword(e.target.value)}
           />
           <LoginButton variant="contained" color="primary" onClick={goTo}>
