@@ -19,7 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { db } from "../Firebase";
-import {useUser} from '../contexts/User'
+import { useUser } from '../contexts/User'
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -91,7 +91,7 @@ function Login() {
   }, []);
 
   //handlelogin
-  const [loginType, setLoginType] = useState('');
+  const [loginType, setLoginType] = useState(1);
 
   const handleChange = (event) => {
     setLoginType(event.target.value);
@@ -128,6 +128,12 @@ function Login() {
       alldata.forEach(doc => {
         if (doc.data()) {
           if (doc.data().password === password) {
+            dispatch({
+              type: 'SET_USER',
+              user: {...doc.data()},
+              userType:loginType,
+            });
+            console.log("user is", { state });
             history.push(`/${path(userType)}`);
           }
 
@@ -136,7 +142,7 @@ function Login() {
             setInvalidAlert(true);
           }
         }
-        else{
+        else {
           console.log(doc.data());
           setAlertMessage(`No Profile with this username exists.`);
           setInvalidAlert(true);
