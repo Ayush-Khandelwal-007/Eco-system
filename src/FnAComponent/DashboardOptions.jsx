@@ -1,8 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import bell from "../images/Bell.svg";
-import deadline from "../images/Deadline.svg";
-import list from "../images/DefaulterList.svg";
-import fee from "../images/Fee.svg";
+import { fee, bell, defaulterList, deadline } from "../images";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -208,7 +205,7 @@ export default function DashboardOptions() {
               <Grid item>
                 <Link to="FnADashboard/DefaulterList">
                   <Paper className={classes.paper}>
-                    <img src={list} alt="logo" />
+                    <img src={defaulterList} alt="logo" />
                     <div className={FnADesign.paperTxt}>Defaulters List</div>
                   </Paper>
                 </Link>

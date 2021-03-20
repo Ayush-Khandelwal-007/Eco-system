@@ -6,3 +6,7 @@ export { default as courseAllotment } from "./courseAllotment.svg";
 export { default as Hod } from "./Hod.svg";
 export { default as list } from "./list.svg";
 export { default as notice } from "./notice.svg";
+export { default as fee } from "./Fee.svg";
+export { default as defaulterList } from "./DefaulterList.svg";
+export { default as deadline } from "./deadline.svg";
+export { default as bell } from "./Bell.svg";
