@@ -1,5 +1,5 @@
 export { default as calender } from "./calender.svg";
-export { default as defaulterList } from "./defaulterList.svg";
+export { default as facultyList } from "./facultyList.svg";
 export { default as exam } from "./exam.svg";
 export { default as courseUpdate } from "./courseUpdate.svg";
 export { default as courseAllotment } from "./courseAllotment.svg";

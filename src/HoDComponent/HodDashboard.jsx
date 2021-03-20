@@ -24,11 +24,18 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Hod from "../images/Hod.svg";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import { calender } from "../images";
+import {
+  calender,
+  facultyList,
+  exam,
+  courseUpdate,
+  courseAllotment,
+  Hod,
+  notice,
+} from "../images";
 import {
   Button,
   Dialog,
@@ -434,7 +441,7 @@ function HodDashboard(props) {
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={facultyList} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -450,7 +457,7 @@ function HodDashboard(props) {
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={courseAllotment} />
                   </ButtonBase>
                 </Grid>
               </Grid>
