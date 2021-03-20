@@ -473,7 +473,7 @@ function HodDashboard(props) {
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={exam} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -489,7 +489,7 @@ function HodDashboard(props) {
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={notice} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -505,7 +505,7 @@ function HodDashboard(props) {
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={courseUpdate} />
                   </ButtonBase>
                 </Grid>
               </Grid>
