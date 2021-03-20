@@ -94,18 +94,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  appBar: {
-    background: "#070D59",
-  },
-
-  paper: {
-    background: "#FFCCBC",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#D3E3FC",
-      boxShadow: "none",
-    },
-  },
 }));
 
 function HoDNav() {

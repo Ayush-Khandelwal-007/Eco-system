@@ -123,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     background: "#FFCCBC",
     cursor: "pointer",
+    height: "180px",
     "&:hover": {
       backgroundColor: "#D3E3FC",
       boxShadow: "none",
