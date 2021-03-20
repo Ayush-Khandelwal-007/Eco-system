@@ -91,7 +91,7 @@ function Login() {
   }, []);
 
   //handlelogin
-  const [loginType, setLoginType] = useState("");
+  const [loginType, setLoginType] = useState(1);
 
   const handleChange = (event) => {
     setLoginType(event.target.value);
@@ -124,6 +124,12 @@ function Login() {
       alldata.forEach((doc) => {
         if (doc.data()) {
           if (doc.data().password === password) {
+            dispatch({
+              type: "SET_USER",
+              user: { ...doc.data() },
+              userType: loginType,
+            });
+            console.log("user is", { state });
             history.push(`/${path(userType)}`);
           } else {
             setAlertMessage(`Password don't match.`);

@@ -4,17 +4,17 @@ export const initialState = {
 };
 
 const reducer = (state, action) => {
-  // console.log(action);
+  console.log(action);
   switch (action.type) {
     case "SET_USER":
-      console.log("hahahhha");
       return {
         userType: action.usertype,
-        user: action.user,
+        user: {...action.user},
       };
     case "UNSET_USER":
       return {
-        initialState,
+        userType: null,
+        user: null,
       };
 
     default:

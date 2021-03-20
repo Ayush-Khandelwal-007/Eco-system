@@ -1,32 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import Fab from "@material-ui/core/Fab";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Zoom from "@material-ui/core/Zoom";
-import Slide from "@material-ui/core/Slide";
+import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed",
@@ -94,6 +85,25 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  drawer: {
+    width: 320,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 320,
+    background: "#FFCCBC",
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "center",
+  },
+  chevicon: {
+    marginLeft: "auto",
+  },
 }));
 
 function HoDNav() {
@@ -159,7 +169,13 @@ function HoDNav() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          setNotificationDrawer(true);
+          setAnchorEl(null);
+          setMobileMoreAnchorEl(null);
+        }}
+      >
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
@@ -181,8 +197,35 @@ function HoDNav() {
     </Menu>
   );
 
+  //Notification
+  const [notificationDrawer, setNotificationDrawer] = useState(false);
+
   return (
     <>
+      <Drawer
+        className={classes.drawer}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor={"right"}
+        open={notificationDrawer}
+        onClose={() => {
+          setNotificationDrawer(false);
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <Typography variant="h6" noWrap>
+            Notifications
+          </Typography>
+          <IconButton
+            className={classes.chevicon}
+            onClick={() => setNotificationDrawer(false)}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </div>
+        <Divider />
+      </Drawer>
       <Toolbar>
         <IconButton
           edge="start"
@@ -215,7 +258,11 @@ function HoDNav() {
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show 17 new notifications" color="inherit">
+          <IconButton
+            aria-label="show 17 new notifications"
+            color="inherit"
+            onClick={() => setNotificationDrawer(true)}
+          >
             <Badge badgeContent={17} color="secondary">
               <NotificationsIcon />
             </Badge>
