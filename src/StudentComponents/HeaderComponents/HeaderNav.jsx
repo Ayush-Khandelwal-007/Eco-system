@@ -17,14 +17,18 @@ import { Link } from "react-router-dom";
 import NotificationsNoneTwoToneIcon from "@material-ui/icons/NotificationsNoneTwoTone";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
+import { useUser } from "../../contexts/User";
 
 function HeaderNav() {
-  const { user, setUser } = useContext(AuthContext);
+  const [state, dispatch] = useUser();
   const history = useHistory();
 
+
+  console.log(state);
   const goLogout = () => {
-    setUser(null);
-    console.log("user is", { user });
+    dispatch({
+      type: 'UNSET_USER',
+    });
     history.push("login");
   };
 
