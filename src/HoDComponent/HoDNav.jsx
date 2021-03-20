@@ -14,6 +14,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed",
@@ -80,6 +82,22 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
+  },
+  drawer: {
+    width: 320,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 320,
+    background: "#FFCCBC",
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
 }));
 
@@ -180,13 +198,19 @@ function HoDNav() {
   return (
     <>
       <Drawer
+        className={classes.drawer}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
         anchor={"right"}
         open={notificationDrawer}
         onClose={() => {
           setNotificationDrawer(false);
         }}
       >
-        <div>Hi</div>
+        <Typography className={classes.title} variant="h6" noWrap>
+          Notifications
+        </Typography>
       </Drawer>
       <Toolbar>
         <IconButton
