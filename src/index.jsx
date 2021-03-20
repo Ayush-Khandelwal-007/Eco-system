@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import reducer, { initialState } from "./contexts/reducer";
-import { StateProvider } from "./contexts/Basket";
+import { StateProvider } from "./contexts/User";
 
 ReactDOM.render(
   <StateProvider initialState={initialState} reducer={reducer}>

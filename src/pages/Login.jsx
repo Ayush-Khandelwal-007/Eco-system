@@ -19,6 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { db } from "../Firebase";
+import {useUser} from '../contexts/User'
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -64,16 +65,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Login() {
+  const [state, dispatch] = useUser();
   // const { user, setUser } = useContext();
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
 
   const [invalidAlert, setInvalidAlert] = useState(false);
 
-  const path=(type) =>{
-    if(type==='Students')return 'studentDashboard'
-    if(type==='FnA')return 'FnADashBoard'
-    if(type==='HoD')return 'HODDashBoard'
+  const [alertMessage, setAlertMessage] = useState('');
+  const path = (type) => {
+    if (type === 'Students') return 'studentDashboard'
+    if (type === 'FnA') return 'FnADashBoard'
+    if (type === 'HoD') return 'HODDashBoard'
   }
 
   const classes = useStyles();
@@ -114,122 +117,36 @@ function Login() {
     }
     // console.log(userType);
 
-    // db.collection("users")
-    //   .doc("FnA")
-    //   .get()
-    //   .then((doc) => {
-    //     console.log(doc.data());
-    //   });
-
-    // db.collection("users")
-    //   .doc(userType)
-    //   .onSnapshot((doc) => {
-    //     console.log("Current data: ", doc.data());
-    //   });
-
     // working but have to create extra collection
     var temp;
     var docRef = db
-          .collection("users")
-          .doc(userType)
-          .collection(username)
+      .collection("users")
+      .doc(userType)
+      .collection(username)
     try {
-        var alldata= await docRef.get();
-        console.log("ahahhahhahahahhah")
-        alldata.forEach(doc => {
-          if(doc.data().password===password)
-          history.push(`/${path(userType)}`);
+      var alldata = await docRef.get();
+      alldata.forEach(doc => {
+        if (doc.data()) {
+          if (doc.data().password === password) {
+            history.push(`/${path(userType)}`);
+          }
 
-          else{
+          else {
+            setAlertMessage(`Password don't match.`);
             setInvalidAlert(true);
           }
+        }
+        else{
+          console.log(doc.data());
+          setAlertMessage(`No Profile with this username exists.`);
+          setInvalidAlert(true);
+        }
       });
-        console.log("your pass", password);
-        // docRef
-        //   .then((doc) => {
-        //     if (doc.exists) {
-        //       console.log("Document data:", doc.data().password);
-        //       setworkingPass(doc.data().password);
-        //       console.log("working pass", workingPass);
-        //       console.log("your pass", password);
-        //     } else {
-        //       console.log("No such document!");
-        //     }
-        //   })
-        //   .catch(function (error) {
-        //     console.log("Error getting document:", error);
-        //   });
     } catch (error) {
       console.log(error);
+      setAlertMessage(`Error Fetching Data. Please check your Internet Connection.`);
       setInvalidAlert(true);
     }
-
-    // var UserRef = db.collection("users").doc(userType).collection(username);
-
-    // UserRef.get()
-    //   .then((doc) => {
-    //     if (doc.exists) {
-    //       console.log(
-    //         "Document data:",
-    //         UserRef.doc(username).get().doc.data().name
-    //       );
-    //       console.log("Document data:", doc.data().name);
-    //     } else {
-    //       console.log("No such document!");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log("Error getting document:", error);
-    //   });
-
-    // var docRef = db.collection("users").doc(userType).id();
-
-    // docRef
-    //   .get()
-    //   .then((doc) => {
-    //     if (doc.exists) {
-    //       console.log("Document data:", doc.data().name);
-    //     } else {
-    //       console.log("No such document!");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log("Error getting document:", error);
-    //   });
-
-    // db.collection("users")
-    //   .doc(userType)
-    //   .collection("iit2019198@amigo.com")
-    //   .onSnapshot((doc) => {
-    //     console.log("Current data: ", doc.id());
-    //   });
-
-    // console.log("user is", { user });
-    // switch (loginType) {
-    //   case 1:
-    //     if (password.toString() == workingPass?.toString() && password!== "") {
-    //       history.push("/studentDashboard");
-    //     } else {
-    //       setInvalidAlert(true);
-    //     }
-    //     break;
-    //   case 2:
-    //     if (password.toString() == 123) {
-    //       history.push("/FnADashBoard");
-    //     } else {
-    //       setInvalidAlert(true);
-    //     }
-    //     break;
-    //   case 3:
-    //     if (password.toString() == 123) {
-    //       history.push("/HODDashboard");
-    //     } else {
-    //       setInvalidAlert(true);
-    //     }
-    //     break;
-    //   default:
-    //     return null;
-    // }
   };
 
   return (
@@ -241,7 +158,7 @@ function Login() {
           </div>
           {invalidAlert ? (
             <Alert className={LoginCss.InvalidAlert} severity="error">
-              Invalid id/password
+              {alertMessage}
             </Alert>
           ) : null}
           <FormControl className={classes.formControl}>
@@ -262,7 +179,10 @@ function Login() {
             id="standard-required"
             label="Username"
             value={username}
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => {
+              setusername(e.target.value);
+              setInvalidAlert(false);
+            }}
           />
           <LoginInput
             id="standard-password-input"
@@ -270,7 +190,10 @@ function Login() {
             type="password"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(e) => {
+              setpassword(e.target.value);
+              setInvalidAlert(false);
+            }}
           />
           <LoginButton variant="contained" color="primary" onClick={goTo}>
             LOGIN
