@@ -24,13 +24,30 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import Hod from "../images/Hod.svg";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import calender from "../images/calender.svg";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextField } from "@material-ui/core";
-import { db } from '../Firebase'
+import {
+  calender,
+  facultyList,
+  exam,
+  courseUpdate,
+  courseAllotment,
+  Hod,
+  notice,
+} from "../images";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+  TextField,
+} from "@material-ui/core";
+import { db } from "../Firebase";
+import HoDNav from "./HoDNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,65 +57,9 @@ const useStyles = makeStyles((theme) => ({
   },
   grow: {
     flexGrow: 1,
+    background: "#77A6F7",
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
+
   appBar: {
     background: "#070D59",
   },
@@ -106,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     background: "#FFCCBC",
     cursor: "pointer",
+    height: "180px",
     "&:hover": {
       backgroundColor: "#D3E3FC",
       boxShadow: "none",
@@ -155,17 +117,11 @@ ScrollTop.propTypes = {
 
 function HodDashboard(props) {
   const history = useHistory();
-  const goLogout = () => history.push("login");
 
   const [title, setTitle] = React.useState("");
   const [startdate, setstartdate] = React.useState(null);
   const [enddate, setenddate] = React.useState(null);
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handlesubmitevent = (event) => {
     event.preventDefault();
@@ -173,14 +129,19 @@ function HodDashboard(props) {
       title: title,
       start: startdate,
       end: enddate,
-      display: 'background'
+      display: "background",
     });
     setOpen(false);
-    setTitle('');
+    setTitle("");
     setstartdate(null);
     setenddate(null);
-    console.log({ title: title, title: startdate, end: enddate, display: 'background' })
-  }
+    console.log({
+      title: title,
+      title: startdate,
+      end: enddate,
+      display: "background",
+    });
+  };
 
   const [open, setOpen] = React.useState(false);
 
@@ -192,83 +153,13 @@ function HodDashboard(props) {
     setOpen(false);
   };
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={goLogout}>Logout</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
     <div className={classes.grow}>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -277,7 +168,7 @@ function HodDashboard(props) {
           <form>
             <label>
               <div>Event Title</div>
-               <TextField
+              <TextField
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
@@ -287,7 +178,7 @@ function HodDashboard(props) {
             <label>
               <div>Start Date</div>
               <Input
-                type='date'
+                type="date"
                 value={startdate}
                 onChange={(e) => {
                   setstartdate(e.target.value);
@@ -297,7 +188,7 @@ function HodDashboard(props) {
             <label>
               <div>End Date</div>
               <Input
-                type='date'
+                type="date"
                 value={enddate}
                 onChange={(e) => {
                   setenddate(e.target.value);
@@ -317,69 +208,8 @@ function HodDashboard(props) {
       </Dialog>
       <CssBaseline />
       <AppBar className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            {/* <MenuIcon /> */}
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Amigo
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
+        <HoDNav />
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <img src={Hod} alt="" />
@@ -411,12 +241,12 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Faculty List Management
                   </Typography>
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={facultyList} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -427,12 +257,12 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Course Allotment
                   </Typography>
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={courseAllotment} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -443,12 +273,12 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Exam Schedule
                   </Typography>
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={exam} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -459,12 +289,12 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Notice Board
                   </Typography>
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={notice} />
                   </ButtonBase>
                 </Grid>
               </Grid>
@@ -475,12 +305,12 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Course Updation
                   </Typography>
                 </Grid>
                 <Grid item>
                   <ButtonBase>
-                    <img alt="complex" src={calender} />
+                    <img alt="complex" src={courseUpdate} />
                   </ButtonBase>
                 </Grid>
               </Grid>

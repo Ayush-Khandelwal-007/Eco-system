@@ -19,7 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { db } from "../Firebase";
-import {useUser} from '../contexts/User'
+import { useUser } from "../contexts/User";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -72,12 +72,12 @@ function Login() {
 
   const [invalidAlert, setInvalidAlert] = useState(false);
 
-  const [alertMessage, setAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState("");
   const path = (type) => {
-    if (type === 'Students') return 'studentDashboard'
-    if (type === 'FnA') return 'FnADashBoard'
-    if (type === 'HoD') return 'HODDashBoard'
-  }
+    if (type === "Students") return "studentDashboard";
+    if (type === "FnA") return "FnADashBoard";
+    if (type === "HoD") return "HODDashBoard";
+  };
 
   const classes = useStyles();
 
@@ -91,7 +91,7 @@ function Login() {
   }, []);
 
   //handlelogin
-  const [loginType, setLoginType] = useState('');
+  const [loginType, setLoginType] = useState("");
 
   const handleChange = (event) => {
     setLoginType(event.target.value);
@@ -99,7 +99,6 @@ function Login() {
   const history = useHistory();
 
   const goTo = async () => {
-
     let userType;
 
     switch (loginType) {
@@ -119,24 +118,18 @@ function Login() {
 
     // working but have to create extra collection
     var temp;
-    var docRef = db
-      .collection("users")
-      .doc(userType)
-      .collection(username)
     try {
+      var docRef = db.collection("users").doc(userType).collection(username);
       var alldata = await docRef.get();
-      alldata.forEach(doc => {
+      alldata.forEach((doc) => {
         if (doc.data()) {
           if (doc.data().password === password) {
             history.push(`/${path(userType)}`);
-          }
-
-          else {
+          } else {
             setAlertMessage(`Password don't match.`);
             setInvalidAlert(true);
           }
-        }
-        else{
+        } else {
           console.log(doc.data());
           setAlertMessage(`No Profile with this username exists.`);
           setInvalidAlert(true);
@@ -144,7 +137,9 @@ function Login() {
       });
     } catch (error) {
       console.log(error);
-      setAlertMessage(`Error Fetching Data. Please check your Internet Connection.`);
+      setAlertMessage(
+        `Error Fetching Data. Please check your Internet Connection.`
+      );
       setInvalidAlert(true);
     }
   };
