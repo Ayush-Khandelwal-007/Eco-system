@@ -29,8 +29,17 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import calender from "../images/calender.svg";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, TextField } from "@material-ui/core";
-import { db } from '../Firebase'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Input,
+  TextField,
+} from "@material-ui/core";
+import { db } from "../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -173,14 +182,19 @@ function HodDashboard(props) {
       title: title,
       start: startdate,
       end: enddate,
-      display: 'background'
+      display: "background",
     });
     setOpen(false);
-    setTitle('');
+    setTitle("");
     setstartdate(null);
     setenddate(null);
-    console.log({ title: title, title: startdate, end: enddate, display: 'background' })
-  }
+    console.log({
+      title: title,
+      title: startdate,
+      end: enddate,
+      display: "background",
+    });
+  };
 
   const [open, setOpen] = React.useState(false);
 
@@ -268,7 +282,11 @@ function HodDashboard(props) {
 
   return (
     <div className={classes.grow}>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -277,7 +295,7 @@ function HodDashboard(props) {
           <form>
             <label>
               <div>Event Title</div>
-               <TextField
+              <TextField
                 value={title}
                 onChange={(e) => {
                   setTitle(e.target.value);
@@ -287,7 +305,7 @@ function HodDashboard(props) {
             <label>
               <div>Start Date</div>
               <Input
-                type='date'
+                type="date"
                 value={startdate}
                 onChange={(e) => {
                   setstartdate(e.target.value);
@@ -297,7 +315,7 @@ function HodDashboard(props) {
             <label>
               <div>End Date</div>
               <Input
-                type='date'
+                type="date"
                 value={enddate}
                 onChange={(e) => {
                   setenddate(e.target.value);
@@ -411,7 +429,7 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Faculty List Management
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -427,7 +445,7 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Course Allotment
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -443,7 +461,7 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Exam Schedule
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -459,7 +477,7 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Notice Board
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -475,7 +493,7 @@ function HodDashboard(props) {
               <Grid container>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
-                    Academic Calender
+                    Course Updation
                   </Typography>
                 </Grid>
                 <Grid item>
