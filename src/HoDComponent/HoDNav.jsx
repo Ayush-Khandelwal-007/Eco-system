@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -146,7 +146,13 @@ function HoDNav() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          setNotificationDrawer(true);
+          setAnchorEl(null);
+          setMobileMoreAnchorEl(null);
+        }}
+      >
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon />
@@ -168,8 +174,20 @@ function HoDNav() {
     </Menu>
   );
 
+  //Notification
+  const [notificationDrawer, setNotificationDrawer] = useState(false);
+
   return (
     <>
+      <Drawer
+        anchor={"right"}
+        open={notificationDrawer}
+        onClose={() => {
+          setNotificationDrawer(false);
+        }}
+      >
+        <div>Hi</div>
+      </Drawer>
       <Toolbar>
         <IconButton
           edge="start"
@@ -202,7 +220,11 @@ function HoDNav() {
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show 17 new notifications" color="inherit">
+          <IconButton
+            aria-label="show 17 new notifications"
+            color="inherit"
+            onClick={() => setNotificationDrawer(true)}
+          >
             <Badge badgeContent={17} color="secondary">
               <NotificationsIcon />
             </Badge>
