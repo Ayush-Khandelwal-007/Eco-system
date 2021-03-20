@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -15,6 +15,8 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,7 +99,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
+    justifyContent: "center",
+  },
+  chevicon: {
+    marginLeft: "auto",
   },
 }));
 
@@ -208,9 +213,18 @@ function HoDNav() {
           setNotificationDrawer(false);
         }}
       >
-        <Typography className={classes.title} variant="h6" noWrap>
-          Notifications
-        </Typography>
+        <div className={classes.drawerHeader}>
+          <Typography variant="h6" noWrap>
+            Notifications
+          </Typography>
+          <IconButton
+            className={classes.chevicon}
+            onClick={() => setNotificationDrawer(false)}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </div>
+        <Divider />
       </Drawer>
       <Toolbar>
         <IconButton
