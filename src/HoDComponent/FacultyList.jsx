@@ -1,10 +1,7 @@
 import React from "react";
-import HoDNav from "./HoDNav";
 import { useHistory } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import design from "./hod.module.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,14 +35,7 @@ function FacultyList() {
   const history = useHistory();
   const classes = useStyles();
 
-  return (
-    <div className={classes.grow}>
-      <CssBaseline />
-      <AppBar className={classes.appBar}>
-        <HoDNav />
-      </AppBar>
-    </div>
-  );
+  return <div>Hi</div>;
 }
 
 export default FacultyList;

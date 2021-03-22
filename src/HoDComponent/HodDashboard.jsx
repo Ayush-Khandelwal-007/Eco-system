@@ -1,11 +1,9 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Container from "@material-ui/core/Container";
 import Fab from "@material-ui/core/Fab";
@@ -35,7 +33,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { db } from "../Firebase";
-import HoDNav from "./HoDNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -143,7 +140,7 @@ function HodDashboard(props) {
   };
 
   return (
-    <div className={classes.grow}>
+    <div>
       <Dialog
         open={open}
         onClose={handleClose}
