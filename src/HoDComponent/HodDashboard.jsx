@@ -13,7 +13,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import design from "./hod.module.css";
 import {
   calender,
   facultyList,
@@ -216,11 +216,11 @@ function HodDashboard(props) {
                 onClick={handleClickOpen}
               >
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Add Event
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
                   <img alt="complex" src={calender} />
                 </Grid>
               </Grid>
@@ -230,11 +230,11 @@ function HodDashboard(props) {
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Faculty List Management
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
                   <img alt="complex" src={facultyList} />
                 </Grid>
               </Grid>
@@ -244,14 +244,12 @@ function HodDashboard(props) {
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Course Allotment
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <ButtonBase>
-                    <img alt="complex" src={courseAllotment} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={courseAllotment} />
                 </Grid>
               </Grid>
             </Paper>
@@ -260,14 +258,12 @@ function HodDashboard(props) {
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Exam Schedule
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <ButtonBase>
-                    <img alt="complex" src={exam} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={exam} />
                 </Grid>
               </Grid>
             </Paper>
@@ -276,14 +272,12 @@ function HodDashboard(props) {
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Notice Board
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <ButtonBase>
-                    <img alt="complex" src={notice} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={notice} />
                 </Grid>
               </Grid>
             </Paper>
@@ -292,14 +286,12 @@ function HodDashboard(props) {
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8}>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography variant="h6" gutterBottom>
                     Course Updation
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <ButtonBase>
-                    <img alt="complex" src={courseUpdate} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={courseUpdate} />
                 </Grid>
               </Grid>
             </Paper>
