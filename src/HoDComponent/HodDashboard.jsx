@@ -200,13 +200,15 @@ function HodDashboard(props) {
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
       <Container>
-        <img src={Hod} alt="" />
-        <Typography variant="h5" noWrap>
-          Welcome, Sir
-        </Typography>
-        <Typography variant="h7">
-          Manage academic calender, course allotment, exam schedule and more
-        </Typography>
+        <div className={design.welcomeDiv}>
+          <img src={Hod} alt="" />
+          <Typography variant="h5" noWrap>
+            Welcome, Sir
+          </Typography>
+          <Typography variant="h7">
+            Manage academic calender, course allotment, exam schedule and more
+          </Typography>
+        </div>
         <Grid container justify="center" spacing={2}>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
