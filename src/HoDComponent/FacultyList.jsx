@@ -2,8 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Toolbar from "@material-ui/core/Toolbar";
 import design from "./hod.module.css";
 
 const useStyles = makeStyles((theme) => ({
