@@ -195,10 +195,6 @@ function HodDashboard(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <CssBaseline />
-      <AppBar className={classes.appBar}>
-        <HoDNav />
-      </AppBar>
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <div className={design.welcomeDiv}>
