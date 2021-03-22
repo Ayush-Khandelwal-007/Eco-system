@@ -14,6 +14,7 @@ import Zoom from "@material-ui/core/Zoom";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import design from "./hod.module.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import {
   calender,
   facultyList,
@@ -229,18 +230,20 @@ function HodDashboard(props) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8} className={design.textPad}>
-                  <Typography variant="h6" gutterBottom>
-                    Faculty List Management
-                  </Typography>
+            <Link to="/HoDDashboard/FacultyList">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Faculty List Management
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={facultyList} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4} className={design.imgGrid}>
-                  <img alt="complex" src={facultyList} />
-                </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
