@@ -215,7 +215,7 @@ function HodDashboard(props) {
                 className={classes.GridContainer}
                 onClick={handleClickOpen}
               >
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Add Event
                   </Typography>
@@ -229,7 +229,7 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Faculty List Management
                   </Typography>
@@ -243,7 +243,7 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Course Allotment
                   </Typography>
@@ -257,7 +257,7 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Exam Schedule
                   </Typography>
@@ -271,7 +271,7 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Notice Board
                   </Typography>
@@ -285,7 +285,7 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
                     Course Updation
                   </Typography>
