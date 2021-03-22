@@ -1,0 +1,15 @@
+.imgGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomeDiv {
+  padding: 35px;
+}
+
+@media only screen and (min-width: 600px) {
+  .textPad {
+    padding: 35px;
+  }
+}

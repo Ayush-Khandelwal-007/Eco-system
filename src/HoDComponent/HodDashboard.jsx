@@ -1,19 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Container from "@material-ui/core/Container";
-import Fab from "@material-ui/core/Fab";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Zoom from "@material-ui/core/Zoom";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import design from "./hod.module.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import {
   calender,
   facultyList,
@@ -34,7 +28,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { db } from "../Firebase";
-import HoDNav from "./HoDNav";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
     background: "#070D59",
   },
 
-  paper: {
+  paper: {},
+  GridContainer: {
     background: "#FFCCBC",
     cursor: "pointer",
     height: "180px",
@@ -61,46 +55,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-function ScrollTop(props) {
-  const { children, window } = props;
-  const classes = useStyles();
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  });
-
-  const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(
-      "#back-to-top-anchor"
-    );
-
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
-  );
-}
-
-ScrollTop.propTypes = {
-  children: PropTypes.element.isRequired,
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 function HodDashboard(props) {
   const history = useHistory();
@@ -141,7 +95,7 @@ function HodDashboard(props) {
   };
 
   return (
-    <div className={classes.grow}>
+    <div>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -193,123 +147,109 @@ function HodDashboard(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <CssBaseline />
-      <AppBar className={classes.appBar}>
-        <HoDNav />
-      </AppBar>
-      <Toolbar id="back-to-top-anchor" />
       <Container>
-        <img src={Hod} alt="" />
-        <Typography variant="h5" noWrap>
-          Welcome, Sir
-        </Typography>
-        <Typography variant="h7">
-          Manage academic calender, course allotment, exam schedule and more
-        </Typography>
+        <div className={design.welcomeDiv}>
+          <img src={Hod} alt="" />
+          <Typography variant="h5" noWrap>
+            Welcome, Sir
+          </Typography>
+          <Typography variant="h7">
+            Manage academic calender, course allotment, exam schedule and more
+          </Typography>
+        </div>
         <Grid container justify="center" spacing={2}>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container onClick={handleClickOpen}>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
+              <Grid
+                container
+                className={classes.GridContainer}
+                onClick={handleClickOpen}
+              >
+                <Grid item xs={12} sm={8} className={design.textPad}>
+                  <Typography variant="h6" gutterBottom>
                     Add Event
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={calender} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={calender} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
-                    Faculty List Management
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <ButtonBase>
+            <Link to="/HoDDashboard/FacultyList">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Faculty List Management
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
                     <img alt="complex" src={facultyList} />
-                  </ButtonBase>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
+                  <Typography variant="h6" gutterBottom>
                     Course Allotment
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={courseAllotment} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={courseAllotment} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
+                  <Typography variant="h6" gutterBottom>
                     Exam Schedule
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={exam} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={exam} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
+                  <Typography variant="h6" gutterBottom>
                     Notice Board
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={notice} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={notice} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
-                  <Typography gutterBottom variant="subtitle1">
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8} className={design.textPad}>
+                  <Typography variant="h6" gutterBottom>
                     Course Updation
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={courseUpdate} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4} className={design.imgGrid}>
+                  <img alt="complex" src={courseUpdate} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
         </Grid>
       </Container>
-      <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
     </div>
   );
 }

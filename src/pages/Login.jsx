@@ -117,7 +117,6 @@ function Login() {
     // console.log(userType);
 
     // working but have to create extra collection
-    var temp;
     try {
       var docRef = db.collection("users").doc(userType).collection(username);
       var alldata = await docRef.get();
