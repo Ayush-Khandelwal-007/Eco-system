@@ -229,28 +229,26 @@ function HodDashboard(props) {
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm container>
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Faculty List Management
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={facultyList} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4}>
+                  <img alt="complex" src={facultyList} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Course Allotment
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} sm={4}>
                   <ButtonBase>
                     <img alt="complex" src={courseAllotment} />
                   </ButtonBase>
@@ -260,13 +258,13 @@ function HodDashboard(props) {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Exam Schedule
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} sm={4}>
                   <ButtonBase>
                     <img alt="complex" src={exam} />
                   </ButtonBase>
@@ -276,13 +274,13 @@ function HodDashboard(props) {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Notice Board
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} sm={4}>
                   <ButtonBase>
                     <img alt="complex" src={notice} />
                   </ButtonBase>
@@ -292,13 +290,13 @@ function HodDashboard(props) {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
-                <Grid item xs={12} sm container>
+              <Grid container className={classes.GridContainer}>
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Course Updation
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item xs={12} sm={4}>
                   <ButtonBase>
                     <img alt="complex" src={courseUpdate} />
                   </ButtonBase>
