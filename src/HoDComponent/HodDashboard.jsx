@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
     background: "#070D59",
   },
 
-  paper: {
+  paper: {},
+  GridContainer: {
     background: "#FFCCBC",
     cursor: "pointer",
     height: "180px",
@@ -209,23 +210,25 @@ function HodDashboard(props) {
         <Grid container justify="center" spacing={2}>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container onClick={handleClickOpen}>
-                <Grid item xs={12} sm container>
+              <Grid
+                container
+                className={classes.GridContainer}
+                onClick={handleClickOpen}
+              >
+                <Grid item xs={12} sm={8}>
                   <Typography gutterBottom variant="subtitle1">
                     Add Event
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <ButtonBase>
-                    <img alt="complex" src={calender} />
-                  </ButtonBase>
+                <Grid item xs={12} sm={4}>
+                  <img alt="complex" src={calender} />
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Grid container>
+              <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm container>
                   <Typography gutterBottom variant="subtitle1">
                     Faculty List Management
