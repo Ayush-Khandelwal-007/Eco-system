@@ -14,33 +14,33 @@ import Hod from "./pages/Hod";
 import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+  // const [user, setUser] = useState(null);
+  // const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
     <div className="App">
       <Router>
-        <AuthContext.Provider value={providerValue}>
-          <div className="App">
-            <Switch>
-              <Route path="/studentDashboard">
-                <StudentDashboard />
-              </Route>
-              <Route path="/HODDashboard">
-                <Hod />
-              </Route>
-              <Route path="/FnADashBoard">
-                <FnA />
-              </Route>
-              <Route path="/Login">
-                <Login />
-              </Route>
-              <Route exact path="/">
-                <Landing />
-              </Route>
-            </Switch>
-          </div>
-        </AuthContext.Provider>
+        {/* <AuthContext.Provider value={providerValue}> */}
+        <div className="App">
+          <Switch>
+            <Route path="/studentDashboard">
+              <StudentDashboard />
+            </Route>
+            <Route path="/HODDashboard">
+              <Hod />
+            </Route>
+            <Route path="/FnADashBoard">
+              <FnA />
+            </Route>
+            <Route path="/Login">
+              <Login />
+            </Route>
+            <Route exact path="/">
+              <Landing />
+            </Route>
+          </Switch>
+        </div>
+        {/* </AuthContext.Provider> */}
       </Router>
     </div>
   );
