@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import HoDNav from "../HoDComponent/HoDNav";
 import HodDashboard from "../HoDComponent/HodDashboard";
 import FacultyList from "../HoDComponent/FacultyList";
+import TimeTable from "../HoDComponent/TimeTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,11 +97,14 @@ function Hod(props) {
       <Container>
         <Router>
           <Switch>
-            <Route exact path="/HoDDashboard">
+            <Route exact path="/HODDashboard">
               <HodDashboard />
             </Route>
-            <Route exact path="/HoDDashboard/FacultyList">
+            <Route exact path="/HODDashboard/FacultyList">
               <FacultyList />
+            </Route>
+            <Route exact path='/HODDashboard/TimeTable'>
+              <TimeTable/>
             </Route>
           </Switch>
         </Router>
