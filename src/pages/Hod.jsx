@@ -101,7 +101,7 @@ function Hod(props) {
         <HoDNav />
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
-      <Container className={classes.backgroundContainer}>
+      <div className={classes.backgroundContainer}>
         <Router>
           <Switch>
             <Route exact path="/HODDashboard">
@@ -115,7 +115,7 @@ function Hod(props) {
             </Route>
           </Switch>
         </Router>
-      </Container>
+      </div>
       <ScrollTop {...props}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
