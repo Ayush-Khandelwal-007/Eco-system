@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -13,18 +13,23 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import header from "./Header.module.css";
-import { Link } from "react-router-dom";
 import NotificationsNoneTwoToneIcon from "@material-ui/icons/NotificationsNoneTwoTone";
-import { AuthContext } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import { useUser } from "../../contexts/User";
+import { db } from "../../Firebase";
 
 function HeaderNav() {
-  const [state, dispatch] = useUser();
+  const [state,dispatch]=useUser();
   const history = useHistory();
+  const [notifications, setNotifications] = useState([]);
 
+  useEffect(() => {
+    db.collection('notifications').onSnapshot(snapshot => {
+      setNotifications(snapshot.docs.map((doc) => doc.data().message))
+    })
+    // console.log(notifications);
+  }, [])
 
-  console.log(state);
   const goLogout = () => {
     dispatch({
       type: 'UNSET_USER',
@@ -109,40 +114,20 @@ function HeaderNav() {
             Notifications
           </DialogTitle>
           <DialogContent dividers>
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
-            <hr />
-            <Typography gutterBottom>
-              Dear Navneet Bhole, you are requested to pay your due fees.Please
-              ignore if already paid.
-            </Typography>
+            {
+              notifications.map((not,index) => {
+                return (
+                 <>
+                  <Typography gutterBottom>
+                    {not}
+                  </Typography>
+                  {
+                    index=== notifications.length-1 ? (null):(<hr/>)
+                  }
+                 </>
+                )
+              })
+            }
           </DialogContent>
         </NotifyDialog>
       </div>
