@@ -6,8 +6,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import { useUser } from "../contexts/User";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -21,27 +21,23 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    backgroundColor: "#fffff",
+    "&:nth-child(odd)": {
+      backgroundColor: "#FFCCBC",
+    },
+    "&:nth-child(even)": {
+      backgroundColor: "#D3E3FC",
+    },
   },
+  // root:nth-child(even) {
+  //       backgroundColor: "#FFCCBC",
+  //     backgroundColor: "#D3E3FC",
+
+  //   },
 }))(TableRow);
 
 function createData(Sno, courseId, courseName, courseType, gpa, date) {
   return { Sno, courseId, courseName, courseType, gpa, date };
 }
-
-const rows = [
-  createData(1, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(2, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-  createData(3, "IIT2019229", "Navneet Bhole", "Btech 2019", "2₹", "5/13/2021"),
-];
 
 const useStyles = makeStyles({
   table: {
@@ -55,6 +51,8 @@ const useStyles = makeStyles({
 
 function StudentCourses() {
   const classes = useStyles();
+  const [state, dispatch] = useUser();
+
   return (
     <>
       {" "}
@@ -72,16 +70,16 @@ function StudentCourses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.Sno}>
+            {state?.user?.courses?.map((course) => (
+              <StyledTableRow key={course.Sno}>
                 <StyledTableCell component="th" scope="row">
-                  {row.Sno}
+                  {course.Sno}
                 </StyledTableCell>
-                <StyledTableCell>{row.courseId}</StyledTableCell>
-                <StyledTableCell>{row.courseName}</StyledTableCell>
-                <StyledTableCell>{row.courseType}</StyledTableCell>
-                <StyledTableCell align="right">{row.gpa}</StyledTableCell>
-                <StyledTableCell align="right">{row.date}</StyledTableCell>
+                <StyledTableCell>{course.courseId}</StyledTableCell>
+                <StyledTableCell>{course.courseName}</StyledTableCell>
+                <StyledTableCell>{course.courseType}</StyledTableCell>
+                <StyledTableCell align="right">{course.gpa}</StyledTableCell>
+                <StyledTableCell align="right">{course.date}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
