@@ -177,7 +177,7 @@ function HodDashboard(props) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Link to="/HoDDashboard/FacultyList">
+            <Link to="/HODDashboard/FacultyList">
               <Paper className={classes.paper}>
                 <Grid container className={classes.GridContainer}>
                   <Grid item xs={12} sm={8} className={design.textPad}>
@@ -235,11 +235,12 @@ function HodDashboard(props) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
+            <Link to='HODDashboard/TimeTable'>
             <Paper className={classes.paper}>
               <Grid container className={classes.GridContainer}>
                 <Grid item xs={12} sm={8} className={design.textPad}>
                   <Typography variant="h6" gutterBottom>
-                    Course Updation
+                    Time Table
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={4} className={design.imgGrid}>
@@ -247,6 +248,7 @@ function HodDashboard(props) {
                 </Grid>
               </Grid>
             </Paper>
+            </Link>
           </Grid>
         </Grid>
       </Container>
