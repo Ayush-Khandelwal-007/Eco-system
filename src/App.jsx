@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./App.css";
 import {
   HashRouter as Router,
@@ -12,15 +12,25 @@ import Landing from "./pages/Landing";
 import FnA from "./pages/FnA";
 import Hod from "./pages/Hod";
 import { AuthContext } from "./contexts/AuthContext";
+import { useUser } from "./contexts/User";
 
 function App() {
-  // const [user, setUser] = useState(null);
-  // const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const [state, dispatch] = useUser();
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      console.log("dispatching data by local storage");
+      dispatch(JSON.parse(user));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(state));
+  });
 
   return (
     <div className="App">
       <Router>
-        {/* <AuthContext.Provider value={providerValue}> */}
         <div className="App">
           <Switch>
             <Route path="/studentDashboard">
@@ -40,7 +50,6 @@ function App() {
             </Route>
           </Switch>
         </div>
-        {/* </AuthContext.Provider> */}
       </Router>
     </div>
   );

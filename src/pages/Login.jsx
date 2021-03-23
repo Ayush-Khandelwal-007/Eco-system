@@ -128,6 +128,7 @@ function Login() {
               user: { ...doc.data() },
               userType: loginType,
             });
+
             console.log("user is", { state });
             history.push(`/${path(userType)}`);
           } else {
