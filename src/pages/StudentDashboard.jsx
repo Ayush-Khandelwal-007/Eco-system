@@ -4,6 +4,7 @@ import FeesPortal from '../StudentComponents/FeesPortal';
 import Header from '../StudentComponents/Header'
 import SDashboard from '../StudentComponents/SDashboard';
 import Sidebar from '../StudentComponents/Sidebar'
+import Timetable from '../StudentComponents/Timetable';
 
 function StudentDashboard() {
     return (
@@ -34,7 +35,7 @@ function StudentDashboard() {
                             <FeesPortal/>
                         </Route>
                         <Route exact path="/studentDashboard/timetable">
-                            {/* <Timetable/> */}<p>"Timetable"</p>
+                            <Timetable/>
                         </Route>
                         <Route exact path="/studentDashboard/courses">
                             {/* <Courses/> */}<p>"Courses"</p>
