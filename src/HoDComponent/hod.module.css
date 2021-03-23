@@ -8,6 +8,14 @@
   padding: 35px;
 }
 
+.timetableMainDiv {
+  width: 100%;
+}
+
+.inputDiv {
+  width: 100%;
+}
+
 @media only screen and (min-width: 600px) {
   .textPad {
     padding: 35px;
