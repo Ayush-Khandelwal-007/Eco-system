@@ -25,8 +25,8 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(Sno, Enrollno, Name, Batch, OutstandingFee, Deadline) {
-  return { Sno, Enrollno, Name, Batch, OutstandingFee, Deadline };
+function createData(Sno, courseId, courseName, courseType, gpa, date) {
+  return { Sno, courseId, courseName, courseType, gpa, date };
 }
 
 const rows = [
@@ -64,15 +64,11 @@ function StudentCourses() {
           <TableHead>
             <TableRow>
               <StyledTableCell>#</StyledTableCell>
-              <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Batch</StyledTableCell>
-              <StyledTableCell align="right">
-                Outstanding&nbsp;FEE
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                DEADLINE/EXTENSION
-              </StyledTableCell>
+              <StyledTableCell>Course&nbsp;Id</StyledTableCell>
+              <StyledTableCell>Course&nbsp;Name</StyledTableCell>
+              <StyledTableCell>Course&nbsp;Type</StyledTableCell>
+              <StyledTableCell align="right">GPA</StyledTableCell>
+              <StyledTableCell align="right">Date</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,13 +77,11 @@ function StudentCourses() {
                 <StyledTableCell component="th" scope="row">
                   {row.Sno}
                 </StyledTableCell>
-                <StyledTableCell>{row.Enrollno}</StyledTableCell>
-                <StyledTableCell>{row.Name}</StyledTableCell>
-                <StyledTableCell>{row.Batch}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.OutstandingFee}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.Deadline}</StyledTableCell>
+                <StyledTableCell>{row.courseId}</StyledTableCell>
+                <StyledTableCell>{row.courseName}</StyledTableCell>
+                <StyledTableCell>{row.courseType}</StyledTableCell>
+                <StyledTableCell align="right">{row.gpa}</StyledTableCell>
+                <StyledTableCell align="right">{row.date}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
