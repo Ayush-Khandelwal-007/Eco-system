@@ -42,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
     },
   },
+  backgroundContainer: {
+    height: "100%",
+    background: "#77A6F7",
+    minHeight: "95vh",
+    alignItems: "center",
+    display: "flex",
+  },
 }));
 
 function ScrollTop(props) {
@@ -94,7 +101,7 @@ function Hod(props) {
         <HoDNav />
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
-      <Container>
+      <Container className={classes.backgroundContainer}>
         <Router>
           <Switch>
             <Route exact path="/HODDashboard">
@@ -103,8 +110,8 @@ function Hod(props) {
             <Route exact path="/HODDashboard/FacultyList">
               <FacultyList />
             </Route>
-            <Route exact path='/HODDashboard/TimeTable'>
-              <TimeTable/>
+            <Route exact path="/HODDashboard/TimeTable">
+              <TimeTable />
             </Route>
           </Switch>
         </Router>
