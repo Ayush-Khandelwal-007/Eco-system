@@ -8,8 +8,9 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "SET_USER":
       return {
-        userType: action.usertype,
+        ...state,
         user: {...action.user},
+        userType:action.userType
       };
     case "UNSET_USER":
       return {

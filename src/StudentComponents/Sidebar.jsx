@@ -25,8 +25,8 @@ function Sidebar() {
             <div className={sidebar.links}>
                 <Link to='/studentDashboard'><Button className={location.pathname==='/studentDashboard' ? (sidebar.active):null}>Dashboard</Button></Link>
                 <Link to='/studentDashboard/fees'><Button className={location.pathname==='/studentDashboard/fees' ? (sidebar.active):null}>Fees</Button></Link>
-                {/* <Link to='/studentDashboard/timetable'><Button className={location.pathname==='/studentDashboard/timetable' ? (sidebar.active):null}>Timetable</Button></Link>
-                <Link to='/studentDashboard/courses'><Button className={location.pathname==='/studentDashboard/courses' ? (sidebar.active):null}>Courses</Button></Link> */}
+                <Link to='/studentDashboard/timetable'><Button className={location.pathname==='/studentDashboard/timetable' ? (sidebar.active):null}>Timetable</Button></Link>
+                <Link to='/studentDashboard/courses'><Button className={location.pathname==='/studentDashboard/courses' ? (sidebar.active):null}>Courses</Button></Link>
             </div>
         </div>
     )

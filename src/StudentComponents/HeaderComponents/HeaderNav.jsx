@@ -25,7 +25,12 @@ function HeaderNav() {
 
   useEffect(() => {
     db.collection('notifications').onSnapshot(snapshot => {
-      setNotifications(snapshot.docs.map((doc) => doc.data().message))
+      setNotifications(snapshot.docs.map((doc) => {
+        return{
+          id:doc.id,
+          message:doc.data().message,
+        }
+      }))
     })
     // console.log(notifications);
   }, [])
@@ -49,6 +54,7 @@ function HeaderNav() {
   };
 
   const handleClickOpen = () => {
+    console.log(state);
     setOpen(true);
   };
 
@@ -117,14 +123,14 @@ function HeaderNav() {
             {
               notifications.map((not,index) => {
                 return (
-                 <>
+                 <div key={not.id}>
                   <Typography gutterBottom>
-                    {not}
+                    {not.message}
                   </Typography>
                   {
                     index=== notifications.length-1 ? (null):(<hr/>)
                   }
-                 </>
+                 </div>
                 )
               })
             }
@@ -146,7 +152,7 @@ function HeaderNav() {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
           <MenuItem onClick={goLogout}>Logout</MenuItem>
         </Menu>
       </div>

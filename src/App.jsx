@@ -12,8 +12,11 @@ import Landing from "./pages/Landing";
 import FnA from "./pages/FnA";
 import Hod from "./pages/Hod";
 import { AuthContext } from "./contexts/AuthContext";
+import { useUser } from "./contexts/User";
 
 function App() {
+  const [state, dispatch] = useUser();
+  console.log(state);
   const [user, setUser] = useState(null);
   const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
