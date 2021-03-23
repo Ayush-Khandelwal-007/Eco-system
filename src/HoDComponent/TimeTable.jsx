@@ -38,7 +38,7 @@ function TimeTable() {
       .then((url) => {
         setttpdf(url);
       });
-  }, []);
+  });
 
   const Upload = () => {
     if (inputPDF) {
