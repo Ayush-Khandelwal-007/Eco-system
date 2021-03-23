@@ -15,12 +15,15 @@ import { AuthContext } from "./contexts/AuthContext";
 import { useUser } from "./contexts/User";
 
 function App() {
+  const [user, setUser] = useState(null);
+  const providerValue = useMemo(() => ({ user, setUser }), [user, setUser]);
   const [state, dispatch] = useUser();
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
       console.log("dispatching data by local storage");
       dispatch(JSON.parse(user));
+      setUser(JSON.parse(user));
     }
   }, []);
 
@@ -31,25 +34,27 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div className="App">
-          <Switch>
-            <Route path="/studentDashboard">
-              <StudentDashboard />
-            </Route>
-            <Route path="/HODDashboard">
-              <Hod />
-            </Route>
-            <Route path="/FnADashBoard">
-              <FnA />
-            </Route>
-            <Route path="/Login">
-              <Login />
-            </Route>
-            <Route exact path="/">
-              <Landing />
-            </Route>
-          </Switch>
-        </div>
+        <AuthContext.Provider value={providerValue}>
+          <div className="App">
+            <Switch>
+              <Route path="/studentDashboard">
+                <StudentDashboard />
+              </Route>
+              <Route path="/HODDashboard">
+                <Hod />
+              </Route>
+              <Route path="/FnADashBoard">
+                <FnA />
+              </Route>
+              <Route path="/Login">
+                <Login />
+              </Route>
+              <Route exact path="/">
+                <Landing />
+              </Route>
+            </Switch>
+          </div>
+        </AuthContext.Provider>
       </Router>
     </div>
   );
