@@ -6,8 +6,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { useUser } from "../contexts/User";
+import design from "./CoursesComponent/courses.module.css";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -55,8 +57,9 @@ function StudentCourses() {
 
   return (
     <>
-      {" "}
-      Courses
+      <Typography variant="h4" component="h4" className={design.headingTxt}>
+        Courses
+      </Typography>
       <TableContainer component={Paper} className={classes.container}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
