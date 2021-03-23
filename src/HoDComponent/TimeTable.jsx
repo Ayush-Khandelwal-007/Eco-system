@@ -8,6 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -71,8 +73,28 @@ function TimeTable() {
           });
       }
     );
+    setOpenAlert(true);
   };
 
+  //Alert
+
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const handleClickAlert = () => {
+    setOpenAlert(true);
+  };
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+  //Alert on sending notifications
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
   return (
     <div className={timetable.timetableMainDiv}>
       <Grid container spacing={2} justifyContent="center">
@@ -97,6 +119,15 @@ function TimeTable() {
             >
               Upload
             </Button>
+            <Snackbar
+              open={openAlert}
+              autoHideDuration={3000}
+              onClose={handleCloseAlert}
+            >
+              <Alert onClose={handleCloseAlert} severity="success">
+                TimeTable uploaded successfully!
+              </Alert>
+            </Snackbar>
           </div>
         </Grid>
       </Grid>
