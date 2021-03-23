@@ -12,6 +12,7 @@
 .info{
     display: flex;
     flex-direction: column;
+    text-transform: uppercase;
     align-items: center;
     justify-content: space-evenly;
     padding: 3vh 0vw;

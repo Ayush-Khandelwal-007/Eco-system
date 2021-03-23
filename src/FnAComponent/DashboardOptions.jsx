@@ -1,6 +1,7 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { fee, bell, defaulterList, deadline } from "../images";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Dialog from "@material-ui/core/Dialog";
@@ -17,6 +18,15 @@ import Grow from "@material-ui/core/Grow";
 import FnADesign from "./FnADashboard.module.css";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { db } from "../Firebase";
+
+const NotificationInput = withStyles(() => ({
+  root: {
+    width: "30vw",
+    color: "#070D59 !important",
+    fontSize: "10px",
+  },
+}))(TextField);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,6 +112,7 @@ function Alert(props) {
 }
 
 export default function DashboardOptions() {
+  const [notification,setNotification]=useState('');
   const classes = useStyles();
   const history = useHistory();
 
@@ -142,6 +153,10 @@ export default function DashboardOptions() {
   };
 
   const handleSend = () => {
+    db.collection("notifications").add({
+      message:notification,
+    });
+    setNotification('');
     setOpen(false);
     setOpenAlert(true);
   };
@@ -157,18 +172,15 @@ export default function DashboardOptions() {
           Notify Students
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Dear Navneet Bhole, you are requested to pay your due fees.Please
-            ignore if already paid.
-          </Typography>
-          <Typography gutterBottom>
-            Dear Navneet Bhole, you are requested to pay your due fees.Please
-            ignore if already paid.
-          </Typography>
-          <Typography gutterBottom>
-            Dear Navneet Bhole, you are requested to pay your due fees.Please
-            ignore if already paid.
-          </Typography>
+          <NotificationInput
+             required
+             id="standard-required"
+             label="Notification"
+             value={notification}
+             onChange={(e) => {
+               setNotification(e.target.value);
+             }}
+          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleSend} color="primary">

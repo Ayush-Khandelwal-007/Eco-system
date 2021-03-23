@@ -13,7 +13,7 @@ function Sidebar() {
       <div className={sidebar.info}>
         <img
           src={state?.user?.imageurl}
-          alt="Profile gic"
+          alt="Profile pic"
           className={sidebar.profilepic}
         />
         <div className={sidebar.enroll}>{state?.user?.roll}</div>

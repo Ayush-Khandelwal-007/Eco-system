@@ -95,7 +95,7 @@ function HodDashboard(props) {
   };
 
   return (
-    <div>
+    <div className={design.dashboardscreen}>
       <Dialog
         open={open}
         onClose={handleClose}
