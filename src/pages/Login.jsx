@@ -17,7 +17,6 @@ import Select from "@material-ui/core/Select";
 import Fade from "@material-ui/core/Fade";
 import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
 
@@ -128,7 +127,8 @@ function Login() {
               user: { ...doc.data() },
               userType: loginType,
             });
-            // console.log("user is", { state });
+
+            console.log("user is", { state });
             history.push(`/${path(userType)}`);
           } else {
             setAlertMessage(`Password don't match.`);
