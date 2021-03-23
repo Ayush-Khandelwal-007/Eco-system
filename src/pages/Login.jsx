@@ -178,6 +178,7 @@ function Login() {
             required
             id="standard-required"
             label="Username"
+            autoComplete="off"
             value={username}
             onChange={(e) => {
               setusername(e.target.value);
@@ -188,7 +189,6 @@ function Login() {
             id="standard-password-input"
             label="Password"
             type="password"
-            autoComplete="current-password"
             value={password}
             onChange={(e) => {
               setpassword(e.target.value);
