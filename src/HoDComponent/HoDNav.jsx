@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HoDNav() {
   const history = useHistory();
-  const goLogout = () => history.push("login");
+  const goLogout = () => history.push("/login");
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
