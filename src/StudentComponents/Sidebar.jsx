@@ -51,8 +51,28 @@ function Sidebar() {
             Fees
           </Button>
         </Link>
-        <Link to='/studentDashboard/timetable'><Button className={location.pathname==='/studentDashboard/timetable' ? (sidebar.active):null}>Timetable</Button></Link>
-        <Link to='/studentDashboard/courses'><Button className={location.pathname==='/studentDashboard/courses' ? (sidebar.active):null}>Courses</Button></Link>
+        <Link to="/studentDashboard/timetable">
+          <Button
+            className={
+              location.pathname === "/studentDashboard/timetable"
+                ? sidebar.active
+                : null
+            }
+          >
+            Timetable
+          </Button>
+        </Link>
+        <Link to="/studentDashboard/courses">
+          <Button
+            className={
+              location.pathname === "/studentDashboard/courses"
+                ? sidebar.active
+                : null
+            }
+          >
+            Courses
+          </Button>
+        </Link>
       </div>
     </div>
   );
