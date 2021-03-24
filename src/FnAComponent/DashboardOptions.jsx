@@ -175,7 +175,11 @@ export default function DashboardOptions() {
           <NotificationInput
             required
             autoComplete="off"
-            id="standard-required"
+            variant="outlined"
+            multiline
+            rows={4}
+            rowsMax={8}
+            id="outlined-multiline-static"
             label="Notification"
             value={notification}
             onChange={(e) => {
