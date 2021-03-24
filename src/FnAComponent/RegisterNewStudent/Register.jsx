@@ -134,7 +134,6 @@ export default function Register() {
             )}
           </React.Fragment>
         </Paper>
-        <Copyright />
       </main>
     </React.Fragment>
   );
