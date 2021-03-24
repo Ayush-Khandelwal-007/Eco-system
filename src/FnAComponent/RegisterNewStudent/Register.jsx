@@ -10,6 +10,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
+import { useHistory } from "react-router-dom";
 import StudentDetailsForm from "./StudentDetailsForm";
 import CoursesForm from "./CoursesForm";
 import Review from "./Review";
@@ -67,6 +68,10 @@ function getStepContent(step) {
 }
 
 export default function Register() {
+  const history = useHistory();
+  const gotoDashboard = () => {
+    history.push("/FnADashBoard");
+  };
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -110,6 +115,14 @@ export default function Register() {
                   Student with enrollment no. IIT2019101 has been successfully
                   registered
                 </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={gotoDashboard}
+                >
+                  Next
+                </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
