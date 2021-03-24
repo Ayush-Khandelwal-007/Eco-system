@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { fee, bell, defaulterList, deadline } from "../images";
+import { fee, bell, defaulterList, deadline, student } from "../images";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -242,6 +242,18 @@ export default function DashboardOptions() {
                   <Paper className={classes.paper}>
                     <img src={deadline} alt="logo" />
                     <div className={FnADesign.paperTxt}>Deadline Extension</div>
+                  </Paper>
+                </Link>
+              </Grid>
+            </Grow>
+            <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
+              <Grid item>
+                <Link to="FnADashboard/StudentRegistration">
+                  <Paper className={classes.paper}>
+                    <img src={student} alt="logo" />
+                    <div className={FnADesign.paperTxt}>
+                      Student Registration
+                    </div>
                   </Paper>
                 </Link>
               </Grid>
