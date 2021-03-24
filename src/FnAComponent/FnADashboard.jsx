@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core/styles";
 import DashboardOptions from "./DashboardOptions";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useUser } from "../contexts/User";
 
 const LogoutBtn = withStyles(() => ({
   root: {
@@ -29,9 +30,14 @@ const LogoutBtn = withStyles(() => ({
 }))(Button);
 
 export default function FnADashboard() {
+  const [state,dispatch]=useUser();
   const history = useHistory();
   const goLogout = () => {
-    history.push("login");
+    dispatch({
+      type: 'UNSET_USER',
+    });
+    history.push("/login");
+    localStorage.clear();
   };
 
   return (

@@ -112,7 +112,7 @@ function Alert(props) {
 }
 
 export default function DashboardOptions() {
-  const [notification,setNotification]=useState('');
+  const [notification, setNotification] = useState("");
   const classes = useStyles();
   const history = useHistory();
 
@@ -154,9 +154,9 @@ export default function DashboardOptions() {
 
   const handleSend = () => {
     db.collection("notifications").add({
-      message:notification,
+      message: notification,
     });
-    setNotification('');
+    setNotification("");
     setOpen(false);
     setOpenAlert(true);
   };
@@ -173,17 +173,22 @@ export default function DashboardOptions() {
         </DialogTitle>
         <DialogContent dividers>
           <NotificationInput
-             required
-             id="standard-required"
-             label="Notification"
-             value={notification}
-             onChange={(e) => {
-               setNotification(e.target.value);
-             }}
+            required
+            autoComplete="off"
+            variant="outlined"
+            multiline
+            rows={4}
+            rowsMax={8}
+            id="outlined-multiline-static"
+            label="Notification"
+            value={notification}
+            onChange={(e) => {
+              setNotification(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleSend} color="primary">
+          <Button onClick={handleSend} color="primary">
             SEND
           </Button>
         </DialogActions>

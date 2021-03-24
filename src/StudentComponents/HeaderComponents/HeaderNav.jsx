@@ -19,27 +19,30 @@ import { useUser } from "../../contexts/User";
 import { db } from "../../Firebase";
 
 function HeaderNav() {
-  const [state,dispatch]=useUser();
+  const [state, dispatch] = useUser();
   const history = useHistory();
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    db.collection('notifications').onSnapshot(snapshot => {
-      setNotifications(snapshot.docs.map((doc) => {
-        return{
-          id:doc.id,
-          message:doc.data().message,
-        }
-      }))
-    })
+    db.collection("notifications").onSnapshot((snapshot) => {
+      setNotifications(
+        snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            message: doc.data().message,
+          };
+        })
+      );
+    });
     // console.log(notifications);
-  }, [])
+  }, []);
 
   const goLogout = () => {
     dispatch({
-      type: 'UNSET_USER',
+      type: "UNSET_USER",
     });
-    history.push("login");
+    history.push("/login");
+    localStorage.clear();
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -120,20 +123,14 @@ function HeaderNav() {
             Notifications
           </DialogTitle>
           <DialogContent dividers>
-            {
-              notifications.map((not,index) => {
-                return (
-                 <div key={not.id}>
-                  <Typography gutterBottom>
-                    {not.message}
-                  </Typography>
-                  {
-                    index=== notifications.length-1 ? (null):(<hr/>)
-                  }
-                 </div>
-                )
-              })
-            }
+            {notifications.map((not, index) => {
+              return (
+                <div key={not.id}>
+                  <Typography gutterBottom>{not.message}</Typography>
+                  {index === notifications.length - 1 ? null : <hr />}
+                </div>
+              );
+            })}
           </DialogContent>
         </NotifyDialog>
       </div>

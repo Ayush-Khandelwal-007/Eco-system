@@ -44,11 +44,19 @@ const useStyles = makeStyles((theme) => ({
     background: "#070D59",
   },
 
-  paper: {},
+  paper: {
+    borderRadius: 12,
+    boxShadow: "0px 4px 20px #525cdd",
+    "&:hover": {
+      backgroundColor: "#D3E3FC",
+      boxShadow: "none",
+    },
+  },
   GridContainer: {
     background: "#FFCCBC",
     cursor: "pointer",
     height: "180px",
+    borderRadius: 12,
     "&:hover": {
       backgroundColor: "#D3E3FC",
       boxShadow: "none",
@@ -235,19 +243,19 @@ function HodDashboard(props) {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Link to='HODDashboard/TimeTable'>
-            <Paper className={classes.paper}>
-              <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8} className={design.textPad}>
-                  <Typography variant="h6" gutterBottom>
-                    Time Table
-                  </Typography>
+            <Link to="HODDashboard/TimeTable">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Time Table
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={courseUpdate} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4} className={design.imgGrid}>
-                  <img alt="complex" src={courseUpdate} />
-                </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
             </Link>
           </Grid>
         </Grid>

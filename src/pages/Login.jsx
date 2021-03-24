@@ -128,7 +128,8 @@ function Login() {
               userType: loginType,
             });
 
-            console.log("user is", { state });
+            localStorage.setItem('logintype', loginType.toString);
+            localStorage.setItem('state', JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
           } else {
             setAlertMessage(`Password don't match.`);
