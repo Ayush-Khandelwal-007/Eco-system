@@ -17,15 +17,17 @@ function App() {
   const [state, dispatch] = useUser();
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      console.log("dispatching data by local storage");
-      dispatch(JSON.parse(user));
+    const logintype=localStorage.getItem("logintype");
+    if (user && logintype) {
+      console.log("dispatching data by local storage",user);
+      console.log(JSON.parse(localStorage.getItem('state')));
+      dispatch({
+        type:"SET_USER",
+        user:{...JSON.parse(localStorage.getItem('state'))},
+        userType:logintype,
+      });
     }
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(state));
-  });
 
   return (
     <div className="App">

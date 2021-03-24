@@ -17,6 +17,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { useUser } from "../contexts/User";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,8 +108,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HoDNav() {
+  const [state, dispatch] = useUser();
   const history = useHistory();
-  const goLogout = () => history.push("/login");
+  const goLogout = () => {
+    dispatch({
+      type: "UNSET_USER",
+    });
+    history.push("/login");
+    localStorage.clear();
+  };
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
