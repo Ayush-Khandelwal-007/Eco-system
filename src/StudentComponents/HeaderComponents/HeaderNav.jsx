@@ -40,6 +40,7 @@ function HeaderNav() {
       type: 'UNSET_USER',
     });
     history.push("login");
+    localStorage.clear();
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
