@@ -9,7 +9,7 @@ export default function CoursesForm() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Payment method
+        Courses Details
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
@@ -18,7 +18,7 @@ export default function CoursesForm() {
             id="cardName"
             label="Name on card"
             fullWidth
-            autoComplete="cc-name"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -27,7 +27,7 @@ export default function CoursesForm() {
             id="cardNumber"
             label="Card number"
             fullWidth
-            autoComplete="cc-number"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -36,7 +36,7 @@ export default function CoursesForm() {
             id="expDate"
             label="Expiry date"
             fullWidth
-            autoComplete="cc-exp"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -46,13 +46,7 @@ export default function CoursesForm() {
             label="CVV"
             helperText="Last three digits on signature strip"
             fullWidth
-            autoComplete="cc-csc"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
+            autoComplete="off"
           />
         </Grid>
       </Grid>

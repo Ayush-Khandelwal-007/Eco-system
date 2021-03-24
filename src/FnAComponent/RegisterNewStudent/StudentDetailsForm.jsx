@@ -9,7 +9,7 @@ export default function StudentDetailsForm() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        Student Details
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -19,7 +19,7 @@ export default function StudentDetailsForm() {
             name="firstName"
             label="First name"
             fullWidth
-            autoComplete="given-name"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -29,7 +29,7 @@ export default function StudentDetailsForm() {
             name="lastName"
             label="Last name"
             fullWidth
-            autoComplete="family-name"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12}>
@@ -39,7 +39,7 @@ export default function StudentDetailsForm() {
             name="address1"
             label="Address line 1"
             fullWidth
-            autoComplete="shipping address-line1"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12}>
@@ -48,7 +48,7 @@ export default function StudentDetailsForm() {
             name="address2"
             label="Address line 2"
             fullWidth
-            autoComplete="shipping address-line2"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -58,7 +58,7 @@ export default function StudentDetailsForm() {
             name="city"
             label="City"
             fullWidth
-            autoComplete="shipping address-level2"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -67,6 +67,7 @@ export default function StudentDetailsForm() {
             name="state"
             label="State/Province/Region"
             fullWidth
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -76,7 +77,7 @@ export default function StudentDetailsForm() {
             name="zip"
             label="Zip / Postal code"
             fullWidth
-            autoComplete="shipping postal-code"
+            autoComplete="off"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -86,15 +87,7 @@ export default function StudentDetailsForm() {
             name="country"
             label="Country"
             fullWidth
-            autoComplete="shipping country"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAddress" value="yes" />
-            }
-            label="Use this address for payment details"
+            autoComplete="off"
           />
         </Grid>
       </Grid>
