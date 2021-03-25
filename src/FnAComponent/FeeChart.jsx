@@ -84,10 +84,7 @@ export default function FeeChart() {
           .child("FeeChart.pdf")
           .getDownloadURL()
           .then((url) => {
-            db.collection("FeeChart").add({
-              id: "emergencylink",
-              url: url,
-            });
+            setttpdf(url);
             setProgress(0);
             setInputPDF(null);
           });
