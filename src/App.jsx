@@ -19,11 +19,11 @@ function App() {
     const user = localStorage.getItem("user");
     const logintype=localStorage.getItem("logintype");
     if (user && logintype) {
-      console.log("dispatching data by local storage",user);
-      console.log(JSON.parse(localStorage.getItem('state')));
+      // console.log("dispatching data by local storage",user);
+      // console.log(JSON.parse(localStorage.getItem('user')));
       dispatch({
         type:"SET_USER",
-        user:{...JSON.parse(localStorage.getItem('state'))},
+        user:{...JSON.parse(localStorage.getItem('user'))},
         userType:logintype,
       });
     }

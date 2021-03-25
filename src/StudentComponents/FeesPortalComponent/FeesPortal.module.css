@@ -35,7 +35,7 @@
 
 .infoGrid>div{
     display: grid;
-    grid-template-columns: 20vw 3vw;
+    grid-template-columns: 20vw 10vw;
     margin-bottom: 8vh;
 }
 
@@ -73,4 +73,12 @@
     background-color: gray;
     border: 2px solid rgb(29, 28, 28);
     color:rgb(29, 28, 28);
+}
+
+.ApprovalDiv{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

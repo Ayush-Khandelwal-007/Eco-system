@@ -18,6 +18,19 @@ const reducer = (state, action) => {
         user: null,
       };
 
+    case "PAY_FEE":
+      return {
+        ...state,
+        user:{
+          ...state.user,
+          fee:{
+            ...state.user.fee,
+            paid:state.user.fee.latefee+state.user.fee.semfee,
+            due:0,
+          }
+        }
+      }
+
     default:
       return state;
   }
