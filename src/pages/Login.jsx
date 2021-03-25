@@ -128,7 +128,7 @@ function Login() {
               userType: loginType,
             });
 
-            localStorage.setItem('logintype', loginType.toString);
+            localStorage.setItem('logintype', loginType.toString());
             localStorage.setItem('user', JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
           } else {
