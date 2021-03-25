@@ -11,3 +11,4 @@ export { default as defaulterList } from "./DefaulterList.svg";
 export { default as deadline } from "./deadline.svg";
 export { default as bell } from "./Bell.svg";
 export { default as student } from "./student.svg";
+export { default as landing } from "./landing.svg";
