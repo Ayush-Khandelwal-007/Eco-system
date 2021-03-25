@@ -19,17 +19,22 @@ const reducer = (state, action) => {
       };
 
     case "PAY_FEE":
-      return {
-        ...state,
-        user:{
-          ...state.user,
-          fee:{
-            ...state.user.fee,
-            paid:state.user.fee.latefee+state.user.fee.semfee,
-            due:0,
-          }
+      let newuser={
+        ...state.user,
+        fees:{
+          latefee:state.user.fees.latefee,
+          semfee:state.user.fees.semfee,
+          paid:state.user.fees.semfee+state.user.fees.latefee,
+          due:0,
+
         }
       }
+      // console.log(newuser)
+      return {
+        ...state,
+        user:newuser,
+      }
+        
 
     default:
       return state;

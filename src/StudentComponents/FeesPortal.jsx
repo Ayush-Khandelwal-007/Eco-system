@@ -5,22 +5,44 @@ import { db } from '../Firebase';
 import feesPortal from './FeesPortalComponent/FeesPortal.module.css'
 
 function FeesPortal() {
+
+    const path =(loginType)=>{
+        var userType;
+        switch (loginType) {
+            case 1:
+              userType = "Students";
+              break;
+            case 2:
+              userType = "FnA";
+              break;
+            case 3:
+              userType = "HoD";
+              break;
+            default:
+              return null;
+          }
+          return userType
+    }
+
     const [state, dispatch] = useUser();
     const fee=state?.user?.fees;
-    const [fees, setfees] = useState(fee.due)
-    const [latefee, setlatefee] = useState(fee.latefee)
     const payFees=()=>{
         dispatch({
             type:"PAY_FEE",
         })
-        db.collection("feeapproval").add({
-            id:state.user.email,
-            description:JSON.stringify(state.user.fees)
-        })
-        setfees(0.00);
-        setlatefee(0.00);
+        // db.collection("feeapproval").doc(state.user.email).set({
+        //     description:JSON.stringify(state.user.fees)
+        // })
+        var a=path(state.userType);
+        var email=state.user.email;
+        console.log(email);
+        db.collection("users").doc(a).collection(email).doc(email).set({
+            ...state.user
+        });
+        // localStorage.setItem('user', JSON.stringify(state.user));
     }
     return (
+        state.user &&(
         <div className={feesPortal.screen}>
             <div className={feesPortal.infoDiv} >
                 <h1>FEE STATUS</h1>
@@ -64,7 +86,7 @@ function FeesPortal() {
                         )
                 )
             }
-        </div>
+        </div>)
     )
 }
 
