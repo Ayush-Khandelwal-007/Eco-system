@@ -78,7 +78,6 @@ function HodDashboard(props) {
       title: title,
       start: startdate,
       end: enddate,
-      display: "background",
     });
     setOpen(false);
     setTitle("");
@@ -88,7 +87,6 @@ function HodDashboard(props) {
       title: title,
       title: startdate,
       end: enddate,
-      display: "background",
     });
   };
 
