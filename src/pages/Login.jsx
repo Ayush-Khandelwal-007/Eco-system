@@ -129,7 +129,7 @@ function Login() {
             });
 
             localStorage.setItem('logintype', loginType.toString);
-            localStorage.setItem('state', JSON.stringify(doc.data()));
+            localStorage.setItem('user', JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
           } else {
             setAlertMessage(`Password don't match.`);
