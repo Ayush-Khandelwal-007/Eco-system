@@ -73,10 +73,10 @@ function StudentCourses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state?.user?.courses?.map((course) => (
-              <StyledTableRow key={course.Sno}>
+            {state?.user?.courses?.map((course,index) => (
+              <StyledTableRow key={course.courseId}>
                 <StyledTableCell component="th" scope="row">
-                  {course.Sno}
+                  {index}
                 </StyledTableCell>
                 <StyledTableCell>{course.courseId}</StyledTableCell>
                 <StyledTableCell>{course.courseName}</StyledTableCell>
