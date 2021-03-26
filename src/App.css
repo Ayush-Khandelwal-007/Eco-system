@@ -1,18 +1,21 @@
 .App {
-  text-align: center;
+  text-align: center;  
 }
 
+/* logo */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
+/* set optimal screen size */
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* top header part of App */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,8 +27,9 @@
   color: white;
 }
 
+
 .App-link {
-  color: #61dafb;
+  color: #6192fb;
 }
 
 @keyframes App-logo-spin {
