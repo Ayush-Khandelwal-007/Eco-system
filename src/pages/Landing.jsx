@@ -32,7 +32,7 @@ export default function Landing() {
   return (
     <div className={LandingCss.main}>
       <div className={LandingCss.C1}>
-        <img src={landing} alt="logo" />
+        <img src={landing} alt="logo" className={LandingCss.logo} />
         <div className={LandingCss.C2}>
           <div className={LandingCss.HelloTxt}>Hello Amigos!</div>
           <LoginBtn variant="contained" color="primary" onClick={goLogin}>

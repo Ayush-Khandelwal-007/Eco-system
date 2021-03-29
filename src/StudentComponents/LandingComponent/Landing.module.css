@@ -32,3 +32,9 @@
   gap: 33px;
   justify-content: center;
 }
+
+@media only screen and (max-width: 600px) {
+  .logo {
+    display: none;
+  }
+}
