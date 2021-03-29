@@ -133,6 +133,11 @@ export default function Register() {
                       Back
                     </Button>
                   )}
+                  {activeStep == 0 && (
+                    <Button onClick={gotoDashboard} className={classes.button}>
+                      Back
+                    </Button>
+                  )}
                   <Button
                     variant="contained"
                     color="primary"

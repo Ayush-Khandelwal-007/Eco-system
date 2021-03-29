@@ -43,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#FFCCBC",
     boxShadow: "0px 4px 20px #525CDD",
     borderRadius: "19px",
-    width: "200px",
-    height: "220px",
+    height: "200px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -216,7 +215,7 @@ export default function DashboardOptions() {
         <Grid item xs={12}>
           <Grid container justify="center" spacing={5}>
             <Grow in={checked}>
-              <Grid item>
+              <Grid item xs={4}>
                 <Link to="FnADashboard/feechart">
                   <Paper className={classes.paper}>
                     <img src={fee} alt="logo" />
@@ -226,7 +225,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item>
+              <Grid item xs={4}>
                 <Link to="FnADashboard/DefaulterList">
                   <Paper className={classes.paper}>
                     <img src={defaulterList} alt="logo" />
@@ -236,7 +235,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item onClick={handleClickOpen}>
+              <Grid item onClick={handleClickOpen} xs={4}>
                 <Paper className={classes.paper}>
                   <img src={bell} alt="logo" />
                   <div className={FnADesign.paperTxt}>Send Notifications</div>
@@ -244,7 +243,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item>
+              <Grid item xs={4}>
                 <Link to="FnADashboard/deadlineext">
                   <Paper className={classes.paper}>
                     <img src={deadline} alt="logo" />
@@ -254,7 +253,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item>
+              <Grid item xs={4}>
                 <Link to="FnADashboard/StudentRegistration">
                   <Paper className={classes.paper}>
                     <img src={student} alt="logo" />
@@ -266,7 +265,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item>
+              <Grid item xs={4}>
                 <Link to="FnADashboard/FeeApproval">
                   <Paper className={classes.paper}>
                     <img src={feeApproval} alt="logo" />
