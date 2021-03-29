@@ -19,7 +19,7 @@ function SDashboard() {
   useEffect(() => {
     db.collection('calendar').onSnapshot(snapshot => {
       setevents(snapshot.docs.map((doc) => doc.data()))
-      //{ title: 'event 1', start: '2021-03-17' ,end: '2021-03-19' , display: 'background'} format of event
+      //{ title: 'event 1', start: '2021-03-17' ,end: '2021-03-19' , display: 'block'} format of event
     })
   }, [db])
 
