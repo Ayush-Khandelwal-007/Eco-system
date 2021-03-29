@@ -14,7 +14,8 @@ const LoginBtn = withStyles(() => ({
   root: {
     width: "20vw",
     minWidth: "200px",
-    height: "45px",
+    maxWidth: "250px",
+    height: "50px",
     color: "#fff",
     borderRadius: "10px",
     backgroundColor: "rgba(7, 13, 89, 0.9)",
