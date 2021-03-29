@@ -153,59 +153,61 @@ function Login() {
 
   return (
     <div className={LoginCss.Login}>
-      <img src={loginIllustration} alt="" srcset="" />
-      <Fade in={show}>
-        <div className={LoginCss.LoginForm}>
-          <div className={LoginCss.LogoDiv}>
-            <img src={logo} alt="logo" />
+      <div className={LoginCss.formNicon}>
+        <img src={loginIllustration} className={LoginCss.illustration} />
+        <Fade in={show}>
+          <div className={LoginCss.LoginForm}>
+            <div className={LoginCss.LogoDiv}>
+              <img src={logo} alt="logo" />
+            </div>
+            {invalidAlert ? (
+              <Alert className={LoginCss.InvalidAlert} severity="error">
+                {alertMessage}
+              </Alert>
+            ) : null}
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={loginType}
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>Student</MenuItem>
+                <MenuItem value={2}>Fee and Administration</MenuItem>
+                <MenuItem value={3}>Head of Department</MenuItem>
+              </Select>
+            </FormControl>
+            <LoginInput
+              required
+              id="standard-required"
+              label="Username"
+              autoComplete="off"
+              value={username}
+              onChange={(e) => {
+                setusername(e.target.value);
+                setInvalidAlert(false);
+              }}
+            />
+            <LoginInput
+              id="standard-password-input"
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => {
+                setpassword(e.target.value);
+                setInvalidAlert(false);
+              }}
+            />
+            <LoginButton variant="contained" color="primary" onClick={goTo}>
+              LOGIN
+            </LoginButton>
+            <ResetPassButton variant="contained" color="secondary">
+              Reset Password
+            </ResetPassButton>
           </div>
-          {invalidAlert ? (
-            <Alert className={LoginCss.InvalidAlert} severity="error">
-              {alertMessage}
-            </Alert>
-          ) : null}
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={loginType}
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>Student</MenuItem>
-              <MenuItem value={2}>Fee and Administration</MenuItem>
-              <MenuItem value={3}>Head of Department</MenuItem>
-            </Select>
-          </FormControl>
-          <LoginInput
-            required
-            id="standard-required"
-            label="Username"
-            autoComplete="off"
-            value={username}
-            onChange={(e) => {
-              setusername(e.target.value);
-              setInvalidAlert(false);
-            }}
-          />
-          <LoginInput
-            id="standard-password-input"
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => {
-              setpassword(e.target.value);
-              setInvalidAlert(false);
-            }}
-          />
-          <LoginButton variant="contained" color="primary" onClick={goTo}>
-            LOGIN
-          </LoginButton>
-          <ResetPassButton variant="contained" color="secondary">
-            Reset Password
-          </ResetPassButton>
-        </div>
-      </Fade>
+        </Fade>
+      </div>
     </div>
   );
 }
