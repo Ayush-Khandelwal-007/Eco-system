@@ -19,6 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
+import { LoginGif } from "../images";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -128,8 +129,8 @@ function Login() {
               userType: loginType,
             });
 
-            localStorage.setItem('logintype', loginType.toString());
-            localStorage.setItem('user', JSON.stringify(doc.data()));
+            localStorage.setItem("logintype", loginType.toString());
+            localStorage.setItem("user", JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
           } else {
             setAlertMessage(`Password don't match.`);
@@ -152,6 +153,7 @@ function Login() {
 
   return (
     <div className={LoginCss.Login}>
+      <img src={LoginGif} alt="" srcset="" />
       <Fade in={show}>
         <div className={LoginCss.LoginForm}>
           <div className={LoginCss.LogoDiv}>
