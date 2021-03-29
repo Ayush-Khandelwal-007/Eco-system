@@ -199,46 +199,52 @@ function HodDashboard(props) {
             </Link>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8} className={design.textPad}>
-                  <Typography variant="h6" gutterBottom>
-                    Course Allotment
-                  </Typography>
+            <Link to="/HODDashboard/CourseAllotment">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Course Allotment
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={courseAllotment} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4} className={design.imgGrid}>
-                  <img alt="complex" src={courseAllotment} />
-                </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8} className={design.textPad}>
-                  <Typography variant="h6" gutterBottom>
-                    Exam Schedule
-                  </Typography>
+            <Link to="/HODDashboard/ExamSchedule">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Exam Schedule
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={exam} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4} className={design.imgGrid}>
-                  <img alt="complex" src={exam} />
-                </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={6}>
-            <Paper className={classes.paper}>
-              <Grid container className={classes.GridContainer}>
-                <Grid item xs={12} sm={8} className={design.textPad}>
-                  <Typography variant="h6" gutterBottom>
-                    Notice Board
-                  </Typography>
+            <Link to="/HODDashboard/NoticeBoard">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      Notice Board
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={notice} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={4} className={design.imgGrid}>
-                  <img alt="complex" src={notice} />
-                </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Link>
           </Grid>
           <Grid item xs={6}>
             <Link to="HODDashboard/TimeTable">
