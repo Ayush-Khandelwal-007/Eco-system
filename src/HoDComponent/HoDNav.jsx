@@ -241,6 +241,7 @@ function HoDNav() {
           className={classes.menuButton}
           color="inherit"
           aria-label="open drawer"
+          onClick={() => history.push("/HODDashboard")}
         >
           <img src={logoSmall} alt="" />
         </IconButton>
