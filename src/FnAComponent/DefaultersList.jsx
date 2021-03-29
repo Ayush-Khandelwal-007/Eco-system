@@ -27,22 +27,22 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(Sno, Enrollno, Name, Batch, OutstandingFee, Deadline) {
-  return { Sno, Enrollno, Name, Batch, OutstandingFee, Deadline };
+function createData( Enrollno, Name, Batch, OutstandingFee, Deadline) {
+  return { Enrollno, Name, Batch, OutstandingFee, Deadline };
 }
 
 const rows = [
-  createData(1, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(2, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData(3, 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
+  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
 ];
 
 const useStyles = makeStyles({
@@ -99,10 +99,10 @@ export default function DefaultersList() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.Sno}>
+          {rows.map((row,index) => (
+            <StyledTableRow key={index}>
               <StyledTableCell component="th" scope="row">
-                {row.Sno}
+                {index+1}
               </StyledTableCell>
               <StyledTableCell>{row.Enrollno}</StyledTableCell>
               <StyledTableCell>{row.Name}</StyledTableCell>
