@@ -24,7 +24,7 @@ function App() {
       dispatch({
         type:"SET_USER",
         user:{...JSON.parse(localStorage.getItem('user'))},
-        userType:logintype,
+        userType:parseInt(logintype),
       });
     }
   }, []);
