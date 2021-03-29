@@ -19,7 +19,7 @@ import Alert from "@material-ui/lab/Alert";
 import { Redirect, useHistory } from "react-router-dom";
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
-import { LoginGif } from "../images";
+import { loginIllustration } from "../images";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -153,7 +153,7 @@ function Login() {
 
   return (
     <div className={LoginCss.Login}>
-      <img src={LoginGif} alt="" srcset="" />
+      <img src={loginIllustration} alt="" srcset="" />
       <Fade in={show}>
         <div className={LoginCss.LoginForm}>
           <div className={LoginCss.LogoDiv}>
