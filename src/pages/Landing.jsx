@@ -14,7 +14,8 @@ const LoginBtn = withStyles(() => ({
   root: {
     width: "20vw",
     minWidth: "200px",
-    height: "45px",
+    maxWidth: "250px",
+    height: "50px",
     color: "#fff",
     borderRadius: "10px",
     backgroundColor: "rgba(7, 13, 89, 0.9)",
@@ -32,7 +33,7 @@ export default function Landing() {
   return (
     <div className={LandingCss.main}>
       <div className={LandingCss.C1}>
-        <img src={landing} alt="logo" />
+        <img src={landing} alt="logo" className={LandingCss.logo} />
         <div className={LandingCss.C2}>
           <div className={LandingCss.HelloTxt}>Hello Amigos!</div>
           <LoginBtn variant="contained" color="primary" onClick={goLogin}>

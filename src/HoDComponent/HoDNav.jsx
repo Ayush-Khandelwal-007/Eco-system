@@ -18,6 +18,7 @@ import Divider from "@material-ui/core/Divider";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useUser } from "../contexts/User";
+import { logoSmall } from "../images";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -240,8 +241,9 @@ function HoDNav() {
           className={classes.menuButton}
           color="inherit"
           aria-label="open drawer"
+          onClick={() => history.push("/HODDashboard")}
         >
-          {/* <MenuIcon /> */}
+          <img src={logoSmall} alt="" />
         </IconButton>
         <Typography className={classes.title} variant="h6" noWrap>
           Amigo

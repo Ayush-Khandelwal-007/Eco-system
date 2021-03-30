@@ -13,3 +13,7 @@ export { default as bell } from "./Bell.svg";
 export { default as student } from "./student.svg";
 export { default as landing } from "./landing.svg";
 export { default as feeApproval } from "./feeApproval.svg";
+export { default as logo } from "./logo.svg";
+export { default as logoSmall } from "./logoSmall.svg";
+export { default as LoginGif } from "./LoginGif.gif";
+export { default as loginIllustration } from "./loginIllustration.svg";
