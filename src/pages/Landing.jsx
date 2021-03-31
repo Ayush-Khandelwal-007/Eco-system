@@ -9,6 +9,7 @@ import {
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { landing } from "../images";
+import { motion } from "framer-motion";
 
 const LoginBtn = withStyles(() => ({
   root: {
@@ -32,15 +33,42 @@ export default function Landing() {
 
   return (
     <div className={LandingCss.main}>
-      <div className={LandingCss.C1}>
-        <img src={landing} alt="logo" className={LandingCss.logo} />
-        <div className={LandingCss.C2}>
-          <div className={LandingCss.HelloTxt}>Hello Amigos!</div>
-          <LoginBtn variant="contained" color="primary" onClick={goLogin}>
-            Login
-          </LoginBtn>
-        </div>
-      </div>
+      <motion.div className={LandingCss.C1}>
+        <motion.img
+          src={landing}
+          alt="logo"
+          className={LandingCss.logo}
+          initial={{ x: "-100vw" }}
+          animate={{ x: 0 }}
+          transition={{ delay: "0", type: "spring", stiffness: 50 }}
+        />
+        <motion.div className={LandingCss.C2}>
+          <motion.div
+            className={LandingCss.HelloTxt}
+            initial={{ y: "100", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: "0", type: "spring", stiffness: 50 }}
+          >
+            Hello Amigos!
+          </motion.div>
+          <motion.div
+            initial={{ x: "100vw" }}
+            animate={{ x: 0 }}
+            transition={{ delay: "0", type: "spring", stiffness: 50 }}
+          >
+            <LoginBtn
+              variant="contained"
+              color="primary"
+              onClick={goLogin}
+              initial={{ x: "-100vw" }}
+              animate={{ x: 0 }}
+              transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+            >
+              Login
+            </LoginBtn>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
