@@ -66,7 +66,7 @@ export default function FeeApproval() {
   const rows = [];
 
   const approveFee = (email) => {
-    db.collection("users").doc('Students').collection(email).doc(email).update({
+    db.collection('Students').doc(email).update({
       feesApproved: true,
     });
     db.collection('feeapproval').doc(email)
