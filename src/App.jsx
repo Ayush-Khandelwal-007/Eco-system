@@ -17,14 +17,14 @@ function App() {
   const [state, dispatch] = useUser();
   useEffect(() => {
     const user = localStorage.getItem("user");
-    const logintype=localStorage.getItem("logintype");
+    const logintype = localStorage.getItem("logintype");
     if (user && logintype) {
       // console.log("dispatching data by local storage",user);
       // console.log(JSON.parse(localStorage.getItem('user')));
       dispatch({
-        type:"SET_USER",
-        user:{...JSON.parse(localStorage.getItem('user'))},
-        userType:parseInt(logintype),
+        type: "SET_USER",
+        user: { ...JSON.parse(localStorage.getItem('user')) },
+        userType: parseInt(logintype),
       });
     }
   }, []);
@@ -35,16 +35,31 @@ function App() {
         <div className="App">
           <Switch>
             <Route path="/studentDashboard">
-              <StudentDashboard />
-            </Route>
-            <Route path="/HODDashboard">
-              <Hod />
+              {state.user ? (
+                state.userType === 1 ? (<StudentDashboard />) :
+                  (<Redirect to="/Login" />)
+              ) : <Redirect to="/Login" />}
             </Route>
             <Route path="/FnADashBoard">
-              <FnA />
+            {state.user ? (
+                state.userType === 2 ? (<FnA />) :
+                  (<Redirect to="/Login" />)
+              ) : <Redirect to="/Login" />}
+            </Route>
+            <Route path="/HODDashboard">
+            {state.user ? (
+                state.userType === 3 ? (<Hod />) :
+                  (<Redirect to="/Login" />)
+              ) : <Redirect to="/Login" />}
             </Route>
             <Route path="/Login">
-              <Login />
+              {
+                state.user===null ?(<Login />):(
+                  state.userType===1 &&(<Redirect to="/studentDashboard" />) ||
+                  state.userType===2 &&(<Redirect to="/FnADashBoard" />) ||
+                  state.userType===3 &&(<Redirect to="/HODDashboard" />)
+                )
+              }
             </Route>
             <Route exact path="/">
               <Landing />
