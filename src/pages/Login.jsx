@@ -118,17 +118,17 @@ function Login() {
 
     // working but have to create extra collection
     try {
-      var docRef = db.collection("users").doc(userType).collection(username);
-      var alldata = await docRef.get();
-      alldata.forEach((doc) => {
-        if (doc.data()) {
+      var docRef = db.collection(userType).doc(username);
+
+      docRef.get().then((doc) => {
+        if (doc.exists) {
           if (doc.data().password === password) {
             dispatch({
               type: "SET_USER",
               user: { ...doc.data() },
               userType: loginType,
             });
-
+  
             localStorage.setItem("logintype", loginType.toString());
             localStorage.setItem("user", JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
@@ -141,7 +141,10 @@ function Login() {
           setAlertMessage(`No Profile with this username exists.`);
           setInvalidAlert(true);
         }
-      });
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+      
     } catch (error) {
       console.log(error);
       setAlertMessage(
