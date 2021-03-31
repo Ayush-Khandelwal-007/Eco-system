@@ -40,21 +40,21 @@ export default function Landing() {
           className={LandingCss.logo}
           initial={{ x: "-100vw" }}
           animate={{ x: 0 }}
-          transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+          transition={{ delay: "0", type: "spring", stiffness: 50 }}
         />
         <motion.div className={LandingCss.C2}>
           <motion.div
             className={LandingCss.HelloTxt}
             initial={{ y: "100", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+            transition={{ delay: "0", type: "spring", stiffness: 50 }}
           >
             Hello Amigos!
           </motion.div>
           <motion.div
             initial={{ x: "100vw" }}
             animate={{ x: 0 }}
-            transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+            transition={{ delay: "0", type: "spring", stiffness: 50 }}
           >
             <LoginBtn
               variant="contained"
