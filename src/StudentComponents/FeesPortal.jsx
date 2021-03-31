@@ -30,7 +30,7 @@ function FeesPortal() {
     const payFees = async () => {
         var userType = path(parseInt(state.userType));
         var email = state.user.email;
-        db.collection("users").doc(userType).collection(email).doc(email).update({
+        db.collection('Students').doc(email).update({
             fees: {
                 latefee: state.user.fees.latefee,
                 semfee: state.user.fees.semfee,
@@ -40,20 +40,23 @@ function FeesPortal() {
         });
 
         try{
-            var docRef = db.collection("users").doc(userType).collection(email);
-        var alldata = await docRef.get();
-        alldata.forEach((doc) => {
-            if (doc.data()) {
-                dispatch({
-                  type: "SET_USER",
-                  user: { ...doc.data() },
-                  userType: state.userType,
-                });
-                localStorage.setItem('user', JSON.stringify(doc.data()));
 
-            } else {
-              console.log(doc.data());
-            }
+            var docRef = db.collection(userType).doc(email);
+
+            docRef.get().then((doc) => {
+              if (doc.exists) {
+                  dispatch({
+                    type: "SET_USER",
+                    user: { ...doc.data() },
+                    userType: state.userType,
+                  });
+        
+                  localStorage.setItem("user", JSON.stringify(doc.data()));
+              } else {
+                console.log(doc.data());
+              }
+          }).catch((error) => {
+              console.log("Error getting document:", error);
           });
         } catch(error){
             console.log(error);
