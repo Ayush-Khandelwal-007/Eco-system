@@ -20,6 +20,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
 import { loginIllustration } from "../images";
+import { motion } from "framer-motion";
 
 const LoginButton = withStyles(() => ({
   root: {
@@ -120,31 +121,33 @@ function Login() {
     try {
       var docRef = db.collection(userType).doc(username);
 
-      docRef.get().then((doc) => {
-        if (doc.exists) {
-          if (doc.data().password === password) {
-            dispatch({
-              type: "SET_USER",
-              user: { ...doc.data() },
-              userType: loginType,
-            });
-  
-            localStorage.setItem("logintype", loginType.toString());
-            localStorage.setItem("user", JSON.stringify(doc.data()));
-            history.push(`/${path(userType)}`);
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().password === password) {
+              dispatch({
+                type: "SET_USER",
+                user: { ...doc.data() },
+                userType: loginType,
+              });
+
+              localStorage.setItem("logintype", loginType.toString());
+              localStorage.setItem("user", JSON.stringify(doc.data()));
+              history.push(`/${path(userType)}`);
+            } else {
+              setAlertMessage(`Username and Password don't match.`);
+              setInvalidAlert(true);
+            }
           } else {
-            setAlertMessage(`Username and Password don't match.`);
+            console.log(doc.data());
+            setAlertMessage(`No Profile with this username exists.`);
             setInvalidAlert(true);
           }
-        } else {
-          console.log(doc.data());
-          setAlertMessage(`No Profile with this username exists.`);
-          setInvalidAlert(true);
-        }
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
-      
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
     } catch (error) {
       console.log(error);
       setAlertMessage(
@@ -158,58 +161,62 @@ function Login() {
     <div className={LoginCss.Login}>
       <div className={LoginCss.formNicon}>
         <img src={loginIllustration} className={LoginCss.illustration} />
-        <Fade in={show}>
-          <div className={LoginCss.LoginForm}>
-            <div className={LoginCss.LogoDiv}>
-              <img src={logo} alt="logo" />
-            </div>
-            {invalidAlert ? (
-              <Alert className={LoginCss.InvalidAlert} severity="error">
-                {alertMessage}
-              </Alert>
-            ) : null}
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={loginType}
-                onChange={handleChange}
-              >
-                <MenuItem value={1}>Student</MenuItem>
-                <MenuItem value={2}>Fee and Administration</MenuItem>
-                <MenuItem value={3}>Head of Department</MenuItem>
-              </Select>
-            </FormControl>
-            <LoginInput
-              required
-              id="standard-required"
-              label="Username"
-              autoComplete="off"
-              value={username}
-              onChange={(e) => {
-                setusername(e.target.value);
-                setInvalidAlert(false);
-              }}
-            />
-            <LoginInput
-              id="standard-password-input"
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setpassword(e.target.value);
-                setInvalidAlert(false);
-              }}
-            />
-            <LoginButton variant="contained" color="primary" onClick={goTo}>
-              LOGIN
-            </LoginButton>
-            <ResetPassButton variant="contained" color="secondary">
-              Reset Password
-            </ResetPassButton>
+        {/* <Fade in={show}> */}
+        <motion.div
+          className={LoginCss.LoginForm}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+        >
+          <div className={LoginCss.LogoDiv}>
+            <img src={logo} alt="logo" />
           </div>
-        </Fade>
+          {invalidAlert ? (
+            <Alert className={LoginCss.InvalidAlert} severity="error">
+              {alertMessage}
+            </Alert>
+          ) : null}
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Login Type</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={loginType}
+              onChange={handleChange}
+            >
+              <MenuItem value={1}>Student</MenuItem>
+              <MenuItem value={2}>Fee and Administration</MenuItem>
+              <MenuItem value={3}>Head of Department</MenuItem>
+            </Select>
+          </FormControl>
+          <LoginInput
+            required
+            id="standard-required"
+            label="Username"
+            autoComplete="off"
+            value={username}
+            onChange={(e) => {
+              setusername(e.target.value);
+              setInvalidAlert(false);
+            }}
+          />
+          <LoginInput
+            id="standard-password-input"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setpassword(e.target.value);
+              setInvalidAlert(false);
+            }}
+          />
+          <LoginButton variant="contained" color="primary" onClick={goTo}>
+            LOGIN
+          </LoginButton>
+          <ResetPassButton variant="contained" color="secondary">
+            Reset Password
+          </ResetPassButton>
+        </motion.div>
+        {/* </Fade> */}
       </div>
     </div>
   );
