@@ -133,7 +133,7 @@ function Login() {
             localStorage.setItem("user", JSON.stringify(doc.data()));
             history.push(`/${path(userType)}`);
           } else {
-            setAlertMessage(`Password doesn't match.`);
+            setAlertMessage(`Username and Password don't match.`);
             setInvalidAlert(true);
           }
         } else {
