@@ -8,7 +8,7 @@ export { default as list } from "./list.svg";
 export { default as notice } from "./notice.svg";
 export { default as fee } from "./Fee.svg";
 export { default as defaulterList } from "./DefaulterList.svg";
-export { default as deadline } from "./deadline.svg";
+export { default as deadline } from "./Deadline.svg";
 export { default as bell } from "./Bell.svg";
 export { default as student } from "./student.svg";
 export { default as landing } from "./landing.svg";
