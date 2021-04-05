@@ -142,7 +142,7 @@ export default function DefaultersList() {
               <StyledTableCell>{row.Enrollno}</StyledTableCell>
               <StyledTableCell>{row.Name}</StyledTableCell>
               <StyledTableCell>{row.Batch}</StyledTableCell>
-              <StyledTableCell align="right">{row.OutstandingFee}</StyledTableCell>
+              <StyledTableCell align="right">{row.OutstandingFee}{row.OutstandingFee===0?('(Paid now)'):null}</StyledTableCell>
               <StyledTableCell align="right">{row.Deadline}</StyledTableCell>
             </StyledTableRow>
           ))}
