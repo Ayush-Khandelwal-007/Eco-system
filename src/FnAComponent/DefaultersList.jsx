@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState  } from 'react'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import FnADesign from './FnADashboard.module.css';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
+import {db} from '../Firebase';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -30,20 +33,6 @@ const StyledTableRow = withStyles((theme) => ({
 function createData( Enrollno, Name, Batch, OutstandingFee, Deadline) {
   return { Enrollno, Name, Batch, OutstandingFee, Deadline };
 }
-
-const rows = [
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-  createData( 'IIT2019229', 'Navneet Bhole', 'Btech 2019', '2₹', '5/13/2021'),
-];
 
 const useStyles = makeStyles({
   table: {
@@ -72,12 +61,58 @@ const GoBackBtn = withStyles(() => ({
     },
   }))(Button);
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 export default function DefaultersList() {
+
+  const [defaultersList, setDefaultersList] = useState([])
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const sendAlert =()=>{
+    defaultersList.forEach((item)=>{
+      db.collection("Students").doc(item.email).update({
+        alert:true
+      })
+    })
+    setOpenAlert(true);
+  }
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+
+  useEffect(() => {
+    db.collection("Students").where("fees.latefee", ">", 0)
+    .get()
+    .then((querySnapshot) => {
+      var list=[]
+      querySnapshot.forEach((doc) => {
+        list.push( doc.data())
+        console.log(doc.id, " => ", doc.data());
+      });
+      setDefaultersList(list);
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+  },[db])
+
     const classes = useStyles();
     const history = useHistory();
 
+  const rows = defaultersList.map((row)=>createData( row.roll, row.name, row.semester, (row.fees.due), '5/13/2021'))
+
   return (
     <div className={FnADesign.main}>
+      {
+        console.log(defaultersList)
+      }
     <div className={FnADesign.Nav}>
         <div className={FnADesign.HeadingTxt}>
             DEFAULTERS LIST
@@ -93,9 +128,9 @@ export default function DefaultersList() {
             <StyledTableCell>#</StyledTableCell>
             <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
             <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell>Batch</StyledTableCell>
+            <StyledTableCell>Semester</StyledTableCell>
             <StyledTableCell align="right">Outstanding&nbsp;FEE</StyledTableCell>
-            <StyledTableCell align="right">DEADLINE/EXTENSION</StyledTableCell>
+            <StyledTableCell align="right">DEADLINE</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -107,13 +142,30 @@ export default function DefaultersList() {
               <StyledTableCell>{row.Enrollno}</StyledTableCell>
               <StyledTableCell>{row.Name}</StyledTableCell>
               <StyledTableCell>{row.Batch}</StyledTableCell>
-              <StyledTableCell align="right">{row.OutstandingFee}</StyledTableCell>
+              <StyledTableCell align="right">{row.OutstandingFee}{row.OutstandingFee===0?('(Paid now)'):null}</StyledTableCell>
               <StyledTableCell align="right">{row.Deadline}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <div className={FnADesign.Nav}>
+        <div className={FnADesign.HeadingTxt}>
+            ALERT DEFAULTERS 
+        </div>
+        <GoBackBtn variant="contained" color="primary" onClick={() => sendAlert()}>
+            Send
+        </GoBackBtn>
+    </div>
+    <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity="success">
+          Alert sent successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
