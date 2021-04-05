@@ -17,7 +17,7 @@ import HodDashboard from "../HoDComponent/HodDashboard";
 import FacultyList from "../HoDComponent/FacultyList";
 import TimeTable from "../HoDComponent/TimeTable";
 import ExamSchedule from "../HoDComponent/ExamSchedule";
-import CourseAllotment from "../HoDComponent/CourseAllotment";
+import Courses from "../HoDComponent/Courses";
 import NoticeBoard from "../HoDComponent/NoticeBoard";
 
 const useStyles = makeStyles((theme) => ({
@@ -119,8 +119,8 @@ function Hod(props) {
             <Route exact path="/HODDashboard/ExamSchedule">
               <ExamSchedule />
             </Route>
-            <Route exact path="/HODDashboard/CourseAllotment">
-              <CourseAllotment />
+            <Route exact path="/HODDashboard/Courses">
+              <Courses />
             </Route>
             <Route exact path="/HODDashboard/NoticeBoard">
               <NoticeBoard />

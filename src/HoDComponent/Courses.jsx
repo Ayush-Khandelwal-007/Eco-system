@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CourseAllotment() {
+function Courses() {
   const history = useHistory();
   const classes = useStyles();
 
   return <> Hi</>;
 }
-export default CourseAllotment;
+export default Courses;
