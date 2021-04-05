@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-// import design from "./CoursesComponent/course.module.css";
 import "./CoursesComponent/course.css";
 import CRUDTable, {
   Fields,
