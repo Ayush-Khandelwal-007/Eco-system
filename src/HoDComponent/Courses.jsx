@@ -40,16 +40,22 @@ const useStyles = makeStyles((theme) => ({
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
-let tasks = [
+let courses = [
   {
     id: 1,
-    title: "Create an example",
-    description: "Create an example of how to use the component",
+    CourseId: "AX101",
+    CourseCode: "PPL",
+    CourseType: "CORE",
+    Credits: "4",
+    // description: "Create an example of how to use the component",
   },
   {
     id: 2,
-    title: "Improve",
-    description: "Improve the component!",
+    CourseId: "PBJ21",
+    CourseCode: "NOB",
+    CourseType: "ADD-ON",
+    Credits: "2",
+    // description: "Improve the component!",
   },
 ];
 
@@ -79,31 +85,33 @@ const getSorter = (data) => {
   return sorter;
 };
 
-let count = tasks.length;
+let count = courses.length;
 const service = {
   fetchItems: (payload) => {
-    let result = Array.from(tasks);
+    let result = Array.from(courses);
     result = result.sort(getSorter(payload.sort));
     return Promise.resolve(result);
   },
-  create: (task) => {
+  create: (course) => {
     count += 1;
-    tasks.push({
-      ...task,
+    courses.push({
+      ...course,
       id: count,
     });
-    return Promise.resolve(task);
+    return Promise.resolve(course);
   },
   update: (data) => {
-    const task = tasks.find((t) => t.id === data.id);
-    task.title = data.title;
-    task.description = data.description;
-    return Promise.resolve(task);
+    const course = courses.find((t) => t.id === data.id);
+    course.CourseId = data.CourseId;
+    course.CourseCode = data.CourseCode;
+    course.CourseType = data.CourseType;
+    course.Credits = data.Credits;
+    return Promise.resolve(course);
   },
   delete: (data) => {
-    const task = tasks.find((t) => t.id === data.id);
-    tasks = tasks.filter((t) => t.id !== task.id);
-    return Promise.resolve(task);
+    const course = courses.find((t) => t.id === data.id);
+    courses = courses.filter((t) => t.id !== course.id);
+    return Promise.resolve(course);
   },
 };
 
@@ -118,32 +126,38 @@ function Courses() {
   return (
     <div style={styles.container}>
       <CRUDTable
-        caption="Tasks"
+        caption="Courses"
         fetchItems={(payload) => service.fetchItems(payload)}
       >
         <Fields>
           <Field name="id" label="Id" hideInCreateForm />
-          <Field name="title" label="Title" placeholder="Title" />
+          <Field name="CourseId" label="Course ID" placeholder="Course ID" />
           <Field
-            name="description"
-            label="Description"
-            render={DescriptionRenderer}
+            name="CourseCode"
+            label="Course Code"
+            placeholder="Course Code"
           />
+          <Field
+            name="CourseType"
+            label="Course Type"
+            placeholder="Course Type"
+          />
+          <Field name="Credits" label="Credits" placeholder="Credits" />
         </Fields>
         <CreateForm
-          title="Task Creation"
-          message="Create a new task!"
-          trigger="Create Task"
-          onSubmit={(task) => service.create(task)}
+          title="Course Creation"
+          message="Create a new Course!"
+          trigger="Create Course"
+          onSubmit={(course) => service.create(course)}
           submitText="Create"
           validate={(values) => {
             const errors = {};
-            if (!values.title) {
-              errors.title = "Please, provide task's title";
+            if (!values.CourseId) {
+              errors.CourseId = "Please, provide Course ID";
             }
 
-            if (!values.description) {
-              errors.description = "Please, provide task's description";
+            if (!values.CourseType) {
+              errors.CourseType = "Please, provide Course Type";
             }
 
             return errors;
@@ -151,10 +165,10 @@ function Courses() {
         />
 
         <UpdateForm
-          title="Task Update Process"
-          message="Update task"
+          title="Course Update Process"
+          message="Update Course"
           trigger="Update"
-          onSubmit={(task) => service.update(task)}
+          onSubmit={(course) => service.update(course)}
           submitText="Update"
           validate={(values) => {
             const errors = {};
@@ -163,12 +177,12 @@ function Courses() {
               errors.id = "Please, provide id";
             }
 
-            if (!values.title) {
-              errors.title = "Please, provide task's title";
+            if (!values.CourseId) {
+              errors.CourseId = "Please, provide Course ID";
             }
 
-            if (!values.description) {
-              errors.description = "Please, provide task's description";
+            if (!values.CourseType) {
+              errors.CourseType = "Please, provide Course Type";
             }
 
             return errors;
@@ -176,10 +190,10 @@ function Courses() {
         />
 
         <DeleteForm
-          title="Task Delete Process"
-          message="Are you sure you want to delete the task?"
+          title="Course Delete Process"
+          message="Are you sure you want to delete the Course?"
           trigger="Delete"
-          onSubmit={(task) => service.delete(task)}
+          onSubmit={(course) => service.delete(course)}
           submitText="Delete"
           validate={(values) => {
             const errors = {};
