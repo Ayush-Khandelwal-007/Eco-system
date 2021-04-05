@@ -11,10 +11,33 @@ import carimage2 from '../images/clg2.jpg'
 import carimage3 from '../images/clg4.jpg'
 import carimage4 from '../images/clg5.jpg'
 import { db } from '../Firebase'
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { useUser } from '../contexts/User'
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function SDashboard() {
+  const [state, dispatch] = useUser();
 
-  const [events, setevents] = useState(null)
+  const [events, setevents] = useState(null);
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+
+  useEffect(() => {
+    if(state.user.alert===true){
+      setOpenAlert(true)
+    }
+  }, [state])
 
   useEffect(() => {
     db.collection('calendar').onSnapshot(snapshot => {
@@ -57,6 +80,15 @@ function SDashboard() {
         */
         />
       </div>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={10000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity="warning">
+          This Alert is to remind that your fees is not paid yet.
+        </Alert>
+      </Snackbar>
       {/* <div className={sDashboard.carouselDiv}>
                 <Carousel autoPlay={true} showThumbs={false} infiniteLoop={true}>
                     <div>
