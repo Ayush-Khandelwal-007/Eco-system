@@ -199,12 +199,12 @@ function HodDashboard(props) {
             </Link>
           </Grid>
           <Grid item xs={6}>
-            <Link to="/HODDashboard/CourseAllotment">
+            <Link to="/HODDashboard/Courses">
               <Paper className={classes.paper}>
                 <Grid container className={classes.GridContainer}>
                   <Grid item xs={12} sm={8} className={design.textPad}>
                     <Typography variant="h6" gutterBottom>
-                      Course Allotment
+                      Courses
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={4} className={design.imgGrid}>
