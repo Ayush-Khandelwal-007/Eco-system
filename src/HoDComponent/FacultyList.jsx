@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -17,6 +17,15 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import { useUser } from "../contexts/User";
+import { db } from "../Firebase";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -39,7 +48,7 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
   container: {
-    width: "auto",
+    width: "100%",
     margin: 25,
   },
 });
@@ -107,13 +116,18 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function FacultyList() {
+  const [state, dispatch] = useUser();
   const history = useHistory();
   const classes = useStyles();
+
+  const [teacherId, setTeacherId] = React.useState("");
+  const [courseId, setCourseId] = React.useState("");
 
   //dailog
   const [openAdd, setOpenAdd] = React.useState(false);
 
-  const handleClickOpenAdd = () => {
+  const handleClickOpenAdd = (id) => {
+    setTeacherId(id);
     setOpenAdd(true);
   };
   const handleCloseAdd = () => {
@@ -122,12 +136,83 @@ function FacultyList() {
 
   const [openDelete, setopenDelete] = React.useState(false);
 
-  const handleClickOpenDelete = () => {
+  const handleClickOpenDelete = (id) => {
+    setCourseId(id);
     setopenDelete(true);
   };
   const handleCloseDelete = () => {
     setopenDelete(false);
   };
+
+  const handleAddToList = () => {
+    db.collection("HoD").doc(state.user.email).collection("assignedTeachers").doc().set({
+      teacherId: teacherId,
+      courseId: value,
+    })
+    setOpenAdd(false);
+  }
+
+  const handleDeleteAssignment = () => {
+    db.collection("HoD").doc(state.user.email).collection("assignedTeachers").doc(courseId).delete().then(() => {
+      setopenDelete(false);
+      console.log("Document successfully deleted!");
+    }).catch((error) => {
+      console.error("Error removing document: ", error);
+    });
+
+  }
+
+  const [value, setValue] = React.useState('');
+  const [courses, setCourses] = React.useState([]);
+  const [teachers, setTeachers] = React.useState([]);
+  const [assignedteachers, setAssignedteachers] = React.useState([]);
+
+  React.useEffect(() => {
+    db.collection("HoD").doc(state.user.email).collection("courses")
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        var x = 0;
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: x });
+          x = x + 1;
+        });
+        setCourses(list);
+      })
+  }, [db])
+
+  React.useEffect(() => {
+    db.collection("HoD").doc(state.user.email).collection("assignedTeachers")
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: doc.id });
+        });
+        setAssignedteachers(list);
+      })
+  }, [db])
+
+  React.useEffect(() => {
+    db.collection("teachers")
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: doc.id });
+        });
+        setTeachers(list);
+      })
+  }, [db])
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  const assignedteachersinfo = assignedteachers.map((doc) => {
+    return ({
+      id: doc.id,
+      teacher: teachers.find((teacher) => teacher.id === doc.teacherId),
+      course: courses.find((course) => course.CourseId === doc.courseId)
+    })
+  })
 
   return (
     <div className={Faculty.main}>
@@ -138,18 +223,25 @@ function FacultyList() {
         open={openAdd}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleCloseAdd}>
-          ADD
+          Select The Course&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Courses</FormLabel>
+              <RadioGroup aria-label="Course" value={value} onChange={handleChange}>
+                {
+                  courses?.map((course) => {
+                    return (<FormControlLabel key={course.CourseId} value={course.CourseId} control={<Radio />} label={course.CourseCode} />)
+                  })
+                }
+              </RadioGroup>
+            </FormControl>
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleCloseAdd} color="primary">
-            Save changes
+          <Button autoFocus onClick={handleAddToList} color="primary">
+            Add
           </Button>
         </DialogActions>
       </Dialog>
@@ -169,35 +261,43 @@ function FacultyList() {
           <Button autoFocus onClick={handleCloseDelete} color="primary">
             No
           </Button>
-          <Button autoFocus onClick={handleCloseDelete} color="primary">
+          <Button autoFocus onClick={handleDeleteAssignment} color="primary">
             Yes
           </Button>
         </DialogActions>
       </Dialog>
       {/* dialog */}
+
       <TableContainer component={Paper} className={classes.container}>
+        <h1>LIST OF ALL THE TEACHERS ASSIGNED TO A COURSE</h1>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>#</StyledTableCell>
               <StyledTableCell>Faculty&nbsp;Name</StyledTableCell>
-              <StyledTableCell align="right">ACTION</StyledTableCell>
+              <StyledTableCell>Course ID</StyledTableCell>
+              <StyledTableCell align="right">REMOVE</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows1.map((row, index) => (
+            {assignedteachersinfo.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{row.Name}</StyledTableCell>
+                <StyledTableCell>{row?.teacher?.name}</StyledTableCell>
+                <StyledTableCell>{row?.course?.CourseId}</StyledTableCell>
                 <StyledTableCell align="right">
                   <Button
                     variant="outlined"
-                    color="primary"
-                    onClick={handleClickOpenDelete}
+                    color="secondary"
+                    onClick={() => handleClickOpenDelete(row.id)}
                   >
-                    Delete
+                    <DeleteForeverTwoToneIcon
+                      style={{
+                        color: "red"
+                      }}
+                    />
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
@@ -206,28 +306,31 @@ function FacultyList() {
         </Table>
       </TableContainer>
       <TableContainer component={Paper} className={classes.container}>
+        <h1>LIST OF ALL THE TEACHERS</h1>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>#</StyledTableCell>
               <StyledTableCell>Faculty&nbsp;Name</StyledTableCell>
-              <StyledTableCell align="right">ACTION</StyledTableCell>
+              <StyledTableCell align="right">ASSIGN TO A COURSE</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows2.map((row, index) => (
+            {teachers.map((teacher, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
-                <StyledTableCell>{row.Name}</StyledTableCell>
+                <StyledTableCell>{teacher.name}</StyledTableCell>
                 <StyledTableCell align="right">
                   <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleClickOpenAdd}
+                    onClick={() => handleClickOpenAdd(teacher.id)}
                   >
-                    ADD
+                    <AddRoundedIcon
+                      style={{
+                        color: "green"
+                      }}
+                    />
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
