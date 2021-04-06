@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { db, storage } from "../Firebase";
+import { storage } from "../Firebase";
 import timetable from "./hod.module.css";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -65,10 +62,6 @@ function TimeTable() {
                     .child("TimeTable.pdf")
                     .getDownloadURL()
                     .then((url) => {
-                        db.collection("TimeTable").add({
-                            id: 'emergencylink',
-                            url: url,
-                        });
                         setProgress(0);
                         setInputPDF(null);
                     });
