@@ -159,7 +159,7 @@ function HodDashboard(props) {
           <Typography variant="h5" noWrap>
             Welcome, Sir
           </Typography>
-          <Typography variant="h7">
+          <Typography variant="h6">
             Manage academic calender, course allotment, exam schedule and more
           </Typography>
         </div>
