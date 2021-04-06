@@ -36,44 +36,73 @@ const useStyles = makeStyles({
   },
 });
 
+function createData(Name) {
+  return { Name };
+}
+
+const rows = [
+  createData("Triloki Pant"),
+  createData("Anand Kumar Tiwari"),
+  createData("Triloki Pant"),
+  createData("Anand Kumar Tiwari"),
+  createData("Triloki Pant"),
+];
+
 function FacultyList() {
   const history = useHistory();
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper} className={classes.container}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>#</StyledTableCell>
-            <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
-            <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell>Semester</StyledTableCell>
-            <StyledTableCell align="right">
-              Outstanding&nbsp;FEE
-            </StyledTableCell>
-            <StyledTableCell align="right">DEADLINE</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {index + 1}
-              </StyledTableCell>
-              <StyledTableCell>{row.Enrollno}</StyledTableCell>
-              <StyledTableCell>{row.Name}</StyledTableCell>
-              <StyledTableCell>{row.Batch}</StyledTableCell>
-              <StyledTableCell align="right">
-                {row.OutstandingFee}
-                {row.OutstandingFee === 0 ? "(Paid now)" : null}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.Deadline}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      <TableContainer component={Paper} className={classes.container}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>#</StyledTableCell>
+              <StyledTableCell>Faculty&nbsp;Name</StyledTableCell>
+              <StyledTableCell align="right">ACTION</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell>{row.Name}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <button>DELETE</button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TableContainer component={Paper} className={classes.container}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>#</StyledTableCell>
+              <StyledTableCell>Faculty&nbsp;Name</StyledTableCell>
+              <StyledTableCell align="right">ACTION</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell component="th" scope="row">
+                  {index + 1}
+                </StyledTableCell>
+                <StyledTableCell>{row.Name}</StyledTableCell>
+                <StyledTableCell align="right">
+                  <button>DELETE</button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
 export default FacultyList;
