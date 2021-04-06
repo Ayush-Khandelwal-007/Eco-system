@@ -41,12 +41,20 @@ function createData(Name) {
   return { Name };
 }
 
-const rows = [
+const rows1 = [
   createData("Triloki Pant"),
   createData("Anand Kumar Tiwari"),
   createData("Triloki Pant"),
   createData("Anand Kumar Tiwari"),
   createData("Triloki Pant"),
+];
+
+const rows2 = [
+  createData("Anand Kumar Tiwari"),
+  createData("Triloki Pant"),
+  createData("Anand Kumar Tiwari"),
+  createData("Triloki Pant"),
+  createData("Anand Kumar Tiwari"),
 ];
 
 function FacultyList() {
@@ -65,7 +73,7 @@ function FacultyList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {rows1.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
@@ -89,14 +97,14 @@ function FacultyList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {rows2.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {index + 1}
                 </StyledTableCell>
                 <StyledTableCell>{row.Name}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <button>DELETE</button>
+                  <button>ADD</button>
                 </StyledTableCell>
               </StyledTableRow>
             ))}
