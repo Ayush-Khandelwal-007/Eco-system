@@ -94,7 +94,6 @@ export default function DefaultersList() {
       var list=[]
       querySnapshot.forEach((doc) => {
         list.push( doc.data())
-        console.log(doc.id, " => ", doc.data());
       });
       setDefaultersList(list);
     })

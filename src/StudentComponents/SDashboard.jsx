@@ -29,7 +29,33 @@ function SDashboard() {
     if (reason === "clickaway") {
       return;
     }
+    var email=state.user.email;
+    db.collection("Students").doc(email).update({
+      alert:false,
+    })
+    try{
 
+      var docRef = db.collection("Students").doc(email);
+
+      docRef.get().then((doc) => {
+        if (doc.exists) {
+            dispatch({
+              type: "SET_USER",
+              user: { ...doc.data() },
+              userType: state.userType,
+            });
+  
+            localStorage.setItem("user", JSON.stringify(doc.data()));
+        } else {
+          console.log(doc.data());
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  } catch(error){
+      console.log(error);
+  }
+  localStorage.setItem('user', JSON.stringify(state.user));
     setOpenAlert(false);
   };
 
@@ -82,7 +108,6 @@ function SDashboard() {
       </div>
       <Snackbar
         open={openAlert}
-        autoHideDuration={10000}
         onClose={handleCloseAlert}
       >
         <Alert onClose={handleCloseAlert} severity="warning">

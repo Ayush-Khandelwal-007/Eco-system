@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -10,6 +10,9 @@ import CRUDTable, {
   UpdateForm,
   DeleteForm,
 } from "react-crud-table";
+
+import {db} from '../Firebase';
+import { useUser } from "../contexts/User";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,21 +43,19 @@ const useStyles = makeStyles((theme) => ({
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
-let courses = [
+let COURSES = [
   {
-    id: 1,
-    CourseId: "AX101",
-    CourseCode: "PPL",
-    CourseType: "CORE",
-    Credits: "4",
+    CourseId: "test-AX101",
+    CourseCode: "test-PPL",
+    CourseType: "test-CORE",
+    Credits: "test-1",
     // description: "Create an example of how to use the component",
   },
   {
-    id: 2,
-    CourseId: "PBJ21",
-    CourseCode: "NOB",
-    CourseType: "ADD-ON",
-    Credits: "2",
+    CourseId: "test-PBJ21",
+    CourseCode: "test-NOB",
+    CourseType: "test-ADD-ON",
+    Credits: "test-3",
     // description: "Improve the component!",
   },
 ];
@@ -85,7 +86,19 @@ const getSorter = (data) => {
   return sorter;
 };
 
-let count = courses.length;
+const styles = {
+  container: { margin: "auto", width: "fit-content" },
+};
+
+function Courses() {
+  const [state, dispatch] = useUser();
+  const history = useHistory();
+  const classes = useStyles();
+
+  const [courses, setCourses] = useState([])
+
+
+  let count = courses.length;
 const service = {
   fetchItems: (payload) => {
     let result = Array.from(courses);
@@ -93,44 +106,59 @@ const service = {
     return Promise.resolve(result);
   },
   create: (course) => {
-    count += 1;
-    courses.push({
-      ...course,
-      id: count,
+    db.collection("HoD").doc(state.user.email).collection("courses").doc(course.CourseId).set(course)
+    .then(() => {
+      console.log("Document successfully written!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
     });
     return Promise.resolve(course);
   },
   update: (data) => {
-    const course = courses.find((t) => t.id === data.id);
-    course.CourseId = data.CourseId;
-    course.CourseCode = data.CourseCode;
-    course.CourseType = data.CourseType;
-    course.Credits = data.Credits;
-    return Promise.resolve(course);
+    console.log(data)    
+
+    db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).update({
+      CourseId: data.CourseId,
+      CourseCode: data.CourseCode,
+      CourseType: data.CourseType,
+      Credits: data.Credits,
+    })
+
+    return Promise.resolve(data);
   },
   delete: (data) => {
-    const course = courses.find((t) => t.id === data.id);
-    courses = courses.filter((t) => t.id !== course.id);
-    return Promise.resolve(course);
+      db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).delete().then(() => {
+        console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+    
+    return Promise.resolve(data);
   },
 };
 
-const styles = {
-  container: { margin: "auto", width: "fit-content" },
-};
 
-function Courses() {
-  const history = useHistory();
-  const classes = useStyles();
+  useEffect(() => {
+    db.collection("HoD").doc(state.user.email).collection("courses")
+    .onSnapshot((querySnapshot) => {
+      var list=[]
+      var x=0;
+      querySnapshot.forEach((doc) => {
+        list.push( {...doc.data(),id:x});
+        x=x+1;
+      });
+      setCourses(list);
+    })
+  }, [db])
 
   return (
     <div style={styles.container}>
       <CRUDTable
         caption="Courses"
-        fetchItems={(payload) => service.fetchItems(payload)}
+        items={courses}
       >
         <Fields>
-          <Field name="id" label="Id" hideInCreateForm />
           <Field name="CourseId" label="Course ID" placeholder="Course ID" />
           <Field
             name="CourseCode"
@@ -173,10 +201,6 @@ function Courses() {
           validate={(values) => {
             const errors = {};
 
-            if (!values.id) {
-              errors.id = "Please, provide id";
-            }
-
             if (!values.CourseId) {
               errors.CourseId = "Please, provide Course ID";
             }
@@ -197,8 +221,8 @@ function Courses() {
           submitText="Delete"
           validate={(values) => {
             const errors = {};
-            if (!values.id) {
-              errors.id = "Please, provide id";
+            if (!values.CourseId) {
+              errors.CourseId = "Please, provide Course ID";
             }
             return errors;
           }}
