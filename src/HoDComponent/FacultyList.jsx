@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Faculty from "./FacultyListComponent/Faculty.module.css";
 import Button from "@material-ui/core/Button";
@@ -17,13 +18,13 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
-import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import { useUser } from "../contexts/User";
 import { db } from "../Firebase";
 
@@ -48,7 +49,7 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
   container: {
-    width: "100%",
+    width: "85%",
     margin: 25,
   },
 });
@@ -145,74 +146,86 @@ function FacultyList() {
   };
 
   const handleAddToList = () => {
-    db.collection("HoD").doc(state.user.email).collection("assignedTeachers").doc().set({
-      teacherId: teacherId,
-      courseId: value,
-    })
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("assignedTeachers")
+      .doc()
+      .set({
+        teacherId: teacherId,
+        courseId: value,
+      });
     setOpenAdd(false);
-  }
+  };
 
   const handleDeleteAssignment = () => {
-    db.collection("HoD").doc(state.user.email).collection("assignedTeachers").doc(courseId).delete().then(() => {
-      setopenDelete(false);
-      console.log("Document successfully deleted!");
-    }).catch((error) => {
-      console.error("Error removing document: ", error);
-    });
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("assignedTeachers")
+      .doc(courseId)
+      .delete()
+      .then(() => {
+        setopenDelete(false);
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  };
 
-  }
-
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState("");
   const [courses, setCourses] = React.useState([]);
   const [teachers, setTeachers] = React.useState([]);
   const [assignedteachers, setAssignedteachers] = React.useState([]);
 
   React.useEffect(() => {
-    db.collection("HoD").doc(state.user.email).collection("courses")
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
       .onSnapshot((querySnapshot) => {
-        var list = []
+        var list = [];
         var x = 0;
         querySnapshot.forEach((doc) => {
           list.push({ ...doc.data(), id: x });
           x = x + 1;
         });
         setCourses(list);
-      })
-  }, [db])
+      });
+  }, [db]);
 
   React.useEffect(() => {
-    db.collection("HoD").doc(state.user.email).collection("assignedTeachers")
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("assignedTeachers")
       .onSnapshot((querySnapshot) => {
-        var list = []
+        var list = [];
         querySnapshot.forEach((doc) => {
           list.push({ ...doc.data(), id: doc.id });
         });
         setAssignedteachers(list);
-      })
-  }, [db])
+      });
+  }, [db]);
 
   React.useEffect(() => {
-    db.collection("teachers")
-      .onSnapshot((querySnapshot) => {
-        var list = []
-        querySnapshot.forEach((doc) => {
-          list.push({ ...doc.data(), id: doc.id });
-        });
-        setTeachers(list);
-      })
-  }, [db])
+    db.collection("teachers").onSnapshot((querySnapshot) => {
+      var list = [];
+      querySnapshot.forEach((doc) => {
+        list.push({ ...doc.data(), id: doc.id });
+      });
+      setTeachers(list);
+    });
+  }, [db]);
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const assignedteachersinfo = assignedteachers.map((doc) => {
-    return ({
+    return {
       id: doc.id,
       teacher: teachers.find((teacher) => teacher.id === doc.teacherId),
-      course: courses.find((course) => course.CourseId === doc.courseId)
-    })
-  })
+      course: courses.find((course) => course.CourseId === doc.courseId),
+    };
+  });
 
   return (
     <div className={Faculty.main}>
@@ -223,18 +236,28 @@ function FacultyList() {
         open={openAdd}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleCloseAdd}>
-          Select The Course&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Select The
+          Course&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
             <FormControl component="fieldset">
               <FormLabel component="legend">Courses</FormLabel>
-              <RadioGroup aria-label="Course" value={value} onChange={handleChange}>
-                {
-                  courses?.map((course) => {
-                    return (<FormControlLabel key={course.CourseId} value={course.CourseId} control={<Radio />} label={course.CourseCode} />)
-                  })
-                }
+              <RadioGroup
+                aria-label="Course"
+                value={value}
+                onChange={handleChange}
+              >
+                {courses?.map((course) => {
+                  return (
+                    <FormControlLabel
+                      key={course.CourseId}
+                      value={course.CourseId}
+                      control={<Radio />}
+                      label={course.CourseCode}
+                    />
+                  );
+                })}
               </RadioGroup>
             </FormControl>
           </Typography>
@@ -267,10 +290,9 @@ function FacultyList() {
         </DialogActions>
       </Dialog>
       {/* dialog */}
-
       <TableContainer component={Paper} className={classes.container}>
         <h1>LIST OF ALL THE TEACHERS ASSIGNED TO A COURSE</h1>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table} stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <StyledTableCell>#</StyledTableCell>
@@ -295,7 +317,7 @@ function FacultyList() {
                   >
                     <DeleteForeverTwoToneIcon
                       style={{
-                        color: "red"
+                        color: "red",
                       }}
                     />
                   </Button>
@@ -307,12 +329,14 @@ function FacultyList() {
       </TableContainer>
       <TableContainer component={Paper} className={classes.container}>
         <h1>LIST OF ALL THE TEACHERS</h1>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table} stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <StyledTableCell>#</StyledTableCell>
               <StyledTableCell>Faculty&nbsp;Name</StyledTableCell>
-              <StyledTableCell align="right">ASSIGN TO A COURSE</StyledTableCell>
+              <StyledTableCell align="right">
+                ASSIGN TO A COURSE
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -323,12 +347,10 @@ function FacultyList() {
                 </StyledTableCell>
                 <StyledTableCell>{teacher.name}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button
-                    onClick={() => handleClickOpenAdd(teacher.id)}
-                  >
+                  <Button onClick={() => handleClickOpenAdd(teacher.id)}>
                     <AddRoundedIcon
                       style={{
-                        color: "green"
+                        color: "green",
                       }}
                     />
                   </Button>
