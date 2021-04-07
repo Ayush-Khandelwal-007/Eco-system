@@ -61,6 +61,24 @@ export default function FeeAtReg() {
   const classes = useStyles();
   const history = useHistory();
 
+  const [defaultersList, setDefaultersList] = useState([])
+
+
+  useEffect(() => {
+    db.collection("Students")
+    .get()
+    .then((querySnapshot) => {
+      var list=[]
+      querySnapshot.forEach((doc) => {
+        list.push( doc.data())
+      });
+      setDefaultersList(list);
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+  },[db])
+
   return (
     <div className={FnADesign.main}>
       <div className={FnADesign.Nav}>
@@ -75,6 +93,32 @@ export default function FeeAtReg() {
           Go&nbsp;Back&nbsp;to&nbsp;Menu
         </GoBackBtn>
       </div>
+      <TableContainer component={Paper} className={classes.container}>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>#</StyledTableCell>
+            <StyledTableCell>Enroll&nbsp;No.</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>Semester</StyledTableCell>
+            <StyledTableCell align="right">FEE Status at the time of Registration</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {defaultersList.map((row,index) => (
+            <StyledTableRow key={index}>
+              <StyledTableCell component="th" scope="row">
+                {index+1}
+              </StyledTableCell>
+              <StyledTableCell>{row.roll}</StyledTableCell>
+              <StyledTableCell>{row.name}</StyledTableCell>
+              <StyledTableCell>{row.semester}</StyledTableCell>
+              <StyledTableCell align="right">{row.feeStatusAtReg===0?('Paid At the time of Registration'):('Not Paid At the time of Registration')}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </div>
   );
 }
