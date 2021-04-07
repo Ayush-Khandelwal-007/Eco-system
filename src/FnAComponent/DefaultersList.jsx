@@ -72,9 +72,11 @@ export default function DefaultersList() {
 
   const sendAlert =()=>{
     defaultersList.forEach((item)=>{
-      db.collection("Students").doc(item.email).update({
-        alert:true
-      })
+      if(item.fees.due>0){
+        db.collection("Students").doc(item.email).update({
+          alert:true
+        })
+      }
     })
     setOpenAlert(true);
   }
