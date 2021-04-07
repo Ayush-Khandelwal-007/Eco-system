@@ -215,7 +215,7 @@ export default function DashboardOptions() {
         <Grid item xs={12}>
           <Grid container justify="center" spacing={5}>
             <Grow in={checked}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Link to="FnADashboard/feechart">
                   <Paper className={classes.paper}>
                     <img src={fee} alt="logo" />
@@ -225,7 +225,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Link to="FnADashboard/DefaulterList">
                   <Paper className={classes.paper}>
                     <img src={defaulterList} alt="logo" />
@@ -235,7 +235,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item onClick={handleClickOpen} xs={4}>
+              <Grid item onClick={handleClickOpen} xs={3}>
                 <Paper className={classes.paper}>
                   <img src={bell} alt="logo" />
                   <div className={FnADesign.paperTxt}>Send Notifications</div>
@@ -243,7 +243,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Link to="FnADashboard/deadlineext">
                   <Paper className={classes.paper}>
                     <img src={deadline} alt="logo" />
@@ -253,7 +253,7 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Link to="FnADashboard/StudentRegistration">
                   <Paper className={classes.paper}>
                     <img src={student} alt="logo" />
@@ -265,11 +265,31 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Link to="FnADashboard/FeeApproval">
                   <Paper className={classes.paper}>
                     <img src={feeApproval} alt="logo" />
                     <div className={FnADesign.paperTxt}>Fee Approval</div>
+                  </Paper>
+                </Link>
+              </Grid>
+            </Grow>
+            <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
+              <Grid item xs={3}>
+                <Link to="FnADashboard/FeeAtReg">
+                  <Paper className={classes.paper}>
+                    <img src={feeApproval} alt="logo" />
+                    <div className={FnADesign.paperTxt}>Fee At Registation</div>
+                  </Paper>
+                </Link>
+              </Grid>
+            </Grow>
+            <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
+              <Grid item xs={3}>
+                <Link to="FnADashboard/FeeAtAdd">
+                  <Paper className={classes.paper}>
+                    <img src={feeApproval} alt="logo" />
+                    <div className={FnADesign.paperTxt}>Fee At Admission</div>
                   </Paper>
                 </Link>
               </Grid>
