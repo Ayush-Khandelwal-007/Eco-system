@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -19,6 +19,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useUser } from "../contexts/User";
 import { logoSmall } from "../images";
+import { db } from "../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,6 +112,21 @@ const useStyles = makeStyles((theme) => ({
 function HoDNav() {
   const [state, dispatch] = useUser();
   const history = useHistory();
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    db.collection("notifications").onSnapshot((snapshot) => {
+      setNotifications(
+        snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            message: doc.data().message,
+          };
+        })
+      );
+    });
+    // console.log(notifications);
+  }, []);
   const goLogout = () => {
     dispatch({
       type: "UNSET_USER",
@@ -233,6 +249,14 @@ function HoDNav() {
             <ChevronRightIcon />
           </IconButton>
         </div>
+        {notifications.map((not, index) => {
+              return (
+                <div key={not.id}>
+                  <Typography gutterBottom>{not.message}</Typography>
+                  {index === notifications.length - 1 ? null : <hr />}
+                </div>
+              );
+            })}
         <Divider />
       </Drawer>
       <Toolbar>
@@ -269,11 +293,11 @@ function HoDNav() {
             </Badge>
           </IconButton>
           <IconButton
-            aria-label="show 17 new notifications"
+            aria-label={"show new notifications"}
             color="inherit"
             onClick={() => setNotificationDrawer(true)}
           >
-            <Badge badgeContent={17} color="secondary">
+            <Badge badgeContent={notifications.length} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>

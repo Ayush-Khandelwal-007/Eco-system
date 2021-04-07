@@ -12,6 +12,7 @@ import Landing from "./pages/Landing";
 import FnA from "./pages/FnA";
 import Hod from "./pages/Hod";
 import { useUser } from "./contexts/User";
+import { db } from "./Firebase";
 
 function App() {
   const [state, dispatch] = useUser();
@@ -26,6 +27,29 @@ function App() {
         user: { ...JSON.parse(localStorage.getItem('user')) },
         userType: parseInt(logintype),
       });
+      try {
+
+        var docRef = db.collection(state.userType).doc(state.user.email);
+
+        docRef.get().then((doc) => {
+          if (doc.exists) {
+            dispatch({
+              type: "SET_USER",
+              user: { ...doc.data() },
+              userType: state.userType,
+            });
+
+            localStorage.setItem("user", JSON.stringify(doc.data()));
+          } else {
+            console.log(doc.data());
+          }
+        }).catch((error) => {
+          console.log("Error getting document:", error);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      localStorage.setItem('user', JSON.stringify(state.user));
     }
   }, []);
 
@@ -41,23 +65,23 @@ function App() {
               ) : <Redirect to="/Login" />}
             </Route>
             <Route path="/FnADashBoard">
-            {state.user ? (
+              {state.user ? (
                 state.userType === 2 ? (<FnA />) :
                   (<Redirect to="/Login" />)
               ) : <Redirect to="/Login" />}
             </Route>
             <Route path="/HODDashboard">
-            {state.user ? (
+              {state.user ? (
                 state.userType === 3 ? (<Hod />) :
                   (<Redirect to="/Login" />)
               ) : <Redirect to="/Login" />}
             </Route>
             <Route path="/Login">
               {
-                state.user===null ?(<Login />):(
-                  state.userType===1 &&(<Redirect to="/studentDashboard" />) ||
-                  state.userType===2 &&(<Redirect to="/FnADashBoard" />) ||
-                  state.userType===3 &&(<Redirect to="/HODDashboard" />)
+                state.user === null ? (<Login />) : (
+                  state.userType === 1 && (<Redirect to="/studentDashboard" />) ||
+                  state.userType === 2 && (<Redirect to="/FnADashBoard" />) ||
+                  state.userType === 3 && (<Redirect to="/HODDashboard" />)
                 )
               }
             </Route>
