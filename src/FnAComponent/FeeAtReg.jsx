@@ -64,7 +64,7 @@ export default function FeeAtReg() {
   return (
     <div className={FnADesign.main}>
       <div className={FnADesign.Nav}>
-        <div className={FnADesign.HeadingTxt}>Fee At Registration</div>
+        <div className={FnADesign.HeadingTxt}>FEE AT REGISTRATION</div>
         <GoBackBtn
           variant="contained"
           color="primary"

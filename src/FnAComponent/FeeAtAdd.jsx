@@ -64,7 +64,7 @@ export default function FeeAtAdd() {
   return (
     <div className={FnADesign.main}>
       <div className={FnADesign.Nav}>
-        <div className={FnADesign.HeadingTxt}>Fee At Addmission</div>
+        <div className={FnADesign.HeadingTxt}>FEE AT ADMISSION</div>
         <GoBackBtn
           variant="contained"
           color="primary"
