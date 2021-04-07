@@ -10,6 +10,11 @@ import {
   Typography,
   withStyles,
 } from "@material-ui/core";
+import Drawer from "@material-ui/core/Drawer";
+import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CloseIcon from "@material-ui/icons/Close";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import header from "./Header.module.css";
@@ -18,6 +23,27 @@ import { useHistory } from "react-router-dom";
 import { useUser } from "../../contexts/User";
 import { db } from "../../Firebase";
 
+const useStyles = makeStyles((theme) => ({
+  drawer: {
+    width: 320,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 320,
+    background: "#FFCCBC",
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "center",
+  },
+  chevicon: {
+    marginLeft: "auto",
+  },
+}));
 function HeaderNav() {
   const [state, dispatch] = useUser();
   const history = useHistory();
@@ -46,19 +72,9 @@ function HeaderNav() {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const handleClosen = () => {
-    setOpen(false);
-  };
-
-  const handleClickOpen = () => {
-    console.log(state);
-    setOpen(true);
   };
 
   const handleClose = () => {
@@ -79,31 +95,46 @@ function HeaderNav() {
       borderRadius: 20,
     },
   });
-  const NotifyDialog = withStyles((theme) => ({
-    paper: {
-      borderRadius: 20,
-    },
-  }))(Dialog);
-  const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
-    return (
-      <MuiDialogTitle disableTypography className={classes.root} {...other}>
-        <Typography variant="h6">{children}</Typography>
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            onClick={onClose}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </MuiDialogTitle>
-    );
-  });
+
+  const classes = useStyles();
+
+  //Notification
+  const [notificationDrawer, setNotificationDrawer] = useState(false);
 
   return (
     <div className={header.nav}>
+      <Drawer
+        className={classes.drawer}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor={"right"}
+        open={notificationDrawer}
+        onClose={() => {
+          setNotificationDrawer(false);
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <Typography variant="h6" noWrap>
+            Notifications
+          </Typography>
+          <IconButton
+            className={classes.chevicon}
+            onClick={() => setNotificationDrawer(false)}
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </div>
+        {notifications.map((not, index) => {
+          return (
+            <div key={not.id}>
+              <Typography gutterBottom>{not.message}</Typography>
+              {index === notifications.length - 1 ? null : <hr />}
+            </div>
+          );
+        })}
+        <Divider />
+      </Drawer>
       <div>
         <NotificationsNoneTwoToneIcon
           style={{
@@ -112,27 +143,8 @@ function HeaderNav() {
             marginRight: "2vw",
             cursor: "pointer",
           }}
-          onClick={handleClickOpen}
+          onClick={() => setNotificationDrawer(true)}
         />
-        <NotifyDialog
-          onClose={handleClosen}
-          aria-labelledby="customized-dialog-title"
-          open={open}
-        >
-          <DialogTitle id="customized-dialog-title" onClose={handleClosen}>
-            Notifications
-          </DialogTitle>
-          <DialogContent dividers>
-            {notifications.map((not, index) => {
-              return (
-                <div key={not.id}>
-                  <Typography gutterBottom>{not.message}</Typography>
-                  {index === notifications.length - 1 ? null : <hr />}
-                </div>
-              );
-            })}
-          </DialogContent>
-        </NotifyDialog>
       </div>
       <div>
         <Button
