@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NoticeBoard() {
+function ProfileView() {
   const history = useHistory();
   const classes = useStyles();
 
   return <>Hi</>;
 }
-export default NoticeBoard;
+export default ProfileView;
