@@ -35,6 +35,12 @@ function ProfileView() {
   const history = useHistory();
   const classes = useStyles();
 
-  return <div className={design.main}></div>;
+  return (
+    <div className={design.main}>
+      <div className={design.heading}>
+        <h1>Profile View</h1>
+      </div>
+    </div>
+  );
 }
 export default ProfileView;
