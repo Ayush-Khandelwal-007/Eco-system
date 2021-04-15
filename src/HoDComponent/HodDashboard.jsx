@@ -262,6 +262,22 @@ function HodDashboard(props) {
               </Paper>
             </Link>
           </Grid>
+          <Grid item xs={6}>
+            <Link to="HODDashboard/Events">
+              <Paper className={classes.paper}>
+                <Grid container className={classes.GridContainer}>
+                  <Grid item xs={12} sm={8} className={design.textPad}>
+                    <Typography variant="h6" gutterBottom>
+                      See Events
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={4} className={design.imgGrid}>
+                    <img alt="complex" src={courseUpdate} />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Link>
+          </Grid>
         </Grid>
       </Container>
     </div>
