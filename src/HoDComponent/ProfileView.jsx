@@ -8,6 +8,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import design from "./ProfileViewComponent/ProfileView.module.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,14 +56,39 @@ function ProfileView() {
   const history = useHistory();
   const classes = useStyles();
 
+  //dialog
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={design.main}>
       <div className={design.heading}>
         <h1>Profile View</h1>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll="paper"
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">Profile</DialogTitle>
+        <DialogContent></DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions> */}
+      </Dialog>
       <div className={design.ProfileList}>
         <List className={classes.Listroot}>
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Nischay Nagar" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
