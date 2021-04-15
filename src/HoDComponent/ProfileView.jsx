@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import { fade, makeStyles } from "@material-ui/core/styles";
-import design from "./hod.module.css";
+import design from "./ProfileViewComponent/ProfileView.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +35,6 @@ function ProfileView() {
   const history = useHistory();
   const classes = useStyles();
 
-  return <>Hi</>;
+  return <div className={design.main}></div>;
 }
 export default ProfileView;
