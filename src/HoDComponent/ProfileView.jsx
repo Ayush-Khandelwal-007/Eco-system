@@ -109,7 +109,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Ayush Khandu" src="/static/images/avatar/2.jpg" />
             </ListItemAvatar>
@@ -130,7 +130,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
@@ -151,7 +151,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
@@ -172,7 +172,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
@@ -193,7 +193,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
@@ -214,7 +214,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
@@ -235,7 +235,7 @@ function ProfileView() {
             />
           </ListItem>
           <Divider variant="inset" component="li" className={classes.divider} />
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={handleClickOpen}>
             <ListItemAvatar>
               <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
