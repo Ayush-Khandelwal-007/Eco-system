@@ -142,7 +142,14 @@ export default function DashboardOptions() {
       .then((resp) => {
         setLateFeeAmount(resp.data().amount);
         setLateFeeTime(resp.data().date);
-        if (Date.now() / 1000 >= resp.data().date) {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log(resp.data().date, today)
+        if (new Date(resp.data().date)-new Date(today)<=0) {
           setShowFeeDateAlert(true);
         }
       });
@@ -173,11 +180,6 @@ export default function DashboardOptions() {
   const [openFeeExt, setOpenFeeExt] = useState(false);
   const [extendedDate, setExtendedDate] = useState("");
   const [defaultersList, setDefaultersList] = useState([]);
-
-  const toTimestamp = (strDate) => {
-    var datum = Date.parse(strDate);
-    return datum / 1000;
-  };
 
   const applyLateFee = () => {
     defaultersList.forEach((item) => {
@@ -232,8 +234,9 @@ export default function DashboardOptions() {
   };
 
   const updateTime = (ndate) => {
+
     db.collection("feeDeadline").doc("1").update({
-      date: ndate,
+      date: ndate
     });
     setShowFeeDateAlert(false);
     setLateFeeTime(ndate);
@@ -286,7 +289,7 @@ export default function DashboardOptions() {
         <DialogContent dividers>
           <div className={forms.disp}>
             <label>Late fee time: </label>
-            {Date(lateFeeTime)}
+            {lateFeeTime}
           </div>
           <div className={forms.disp}>
             <label>Late fee Amount: </label>
@@ -317,7 +320,7 @@ export default function DashboardOptions() {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => updateTime(toTimestamp(extendedDate))}
+            onClick={() => updateTime(extendedDate)}
             color="primary"
           >
             Change Date
@@ -342,7 +345,7 @@ export default function DashboardOptions() {
         <DialogContent dividers={true}>
           <div className={forms.disp}>
             <label>Late fee time: </label>
-            {Date(lateFeeTime)}
+            {lateFeeTime}
           </div>
           <div className={forms.disp}>
             <label>Late fee Amount: </label>
@@ -373,7 +376,7 @@ export default function DashboardOptions() {
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => updateTime(toTimestamp(extendedDate))}
+            onClick={() => updateTime(extendedDate)}
             color="primary"
           >
             Change Date
