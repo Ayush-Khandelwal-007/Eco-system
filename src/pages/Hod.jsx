@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   backgroundContainer: {
     height: "100%",
     background: "#77A6F7",
-    minHeight: "95vh",
+    minHeight: "91.5vh",
     alignItems: "center",
     display: "flex",
   },

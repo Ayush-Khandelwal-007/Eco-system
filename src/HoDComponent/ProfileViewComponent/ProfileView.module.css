@@ -10,6 +10,9 @@
 .heading {
   width: 100%;
   display: flex;
+  position: fixed;
+  left: 20px;
+  top: 55px;
   text-transform: uppercase;
 }
 
@@ -19,4 +22,6 @@
   background: #ffccbc;
   border-radius: 20px;
   height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
