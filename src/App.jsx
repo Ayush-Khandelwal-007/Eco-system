@@ -22,21 +22,36 @@ function App() {
     if (user && logintype) {
       // console.log("dispatching data by local storage",user);
       // console.log(JSON.parse(localStorage.getItem('user')));
-      dispatch({
-        type: "SET_USER",
-        user: { ...JSON.parse(localStorage.getItem('user')) },
-        userType: parseInt(logintype),
-      });
+      // dispatch({
+      //   type: "SET_USER",
+      //   user: { ...JSON.parse(localStorage.getItem('user')) },
+      //   userType: parseInt(logintype),
+      // });
       try {
-
-        var docRef = db.collection(state.userType).doc(state.user.email);
+        const name=(loginType)=>{
+          switch (loginType) {
+            case 1:
+              return "Students";
+              break;
+            case 2:
+              return "FnA";
+              break;
+            case 3:
+              return"HoD";
+              break;
+            default:
+              return null;
+          }
+        }
+        var Juser=JSON.parse(user)
+        var docRef = db.collection(name(parseInt(logintype))).doc(Juser.email);
 
         docRef.get().then((doc) => {
           if (doc.exists) {
             dispatch({
               type: "SET_USER",
               user: { ...doc.data() },
-              userType: state.userType,
+              userType: parseInt(logintype),
             });
 
             localStorage.setItem("user", JSON.stringify(doc.data()));
