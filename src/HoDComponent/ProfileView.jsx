@@ -53,70 +53,72 @@ function ProfileView() {
       <div className={design.heading}>
         <h1>Profile View</h1>
       </div>
-      <List className={classes.root}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Nischay Nagar" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="IIT2019198"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Nischay Nagar
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Ayush Khandu" src="/static/images/avatar/2.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="IIT2019240"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ayush Khandelwal
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="IIT2019194"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Rahul Rai
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-      </List>
+      <div className={design.ProfileList}>
+        <List className={classes.Listroot}>
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Nischay Nagar" src="/static/images/avatar/1.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary="IIT2019198"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    Nischay Nagar
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Ayush Khandu" src="/static/images/avatar/2.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary="IIT2019240"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    Ayush Khandelwal
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt="Rahul Rai" src="/static/images/avatar/3.jpg" />
+            </ListItemAvatar>
+            <ListItemText
+              primary="IIT2019194"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    Rahul Rai
+                  </Typography>
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        </List>
+      </div>
     </div>
   );
 }
