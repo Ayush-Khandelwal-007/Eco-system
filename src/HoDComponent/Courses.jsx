@@ -49,6 +49,7 @@ let COURSES = [
     CourseCode: "test-PPL",
     CourseType: "test-CORE",
     Credits: "test-1",
+    courseCO:"teacher-1"
     // description: "Create an example of how to use the component",
   },
   {
@@ -56,6 +57,7 @@ let COURSES = [
     CourseCode: "test-NOB",
     CourseType: "test-ADD-ON",
     Credits: "test-3",
+    courseCO:"teacher-2"
     // description: "Improve the component!",
   },
 ];
@@ -170,6 +172,11 @@ const service = {
             label="Course Type"
             placeholder="Course Type"
           />
+          <Field
+            name="courseCO"
+            label="Course Teacher"
+            placeholder="Course Teacher"
+          />
           <Field name="Credits" label="Credits" placeholder="Credits" />
         </Fields>
         <CreateForm
@@ -187,7 +194,9 @@ const service = {
             if (!values.CourseType) {
               errors.CourseType = "Please, provide Course Type";
             }
-
+            if (!values.courseCO) {
+              errors.courseCO = "Please, provide Course Teacher";
+            }
             return errors;
           }}
         />
@@ -207,6 +216,9 @@ const service = {
 
             if (!values.CourseType) {
               errors.CourseType = "Please, provide Course Type";
+            }
+            if (!values.courseCO) {
+              errors.courseCO = "Please, provide Course Teacher";
             }
 
             return errors;
