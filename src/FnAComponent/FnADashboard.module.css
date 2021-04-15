@@ -58,3 +58,26 @@
 .timetableMainDiv {
   display: flex;
 }
+
+.row{
+  display: flex;
+  justify-content: space-between;
+  padding: 3vh 2vw;
+  color: brown;
+  font-weight: 600;
+}
+
+.row label{
+  color: green;
+}
+
+
+.disp{
+  margin-bottom: 3vh;
+  color: brown;
+  font-weight: 600;
+}
+
+.disp>label{
+  color: green;
+}

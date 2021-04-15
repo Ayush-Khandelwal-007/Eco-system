@@ -26,7 +26,8 @@ import FnADesign from "./FnADashboard.module.css";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { db } from "../Firebase";
-import { Input } from "@material-ui/core";
+import { formatMs, Input } from "@material-ui/core";
+import forms from './FnADashboard.module.css'
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -139,7 +140,7 @@ export default function DashboardOptions() {
       .then((resp) => {
         setLateFeeAmount(resp.data().amount);
         setLateFeeTime(resp.data().date);
-        if(Date.now()/1000>=resp.data().date){
+        if (Date.now() / 1000 >= resp.data().date) {
           setShowFeeDateAlert(true);
         }
       })
@@ -148,18 +149,18 @@ export default function DashboardOptions() {
 
   useEffect(() => {
     db.collection("Students").where("fees.due", ">", 0)
-    .get()
-    .then((querySnapshot) => {
-      var list=[]
-      querySnapshot.forEach((doc) => {
-        list.push( doc.data())
-      });
-      setDefaultersList(list);
-    })
-    .catch((error) => {
+      .get()
+      .then((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push(doc.data())
+        });
+        setDefaultersList(list);
+      })
+      .catch((error) => {
         console.log("Error getting documents: ", error);
-    });
-  },[db])
+      });
+  }, [db])
 
   useEffect(() => {
     handleChangeEffect();
@@ -177,15 +178,15 @@ export default function DashboardOptions() {
     return datum / 1000;
   }
 
-  const applyLateFee=()=>{
-    defaultersList.forEach((item)=>{
+  const applyLateFee = () => {
+    defaultersList.forEach((item) => {
       db.collection("Students").doc(item.email).update({
         fees: {
-          latefee: item.fees.latefee+parseInt(lateFeeAmount),
+          latefee: item.fees.latefee + parseInt(lateFeeAmount),
           semfee: item.fees.semfee,
           paid: item.fees.paid,
-          due:item.fees.due +parseInt(lateFeeAmount) ,
-      },
+          due: item.fees.due + parseInt(lateFeeAmount),
+        },
       })
     })
   }
@@ -284,19 +285,24 @@ export default function DashboardOptions() {
           Late Fee
       </DialogTitle>
         <DialogContent dividers>
-          <div>
-            {
-              "Late fee Amount: " + lateFeeAmount
-            }
+          <div className={forms.disp}>
+            <label>Late fee time: </label>
+            {Date(lateFeeTime)}
           </div>
-          <div>
-            {
-              "Late fee time: " + Date(lateFeeTime)
-            }
+          <div className={forms.disp}>
+            <label>Late fee Amount: </label>
+            {lateFeeAmount}
           </div>
-          <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
-          <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
-
+          <div className={forms.row}>
+            <label>
+              <div>Enter New Date</div>
+              <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+            </label>
+            <label>
+              <div>Enter Extended Date</div>
+              <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+            </label>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => updateTime(toTimestamp(extendedDate))} color="primary">
@@ -322,19 +328,25 @@ export default function DashboardOptions() {
         <DialogTitle id="customized-dialog-title" onClose={handleCloseFeeExt}>
           Late Fee
         </DialogTitle>
-        <DialogContent dividers>
-          <div>
-            {
-              "Late fee Amount: " + lateFeeAmount
-            }
+        <DialogContent dividers={true}>
+          <div className={forms.disp}>
+            <label>Late fee time: </label>
+            {Date(lateFeeTime)}
           </div>
-          <div>
-            {
-              "Late fee time: " + Date(lateFeeTime)
-            }
+          <div className={forms.disp}>
+            <label>Late fee Amount: </label>
+            {lateFeeAmount}
           </div>
-          <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
-          <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+          <div className={forms.row}>
+            <label>
+              <div>Enter New Date</div>
+              <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+            </label>
+            <label>
+              <div>Enter Extended Date</div>
+              <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+            </label>
+          </div>
 
         </DialogContent>
         <DialogActions>
