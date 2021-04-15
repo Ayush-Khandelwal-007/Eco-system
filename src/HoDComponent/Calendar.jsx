@@ -19,7 +19,7 @@ function Calendar() {
     return (
         <div style={{
             width: '100%',
-            background: "#835712;",
+            background: "#835712",
             color: "white",
         }}>
             <FullCalendar
