@@ -22,7 +22,7 @@ function Alert(props) {
 function SDashboard() {
   const [state, dispatch] = useUser();
 
-  const [events, setevents] = useState(null);
+  const [events, setevents] = useState([]);
   const [openAlert, setOpenAlert] = useState(false);
 
   const handleCloseAlert = (event, reason) => {
