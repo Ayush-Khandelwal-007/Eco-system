@@ -27,7 +27,7 @@ import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { db } from "../Firebase";
 import { formatMs, Input } from "@material-ui/core";
-import forms from './FnADashboard.module.css'
+import forms from "./FnADashboard.module.css";
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -129,38 +129,40 @@ export default function DashboardOptions() {
   const [lateFeeTime, setLateFeeTime] = useState(new Date());
   const [lateFeeAmount, setLateFeeAmount] = useState(0);
   const [changedAmount, setChangedAmount] = useState(0);
-  const [showFeeDateAlert, setShowFeeDateAlert] = useState(false)
+  const [showFeeDateAlert, setShowFeeDateAlert] = useState(false);
 
   const handleChangeEffect = () => {
     setChecked((prev) => !prev);
   };
 
   useEffect(() => {
-    db.collection('feeDeadline').doc('1').get()
+    db.collection("feeDeadline")
+      .doc("1")
+      .get()
       .then((resp) => {
         setLateFeeAmount(resp.data().amount);
         setLateFeeTime(resp.data().date);
         if (Date.now() / 1000 >= resp.data().date) {
           setShowFeeDateAlert(true);
         }
-      })
-  }, [])
-
+      });
+  }, []);
 
   useEffect(() => {
-    db.collection("Students").where("fees.due", ">", 0)
+    db.collection("Students")
+      .where("fees.due", ">", 0)
       .get()
       .then((querySnapshot) => {
-        var list = []
+        var list = [];
         querySnapshot.forEach((doc) => {
-          list.push(doc.data())
+          list.push(doc.data());
         });
         setDefaultersList(list);
       })
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-  }, [db])
+  }, [db]);
 
   useEffect(() => {
     handleChangeEffect();
@@ -169,27 +171,28 @@ export default function DashboardOptions() {
   // Notification Dialog
   const [open, setOpen] = useState(false);
   const [openFeeExt, setOpenFeeExt] = useState(false);
-  const [extendedDate, setExtendedDate] = useState('');
-  const [defaultersList, setDefaultersList] = useState([])
-
+  const [extendedDate, setExtendedDate] = useState("");
+  const [defaultersList, setDefaultersList] = useState([]);
 
   const toTimestamp = (strDate) => {
     var datum = Date.parse(strDate);
     return datum / 1000;
-  }
+  };
 
   const applyLateFee = () => {
     defaultersList.forEach((item) => {
-      db.collection("Students").doc(item.email).update({
-        fees: {
-          latefee: item.fees.latefee + parseInt(lateFeeAmount),
-          semfee: item.fees.semfee,
-          paid: item.fees.paid,
-          due: item.fees.due + parseInt(lateFeeAmount),
-        },
-      })
-    })
-  }
+      db.collection("Students")
+        .doc(item.email)
+        .update({
+          fees: {
+            latefee: item.fees.latefee + parseInt(lateFeeAmount),
+            semfee: item.fees.semfee,
+            paid: item.fees.paid,
+            due: item.fees.due + parseInt(lateFeeAmount),
+          },
+        });
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -229,21 +232,21 @@ export default function DashboardOptions() {
   };
 
   const updateTime = (ndate) => {
-    db.collection('feeDeadline').doc('1').update({
-      date: ndate
-    })
+    db.collection("feeDeadline").doc("1").update({
+      date: ndate,
+    });
     setShowFeeDateAlert(false);
     setLateFeeTime(ndate);
-    setExtendedDate('');
-  }
+    setExtendedDate("");
+  };
 
   const updateAmount = (namount) => {
-    db.collection('feeDeadline').doc('1').update({
-      amount: namount
-    })
+    db.collection("feeDeadline").doc("1").update({
+      amount: namount,
+    });
     setLateFeeAmount(namount);
     setChangedAmount(0);
-  }
+  };
 
   return (
     <div>
@@ -278,12 +281,8 @@ export default function DashboardOptions() {
         </DialogActions>
       </NotifyDialog>
 
-
-
       <Dialog open={showFeeDateAlert}>
-        <DialogTitle id="customized-dialog-title">
-          Late Fee
-      </DialogTitle>
+        <DialogTitle id="customized-dialog-title">Late Fee</DialogTitle>
         <DialogContent dividers>
           <div className={forms.disp}>
             <label>Late fee time: </label>
@@ -296,16 +295,31 @@ export default function DashboardOptions() {
           <div className={forms.row}>
             <label>
               <div>Enter New Date</div>
-              <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+              <Input
+                type="date"
+                value={extendedDate}
+                onChange={(e) => {
+                  setExtendedDate(e.target.value);
+                }}
+              />
             </label>
             <label>
-              <div>Enter Extended Date</div>
-              <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+              <div>Enter Late Fee Amount</div>
+              <Input
+                type="number"
+                value={changedAmount}
+                onChange={(e) => {
+                  setChangedAmount(e.target.value);
+                }}
+              />
             </label>
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => updateTime(toTimestamp(extendedDate))} color="primary">
+          <Button
+            onClick={() => updateTime(toTimestamp(extendedDate))}
+            color="primary"
+          >
             Change Date
           </Button>
           <Button onClick={() => updateAmount(changedAmount)} color="primary">
@@ -316,9 +330,6 @@ export default function DashboardOptions() {
           </Button>
         </DialogActions>
       </Dialog>
-
-
-
 
       <NotifyDialog
         onClose={handleCloseFeeExt}
@@ -340,17 +351,31 @@ export default function DashboardOptions() {
           <div className={forms.row}>
             <label>
               <div>Enter New Date</div>
-              <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+              <Input
+                type="date"
+                value={extendedDate}
+                onChange={(e) => {
+                  setExtendedDate(e.target.value);
+                }}
+              />
             </label>
             <label>
-              <div>Enter Extended Date</div>
-              <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+              <div>Enter late Fee Amount</div>
+              <Input
+                type="number"
+                value={changedAmount}
+                onChange={(e) => {
+                  setChangedAmount(e.target.value);
+                }}
+              />
             </label>
           </div>
-
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => updateTime(toTimestamp(extendedDate))} color="primary">
+          <Button
+            onClick={() => updateTime(toTimestamp(extendedDate))}
+            color="primary"
+          >
             Change Date
           </Button>
           <Button onClick={() => updateAmount(changedAmount)} color="primary">
@@ -358,9 +383,6 @@ export default function DashboardOptions() {
           </Button>
         </DialogActions>
       </NotifyDialog>
-
-
-
 
       {/* Alert */}
       <Snackbar
