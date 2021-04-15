@@ -14,4 +14,9 @@
 }
 
 .ProfileList {
+  width: 80vw;
+  max-width: 435px;
+  background: #ffccbc;
+  border-radius: 20px;
+  height: 400px;
 }
