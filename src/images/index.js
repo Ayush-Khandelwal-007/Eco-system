@@ -17,3 +17,4 @@ export { default as logo } from "./logo.svg";
 export { default as logoSmall } from "./logoSmall.svg";
 export { default as LoginGif } from "./LoginGif.gif";
 export { default as loginIllustration } from "./loginIllustration.svg";
+export { default as profileViewIcon } from "./profileView.svg";

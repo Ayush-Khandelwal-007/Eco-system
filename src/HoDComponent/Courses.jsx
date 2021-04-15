@@ -11,7 +11,7 @@ import CRUDTable, {
   DeleteForm,
 } from "react-crud-table";
 
-import {db} from '../Firebase';
+import { db } from '../Firebase';
 import { useUser } from "../contexts/User";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +49,7 @@ let COURSES = [
     CourseCode: "test-PPL",
     CourseType: "test-CORE",
     Credits: "test-1",
+    courseCO: "teacher-1"
     // description: "Create an example of how to use the component",
   },
   {
@@ -56,6 +57,7 @@ let COURSES = [
     CourseCode: "test-NOB",
     CourseType: "test-ADD-ON",
     Credits: "test-3",
+    courseCO: "teacher-2"
     // description: "Improve the component!",
   },
 ];
@@ -94,63 +96,99 @@ function Courses() {
   const [state, dispatch] = useUser();
   const history = useHistory();
   const classes = useStyles();
-
+  const [teachers, setTeachers] = React.useState([]);
   const [courses, setCourses] = useState([])
 
 
   let count = courses.length;
-const service = {
-  fetchItems: (payload) => {
-    let result = Array.from(courses);
-    result = result.sort(getSorter(payload.sort));
-    return Promise.resolve(result);
-  },
-  create: (course) => {
-    db.collection("HoD").doc(state.user.email).collection("courses").doc(course.CourseId).set(course)
-    .then(() => {
-      console.log("Document successfully written!");
-    })
-    .catch((error) => {
-      console.error("Error writing document: ", error);
-    });
-    return Promise.resolve(course);
-  },
-  update: (data) => {
-    console.log(data)    
+  const service = {
+    fetchItems: (payload) => {
+      let result = Array.from(courses);
+      result = result.sort(getSorter(payload.sort));
+      return Promise.resolve(result);
+    },
+    create: (course) => {
+      db.collection("HoD").doc(state.user.email).collection("courses").doc(course.CourseId).set(course)
+        .then(() => {
+          console.log("Document successfully written!");
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
+      return Promise.resolve(course);
+    },
+    update: (data) => {
+      console.log(data)
+      var id;
+      teachers.forEach((teacher) => {
+        if (data.courseCO === teacher.name) {
+          id = teacher.id
+        }
+      })
 
-    db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).update({
-      CourseId: data.CourseId,
-      CourseCode: data.CourseCode,
-      CourseType: data.CourseType,
-      Credits: data.Credits,
-    })
+      db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).update({
+        CourseId: data.CourseId,
+        CourseCode: data.CourseCode,
+        CourseType: data.CourseType,
+        Credits: data.Credits,
+        courseCO:id,
+      })
 
-    return Promise.resolve(data);
-  },
-  delete: (data) => {
+      return Promise.resolve(data);
+    },
+    delete: (data) => {
       db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).delete().then(() => {
         console.log("Document successfully deleted!");
-    }).catch((error) => {
+      }).catch((error) => {
         console.error("Error removing document: ", error);
+      });
+
+      return Promise.resolve(data);
+    },
+  };
+  useEffect(() => {
+    db.collection("teachers").onSnapshot((querySnapshot) => {
+      var list = [];
+      querySnapshot.forEach((doc) => {
+        list.push({ ...doc.data(), id: doc.id });
+      });
+      setTeachers(list);
+      console.log(teachers)
     });
-    
-    return Promise.resolve(data);
-  },
-};
+  }, [db]);
 
 
   useEffect(() => {
     db.collection("HoD").doc(state.user.email).collection("courses")
-    .onSnapshot((querySnapshot) => {
-      var list=[]
-      var x=0;
-      querySnapshot.forEach((doc) => {
-        list.push( {...doc.data(),id:x});
-        x=x+1;
-      });
-      setCourses(list);
-    })
-  }, [db])
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        var x = 0;
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: x });
+          x = x + 1;
+        });
+
+
+        var newlist = list.map((ele) => {
+          var name;
+          console.log(teachers)
+          teachers.forEach((teacher) => {
+            if (ele.courseCO === teacher.id) {
+              name = teacher.name
+            }
+          })
+          return ({
+            ...ele,
+            courseCO: name
+          })
+        })
+
+
+        console.log(teachers)
+
+        setCourses(newlist);
+      })
+  }, [db, teachers])
 
   return (
     <div style={styles.container}>
@@ -170,6 +208,11 @@ const service = {
             label="Course Type"
             placeholder="Course Type"
           />
+          <Field
+            name="courseCO"
+            label="Course Coordinator"
+            placeholder="Course Coordinator"
+          />
           <Field name="Credits" label="Credits" placeholder="Credits" />
         </Fields>
         <CreateForm
@@ -187,7 +230,9 @@ const service = {
             if (!values.CourseType) {
               errors.CourseType = "Please, provide Course Type";
             }
-
+            if (!values.courseCO) {
+              errors.courseCO = "Please, provide Course Coordinator";
+            }
             return errors;
           }}
         />
@@ -207,6 +252,9 @@ const service = {
 
             if (!values.CourseType) {
               errors.CourseType = "Please, provide Course Type";
+            }
+            if (!values.courseCO) {
+              errors.courseCO = "Please, provide Course Coordinator";
             }
 
             return errors;

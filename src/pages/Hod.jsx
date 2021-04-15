@@ -18,8 +18,8 @@ import FacultyList from "../HoDComponent/FacultyList";
 import TimeTable from "../HoDComponent/TimeTable";
 import ExamSchedule from "../HoDComponent/ExamSchedule";
 import Courses from "../HoDComponent/Courses";
-import NoticeBoard from "../HoDComponent/NoticeBoard";
-import Calendar from '../HoDComponent/Calendar'
+import ProfileView from "../HoDComponent/ProfileView";
+import Calendar from "../HoDComponent/Calendar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   backgroundContainer: {
     height: "100%",
     background: "#77A6F7",
-    minHeight: "95vh",
+    minHeight: "91.5vh",
     alignItems: "center",
     display: "flex",
   },
@@ -123,8 +123,8 @@ function Hod(props) {
             <Route exact path="/HODDashboard/Courses">
               <Courses />
             </Route>
-            <Route exact path="/HODDashboard/NoticeBoard">
-              <NoticeBoard />
+            <Route exact path="/HODDashboard/ProfileView">
+              <ProfileView />
             </Route>
             <Route exact path="/HODDashboard/Events">
               <Calendar />

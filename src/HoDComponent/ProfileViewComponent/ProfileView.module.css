@@ -1,0 +1,27 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+}
+
+.heading {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  left: 20px;
+  top: 55px;
+  text-transform: uppercase;
+}
+
+.ProfileList {
+  width: 80vw;
+  max-width: 435px;
+  background: #ffccbc;
+  border-radius: 20px;
+  height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
