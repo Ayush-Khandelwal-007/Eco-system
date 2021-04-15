@@ -25,3 +25,24 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.profileimage{
+  height: 30vw;
+  width: 30vw;
+  border-radius: 50%;
+  display:flex;
+  align-self:center;
+}
+
+.profileimage+div{
+  display:flex;
+  width:100%;
+  align-items:center;
+  flex-direction:column;
+}
+
+.profileimage+div>div{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+}
