@@ -99,7 +99,7 @@ function Login() {
   };
   const history = useHistory();
 
-  const goTo = async () => {
+  const verification = async () => {
     let userType;
 
     switch (loginType) {
@@ -209,7 +209,7 @@ function Login() {
               setInvalidAlert(false);
             }}
           />
-          <LoginButton variant="contained" color="primary" onClick={goTo}>
+          <LoginButton variant="contained" color="primary" onClick={verification}>
             LOGIN
           </LoginButton>
           <ResetPassButton variant="contained" color="secondary">
