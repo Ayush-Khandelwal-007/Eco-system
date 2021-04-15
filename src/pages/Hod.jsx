@@ -18,7 +18,7 @@ import FacultyList from "../HoDComponent/FacultyList";
 import TimeTable from "../HoDComponent/TimeTable";
 import ExamSchedule from "../HoDComponent/ExamSchedule";
 import Courses from "../HoDComponent/Courses";
-import ProfileView from "../HoDComponent/NoticeBoard";
+import ProfileView from "../HoDComponent/ProfileView";
 
 const useStyles = makeStyles((theme) => ({
   root: {
