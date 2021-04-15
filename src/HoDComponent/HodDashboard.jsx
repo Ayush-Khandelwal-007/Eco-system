@@ -231,12 +231,12 @@ function HodDashboard(props) {
             </Link>
           </Grid>
           <Grid item xs={6}>
-            <Link to="/HODDashboard/NoticeBoard">
+            <Link to="/HODDashboard/ProfileView">
               <Paper className={classes.paper}>
                 <Grid container className={classes.GridContainer}>
                   <Grid item xs={12} sm={8} className={design.textPad}>
                     <Typography variant="h6" gutterBottom>
-                      Notice Board
+                      Profile View
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={4} className={design.imgGrid}>
