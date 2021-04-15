@@ -26,6 +26,7 @@ import FnADesign from "./FnADashboard.module.css";
 import { useHistory } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { db } from "../Firebase";
+import { Input } from "@material-ui/core";
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -123,28 +124,87 @@ export default function DashboardOptions() {
   const history = useHistory();
 
   //Glow Effect
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = useState(false);
+  const [lateFeeTime, setLateFeeTime] = useState(new Date());
+  const [lateFeeAmount, setLateFeeAmount] = useState(0);
+  const [changedAmount, setChangedAmount] = useState(0);
+  const [showFeeDateAlert, setShowFeeDateAlert] = useState(false)
 
   const handleChangeEffect = () => {
     setChecked((prev) => !prev);
   };
 
   useEffect(() => {
+    db.collection('feeDeadline').doc('1').get()
+      .then((resp) => {
+        setLateFeeAmount(resp.data().amount);
+        setLateFeeTime(resp.data().date);
+        if(Date.now()/1000>=resp.data().date){
+          setShowFeeDateAlert(true);
+        }
+      })
+  }, [])
+
+
+  useEffect(() => {
+    db.collection("Students").where("fees.due", ">", 0)
+    .get()
+    .then((querySnapshot) => {
+      var list=[]
+      querySnapshot.forEach((doc) => {
+        list.push( doc.data())
+      });
+      setDefaultersList(list);
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
+  },[db])
+
+  useEffect(() => {
     handleChangeEffect();
   }, []);
 
   // Notification Dialog
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openFeeExt, setOpenFeeExt] = useState(false);
+  const [extendedDate, setExtendedDate] = useState('');
+  const [defaultersList, setDefaultersList] = useState([])
+
+
+  const toTimestamp = (strDate) => {
+    var datum = Date.parse(strDate);
+    return datum / 1000;
+  }
+
+  const applyLateFee=()=>{
+    defaultersList.forEach((item)=>{
+      db.collection("Students").doc(item.email).update({
+        fees: {
+          latefee: item.fees.latefee+parseInt(lateFeeAmount),
+          semfee: item.fees.semfee,
+          paid: item.fees.paid,
+          due:item.fees.due +parseInt(lateFeeAmount) ,
+      },
+      })
+    })
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleClickOpenFeeExt = () => {
+    setOpenFeeExt(true);
+  };
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleCloseFeeExt = () => {
+    setOpenFeeExt(false);
+  };
   //Alert
-  const [openAlert, setOpenAlert] = React.useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
 
   const handleClickAlert = () => {
     setOpenAlert(true);
@@ -166,6 +226,23 @@ export default function DashboardOptions() {
     setOpen(false);
     setOpenAlert(true);
   };
+
+  const updateTime = (ndate) => {
+    db.collection('feeDeadline').doc('1').update({
+      date: ndate
+    })
+    setShowFeeDateAlert(false);
+    setLateFeeTime(ndate);
+    setExtendedDate('');
+  }
+
+  const updateAmount = (namount) => {
+    db.collection('feeDeadline').doc('1').update({
+      amount: namount
+    })
+    setLateFeeAmount(namount);
+    setChangedAmount(0);
+  }
 
   return (
     <div>
@@ -199,6 +276,79 @@ export default function DashboardOptions() {
           </Button>
         </DialogActions>
       </NotifyDialog>
+
+
+
+      <Dialog open={showFeeDateAlert}>
+        <DialogTitle id="customized-dialog-title">
+          Late Fee
+      </DialogTitle>
+        <DialogContent dividers>
+          <div>
+            {
+              "Late fee Amount: " + lateFeeAmount
+            }
+          </div>
+          <div>
+            {
+              "Late fee time: " + Date(lateFeeTime)
+            }
+          </div>
+          <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+          <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => updateTime(toTimestamp(extendedDate))} color="primary">
+            Change Date
+          </Button>
+          <Button onClick={() => updateAmount(changedAmount)} color="primary">
+            Change Amount
+          </Button>
+          <Button onClick={() => applyLateFee()} color="primary">
+            Apply Late Fees
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+
+      <NotifyDialog
+        onClose={handleCloseFeeExt}
+        aria-labelledby="customized-dialog-title"
+        open={openFeeExt}
+      >
+        <DialogTitle id="customized-dialog-title" onClose={handleCloseFeeExt}>
+          Late Fee
+        </DialogTitle>
+        <DialogContent dividers>
+          <div>
+            {
+              "Late fee Amount: " + lateFeeAmount
+            }
+          </div>
+          <div>
+            {
+              "Late fee time: " + Date(lateFeeTime)
+            }
+          </div>
+          <Input type='date' value={extendedDate} onChange={(e) => { setExtendedDate(e.target.value) }} />
+          <Input type='number' value={changedAmount} onChange={(e) => { setChangedAmount(e.target.value) }} />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => updateTime(toTimestamp(extendedDate))} color="primary">
+            Change Date
+          </Button>
+          <Button onClick={() => updateAmount(changedAmount)} color="primary">
+            Change Amount
+          </Button>
+        </DialogActions>
+      </NotifyDialog>
+
+
+
 
       {/* Alert */}
       <Snackbar
@@ -243,13 +393,11 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item xs={3}>
-                <Link to="FnADashboard/deadlineext">
-                  <Paper className={classes.paper}>
-                    <img src={deadline} alt="logo" />
-                    <div className={FnADesign.paperTxt}>Deadline Extension</div>
-                  </Paper>
-                </Link>
+              <Grid item xs={3} onClick={handleClickOpenFeeExt}>
+                <Paper className={classes.paper}>
+                  <img src={deadline} alt="logo" />
+                  <div className={FnADesign.paperTxt}>Deadline Extension</div>
+                </Paper>
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
