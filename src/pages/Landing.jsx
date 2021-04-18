@@ -30,6 +30,7 @@ const LoginBtn = withStyles(() => ({
 export default function Landing() {
   const history = useHistory();
   const goLogin = () => history.push("login");
+  const goToNoticeBoard = () => history.push("NoticeBoard");
 
   return (
     <div className={LandingCss.main}>
@@ -71,7 +72,7 @@ export default function Landing() {
               <LoginBtn
                 variant="contained"
                 color="primary"
-                onClick={goLogin}
+                onClick={goToNoticeBoard}
                 initial={{ x: "-100vw" }}
                 animate={{ x: 0 }}
                 transition={{ delay: "0.2", type: "spring", stiffness: 50 }}

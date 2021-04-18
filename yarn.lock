@@ -9899,6 +9899,11 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+react-animated-carousel@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/react-animated-carousel/-/react-animated-carousel-1.6.5.tgz#6c6149893dc52b1e07f664ce7b99eb5f40af66f8"
+  integrity sha512-4CKblEDilOsabAfss++4nuDdG4AiE9j1bmmySA+Q9j9v2TNapdsZZXHL2Od7E3Pk67MNRIEyr+Lr3q6LLXnl8A==
+
 react-app-polyfill@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-2.0.0.tgz#a0bea50f078b8a082970a9d853dc34b6dcc6a3cf"
