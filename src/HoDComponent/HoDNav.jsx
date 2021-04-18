@@ -20,6 +20,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useUser } from "../contexts/User";
 import { logoSmall } from "../images";
 import { db } from "../Firebase";
+import moment from "moment";
+import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,9 +110,19 @@ const useStyles = makeStyles((theme) => ({
   chevicon: {
     marginLeft: "auto",
   },
+  notiRow:{
+    display:"flex",
+    alignItems:"flex-start",
+    justifyContent:"space-between",
+  },
+  notiTime:{
+    fontSize:"smaller",
+    display:"flex",
+    justifyContent:"flex-end",
+  },
   NotificationLi: {
-    background: "#fff",
-    padding: "0 10px",
+    background: "transparent",
+    padding: "1vw 10px",
   },
 }));
 
@@ -119,18 +132,25 @@ function HoDNav() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    db.collection("notifications").onSnapshot((snapshot) => {
+    db.collection('HoD').doc(state.user.email).collection("notification").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
       setNotifications(
         snapshot.docs.map((doc) => {
+          const dateTimeString = moment.unix(doc.data().timestamp).format("DD-MM-YYYY HH:mm:ss");
           return {
             id: doc.id,
             message: doc.data().message,
+            time: dateTimeString,
           };
         })
       );
     });
     // console.log(notifications);
   }, []);
+
+  const deleteNoti = (id) => {
+    db.collection('HoD').doc(state.user.email).collection("notification").doc(id).delete();
+  }
+
   const goLogout = () => {
     dispatch({
       type: "UNSET_USER",
@@ -256,7 +276,14 @@ function HoDNav() {
         {notifications.map((not, index) => {
           return (
             <div key={not.id} className={classes.NotificationLi}>
-              <Typography gutterBottom>{not.message}</Typography>
+              <Divider />
+              <Typography gutterBottom>
+                <div className={classes.notiRow}>
+                  {not.message}
+                  <div onClick={() => deleteNoti(not.id)}> <CancelTwoToneIcon /></div>
+                </div>
+              </Typography>
+              <div className={classes.notiTime}>{not.time}</div>
               {index === notifications.length - 1 ? null : <hr />}
             </div>
           );

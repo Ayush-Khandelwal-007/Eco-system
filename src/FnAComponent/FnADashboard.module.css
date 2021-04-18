@@ -86,20 +86,22 @@
   display: flex;
   margin: 10px 35px;
   padding: 50px 0;
+  gap: 5vw;
+  align-items: center;
   justify-content: space-between;
 }
 
 .SelectionList {
-  height: 585px;
-  width: 500px;
+  height: 80vh;
+  width: 40vw;
   border-radius: 12px;
   background: #fff;
   padding: 5px;
 }
 
 .MsgDiv {
-  height: 304px;
-  width: 820px;
+  height: fit-content;
+  width: 40vw;
   border-radius: 12px;
   background: #fff;
   padding: 15px;

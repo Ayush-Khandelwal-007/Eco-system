@@ -29,6 +29,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
+import firebase from 'firebase';
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -145,7 +146,10 @@ export default function FnaNotification() {
   const [openAlert, setOpenAlert] = useState(false);
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState("");
-  const [checked, setChecked] = React.useState([1]);
+  const [checked, setChecked] = useState([]);
+  const [checkedh, setCheckedh] = useState([]);
+  const [students, setStudents] = useState([])
+  const [hods, setHods] = useState([])
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -158,6 +162,18 @@ export default function FnaNotification() {
     }
 
     setChecked(newChecked);
+  };
+  const handleToggleh = (value) => () => {
+    const currentIndex = checkedh.indexOf(value);
+    const newChecked = [...checkedh];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setCheckedh(newChecked);
   };
   //Alert
 
@@ -177,13 +193,53 @@ export default function FnaNotification() {
   };
 
   const handleSend = () => {
-    db.collection("notifications").add({
-      message: notification,
-    });
+    checked.forEach((item) => {
+      db.collection('Students').doc(item.email).collection('notification').add({
+        message: notification,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    })
+    setChecked([])
+
+    checkedh.forEach((item) => {
+      db.collection('HoD').doc(item.email).collection('notification').add({
+        message: notification,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    })
+    setCheckedh([])
     setNotification("");
     setOpen(false);
     setOpenAlert(true);
   };
+
+  // useEffect(() => {
+  //   console.log(checked, checkedh);
+  // }, [checked, checkedh])
+
+  useEffect(() => {
+    db.collection('Students')
+      .onSnapshot((snapshot) => {
+        var list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setStudents(list);
+      }, (error) => {
+        console.log("error", error);
+      });
+
+    db.collection('HoD')
+      .onSnapshot((snapshot) => {
+        var list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setHods(list);
+      }, (error) => {
+        console.log("error", error);
+      });
+  }, [])
 
   return (
     <div className={FnADesign.main}>
@@ -205,25 +261,26 @@ export default function FnaNotification() {
             <li className={classes.listSection}>
               <ul className={classes.ul}>
                 <ListSubheader>{`Students`}</ListSubheader>
-                {[0, 1, 2, 3].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
+                {students.map((student, index) => {
+                  const labelId = `checkbox-list-secondary-label-${index}`;
                   return (
-                    <ListItem key={value} button>
+                    <ListItem key={student.roll} button>
                       <ListItemAvatar>
                         <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src={`/static/images/avatar/${value + 1}.jpg`}
+                          alt={`Avatar of ${student.name}`}
+                          src={student.imageurl}
                         />
                       </ListItemAvatar>
                       <ListItemText
                         id={labelId}
-                        primary={`Student ${value + 1}`}
+                        primary={student.roll}
+                        secondary={student.name}
                       />
                       <ListItemSecondaryAction>
                         <Checkbox
                           edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
+                          onChange={handleToggle(student)}
+                          checked={checked.indexOf(student) !== -1}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </ListItemSecondaryAction>
@@ -231,44 +288,22 @@ export default function FnaNotification() {
                   );
                 })}
                 <ListSubheader>{`HOD`}</ListSubheader>
-                {[5, 6, 7, 8].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
+                {hods.map((hod, index) => {
+                  const labelId = `checkbox-list-secondary-label-${index}`;
                   return (
-                    <ListItem key={value} button>
+                    <ListItem key={hod.branch} button>
                       <ListItemAvatar>
                         <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src={`/static/images/avatar/${value + 1}.jpg`}
+                          alt={`Avatar of ${hod.branch} branch}`}
+                          src={hod.imageurl}
                         />
                       </ListItemAvatar>
-                      <ListItemText id={labelId} primary={`HOD ${value + 1}`} />
+                      <ListItemText id={labelId} primary={hod.name} />
                       <ListItemSecondaryAction>
                         <Checkbox
                           edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
-                {[5, 6, 7, 8].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
-                  return (
-                    <ListItem key={value} button>
-                      <ListItemAvatar>
-                        <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src={`/static/images/avatar/${value + 1}.jpg`}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText id={labelId} primary={`HOD ${value + 1}`} />
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
+                          onChange={handleToggleh(hod)}
+                          checked={checkedh.indexOf(hod) !== -1}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </ListItemSecondaryAction>
@@ -296,7 +331,6 @@ export default function FnaNotification() {
               setNotification(e.target.value);
             }}
           />
-          <Divider className={classes.divider} />
           <div className={FnADesign.SendBtnDiv}>
             <Button color="primary" onClick={handleSend}>
               SEND
