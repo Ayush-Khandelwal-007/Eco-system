@@ -102,4 +102,9 @@
   width: 820px;
   border-radius: 12px;
   background: #fff;
+  padding: 15px;
+}
+
+.NotifyTitle {
+  display: flex;
 }

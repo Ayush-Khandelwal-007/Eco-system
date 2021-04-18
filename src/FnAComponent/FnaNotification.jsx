@@ -28,10 +28,11 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 
 const NotificationInput = withStyles(() => ({
   root: {
-    width: "30vw",
+    width: "100%",
     color: "#070D59 !important",
     fontSize: "10px",
   },
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   ul: {
     backgroundColor: "inherit",
     padding: 0,
+  },
+  divider: {
+    margin: "15px 0",
   },
 }));
 
@@ -305,7 +309,24 @@ export default function FnaNotification() {
             </li>
           </List>
         </div>
-        <div className={FnADesign.MsgDiv}></div>
+        <div className={FnADesign.MsgDiv}>
+          <div className={FnADesign.NotifyTitle}>New Notification</div>
+          <Divider className={classes.divider} />
+          <NotificationInput
+            required
+            autoComplete="off"
+            variant="outlined"
+            multiline
+            rows={4}
+            rowsMax={8}
+            id="outlined-multiline-static"
+            label="Notification"
+            value={notification}
+            onChange={(e) => {
+              setNotification(e.target.value);
+            }}
+          />
+        </div>
       </div>
     </div>
   );
