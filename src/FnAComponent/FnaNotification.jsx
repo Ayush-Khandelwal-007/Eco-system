@@ -20,6 +20,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { db } from "../Firebase";
 import { formatMs, Input } from "@material-ui/core";
 import forms from "./FnADashboard.module.css";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -29,7 +33,7 @@ const NotificationInput = withStyles(() => ({
   },
 }))(TextField);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
@@ -37,7 +41,21 @@ const useStyles = makeStyles({
     width: "auto",
     margin: 25,
   },
-});
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+    position: "relative",
+    overflow: "auto",
+    maxHeight: "100%",
+  },
+  listSection: {
+    backgroundColor: "inherit",
+  },
+  ul: {
+    backgroundColor: "inherit",
+    padding: 0,
+  },
+}));
 
 const GoBackBtn = withStyles(() => ({
   root: {
@@ -191,7 +209,22 @@ export default function FnaNotification() {
         </GoBackBtn>
       </div>
       <div className={FnADesign.notificationDiv}>
-        <div className={FnADesign.SelectionList}></div>
+        <div className={FnADesign.SelectionList}>
+          <List className={classes.root} subheader={<li />}>
+            {[0, 1, 2, 3, 4].map((sectionId) => (
+              <li key={`section-${sectionId}`} className={classes.listSection}>
+                <ul className={classes.ul}>
+                  <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
+                  {[0, 1, 2].map((item) => (
+                    <ListItem key={`item-${sectionId}-${item}`}>
+                      <ListItemText primary={`Item ${item}`} />
+                    </ListItem>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </List>
+        </div>
         <div className={FnADesign.MsgDiv}></div>
       </div>
     </div>
