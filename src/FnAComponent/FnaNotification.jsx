@@ -187,36 +187,6 @@ export default function FnaNotification() {
 
   return (
     <div className={FnADesign.main}>
-      <NotifyDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Notify Students
-        </DialogTitle>
-        <DialogContent dividers>
-          <NotificationInput
-            required
-            autoComplete="off"
-            variant="outlined"
-            multiline
-            rows={4}
-            rowsMax={8}
-            id="outlined-multiline-static"
-            label="Notification"
-            value={notification}
-            onChange={(e) => {
-              setNotification(e.target.value);
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSend} color="primary">
-            SEND
-          </Button>
-        </DialogActions>
-      </NotifyDialog>
       <div className={FnADesign.Nav}>
         <div className={FnADesign.HeadingTxt}>SEND NOTIFICATIONS</div>
         <GoBackBtn
@@ -328,7 +298,9 @@ export default function FnaNotification() {
           />
           <Divider className={classes.divider} />
           <div className={FnADesign.SendBtnDiv}>
-            <Button color="primary">SEND</Button>
+            <Button color="primary" onClick={handleSend}>
+              SEND
+            </Button>
           </div>
         </div>
       </div>
