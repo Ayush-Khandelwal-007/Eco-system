@@ -56,16 +56,29 @@ export default function Landing() {
             animate={{ x: 0 }}
             transition={{ delay: "0", type: "spring", stiffness: 50 }}
           >
-            <LoginBtn
-              variant="contained"
-              color="primary"
-              onClick={goLogin}
-              initial={{ x: "-100vw" }}
-              animate={{ x: 0 }}
-              transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
-            >
-              Login
-            </LoginBtn>
+            <div className={LandingCss.btns}>
+              <LoginBtn
+                style={{ background: "#27AE60" }}
+                variant="contained"
+                color="primary"
+                onClick={goLogin}
+                initial={{ x: "-100vw" }}
+                animate={{ x: 0 }}
+                transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+              >
+                Login
+              </LoginBtn>
+              <LoginBtn
+                variant="contained"
+                color="primary"
+                onClick={goLogin}
+                initial={{ x: "-100vw" }}
+                animate={{ x: 0 }}
+                transition={{ delay: "0.2", type: "spring", stiffness: 50 }}
+              >
+                Notice board
+              </LoginBtn>
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>
