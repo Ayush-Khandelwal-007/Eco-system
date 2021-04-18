@@ -83,18 +83,23 @@
 
 .notificationDiv {
   height: 100%;
-  width: 100%;
   display: flex;
   margin: 10px 35px;
   padding: 50px 0;
+  justify-content: space-between;
 }
 
 .SelectionList {
-  height: 540px;
-  width: 427px;
+  height: 585px;
+  width: 500px;
   border-radius: 12px;
   background: #fff;
+  padding: 5px;
 }
 
 .MsgDiv {
+  height: 304px;
+  width: 820px;
+  border-radius: 12px;
+  background: #fff;
 }
