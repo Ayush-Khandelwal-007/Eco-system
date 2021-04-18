@@ -224,15 +224,6 @@ export default function DashboardOptions() {
     setOpenAlert(false);
   };
 
-  const handleSend = () => {
-    db.collection("notifications").add({
-      message: notification,
-    });
-    setNotification("");
-    setOpen(false);
-    setOpenAlert(true);
-  };
-
   const updateTime = (ndate) => {
     db.collection("feeDeadline").doc("1").update({
       date: ndate,
@@ -252,37 +243,6 @@ export default function DashboardOptions() {
 
   return (
     <div>
-      <NotifyDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Notify Students
-        </DialogTitle>
-        <DialogContent dividers>
-          <NotificationInput
-            required
-            autoComplete="off"
-            variant="outlined"
-            multiline
-            rows={4}
-            rowsMax={8}
-            id="outlined-multiline-static"
-            label="Notification"
-            value={notification}
-            onChange={(e) => {
-              setNotification(e.target.value);
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSend} color="primary">
-            SEND
-          </Button>
-        </DialogActions>
-      </NotifyDialog>
-
       <Dialog open={showFeeDateAlert}>
         <DialogTitle id="customized-dialog-title">Late Fee</DialogTitle>
         <DialogContent dividers>
