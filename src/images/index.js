@@ -18,3 +18,6 @@ export { default as logoSmall } from "./logoSmall.svg";
 export { default as LoginGif } from "./LoginGif.gif";
 export { default as loginIllustration } from "./loginIllustration.svg";
 export { default as profileViewIcon } from "./profileView.svg";
+export { default as crousel1 } from "./crousel1.svg";
+export { default as crousel2 } from "./crousel2.svg";
+export { default as crousel3 } from "./crousel3.svg";

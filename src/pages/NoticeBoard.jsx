@@ -1,6 +1,6 @@
 import React from "react";
 import design from "../StudentComponents/NoticeBoardComponent/NoticeBoard.module.css";
-import { logo } from "../images";
+import { logo, crousel1, crousel2, crousel3 } from "../images";
 import Carousel from "react-material-ui-carousel";
 import { useHistory } from "react-router-dom";
 import { Paper, Button } from "@material-ui/core";
@@ -46,9 +46,9 @@ function NoticeBoard() {
     <div className={design.main}>
       <img src={logo} alt="" />
       <Carousel>
-        {items.map((item, i) => (
-          <Item key={i} item={item} />
-        ))}
+        <img src={crousel1} alt="" />
+        <img src={crousel2} alt="" />
+        <img src={crousel3} alt="" />
       </Carousel>
       <LoginBtn
         style={{ background: "#27AE60" }}
