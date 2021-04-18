@@ -7,6 +7,7 @@ import Register from "../FnAComponent/RegisterNewStudent/Register";
 import FeeApproval from "../FnAComponent/FeeApproval";
 import FeeAtReg from "../FnAComponent/FeeAtReg";
 import FeeAtAdd from "../FnAComponent/FeeAtAdd";
+import FnaNotification from "../FnAComponent/FnaNotification";
 
 export default function FnARoutes() {
   return (
@@ -20,6 +21,9 @@ export default function FnARoutes() {
         </Route>
         <Route exact path="/FnADashboard/DefaulterList">
           <DefaultersList />
+        </Route>
+        <Route exact path="/FnADashboard/FnaNotification">
+          <FnaNotification />
         </Route>
         <Route exact path="/FnADashboard/deadlineext"></Route>
         <Route exact path="/FnADashboard/StudentRegistration">

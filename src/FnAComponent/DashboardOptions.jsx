@@ -143,13 +143,13 @@ export default function DashboardOptions() {
         setLateFeeAmount(resp.data().amount);
         setLateFeeTime(resp.data().date);
         var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var dd = String(today.getDate()).padStart(2, "0");
+        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
         var yyyy = today.getFullYear();
 
-        today = yyyy + '-' + mm + '-' + dd;
-        console.log(resp.data().date, today)
-        if (new Date(resp.data().date)-new Date(today)<=0) {
+        today = yyyy + "-" + mm + "-" + dd;
+        console.log(resp.data().date, today);
+        if (new Date(resp.data().date) - new Date(today) <= 0) {
           setShowFeeDateAlert(true);
         }
       });
@@ -234,9 +234,8 @@ export default function DashboardOptions() {
   };
 
   const updateTime = (ndate) => {
-
     db.collection("feeDeadline").doc("1").update({
-      date: ndate
+      date: ndate,
     });
     setShowFeeDateAlert(false);
     setLateFeeTime(ndate);
@@ -319,10 +318,7 @@ export default function DashboardOptions() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => updateTime(extendedDate)}
-            color="primary"
-          >
+          <Button onClick={() => updateTime(extendedDate)} color="primary">
             Change Date
           </Button>
           <Button onClick={() => updateAmount(changedAmount)} color="primary">
@@ -375,10 +371,7 @@ export default function DashboardOptions() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => updateTime(extendedDate)}
-            color="primary"
-          >
+          <Button onClick={() => updateTime(extendedDate)} color="primary">
             Change Date
           </Button>
           <Button onClick={() => updateAmount(changedAmount)} color="primary">
@@ -422,11 +415,13 @@ export default function DashboardOptions() {
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>
-              <Grid item onClick={handleClickOpen} xs={3}>
-                <Paper className={classes.paper}>
-                  <img src={bell} alt="logo" />
-                  <div className={FnADesign.paperTxt}>Send Notifications</div>
-                </Paper>
+              <Grid item xs={3}>
+                <Link to="FnADashboard/FnaNotification">
+                  <Paper className={classes.paper}>
+                    <img src={bell} alt="logo" />
+                    <div className={FnADesign.paperTxt}>Send Notifications</div>
+                  </Paper>
+                </Link>
               </Grid>
             </Grow>
             <Grow in={checked} {...(checked ? { timeout: 500 } : {})}>

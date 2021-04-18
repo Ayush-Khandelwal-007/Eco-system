@@ -45,9 +45,8 @@ export default function FnaNotification() {
 
   return (
     <div className={FnADesign.main}>
-      {console.log(defaultersList)}
       <div className={FnADesign.Nav}>
-        <div className={FnADesign.HeadingTxt}>DEFAULTERS LIST</div>
+        <div className={FnADesign.HeadingTxt}>SEND NOTIFICATIONS</div>
         <GoBackBtn
           variant="contained"
           color="primary"
