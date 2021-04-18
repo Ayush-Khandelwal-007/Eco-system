@@ -23,3 +23,20 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.NotificationLi{
+  background-color: transparent;
+  padding: 1vw 10px,
+}
+
+.notiRow{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.notiTime{
+  font-size: smaller;
+  display: flex;
+  justify-content: flex-end;
+}

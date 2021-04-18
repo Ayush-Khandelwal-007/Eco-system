@@ -22,6 +22,8 @@ import NotificationsNoneTwoToneIcon from "@material-ui/icons/NotificationsNoneTw
 import { useHistory } from "react-router-dom";
 import { useUser } from "../../contexts/User";
 import { db } from "../../Firebase";
+import moment from "moment";
+import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -43,10 +45,6 @@ const useStyles = makeStyles((theme) => ({
   chevicon: {
     marginLeft: "auto",
   },
-  NotificationLi: {
-    background: "#fff",
-    padding: "0 10px",
-  },
 }));
 function HeaderNav() {
   const [state, dispatch] = useUser();
@@ -54,18 +52,24 @@ function HeaderNav() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    db.collection("notifications").onSnapshot((snapshot) => {
+    db.collection('Students').doc(state.user.email).collection("notification").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
       setNotifications(
         snapshot.docs.map((doc) => {
+          const dateTimeString = moment.unix(doc.data().timestamp).format("DD-MM-YYYY HH:mm:ss");
           return {
             id: doc.id,
             message: doc.data().message,
+            time: dateTimeString,
           };
         })
       );
     });
     // console.log(notifications);
   }, []);
+
+  const deleteNoti = (id) => {
+    db.collection('Students').doc(state.user.email).collection("notification").doc(id).delete();
+  }
 
   const goLogout = () => {
     dispatch({
@@ -131,8 +135,15 @@ function HeaderNav() {
         </div>
         {notifications.map((not, index) => {
           return (
-            <div key={not.id} className={classes.NotificationLi}>
-              <Typography gutterBottom>{not.message}</Typography>
+            <div key={not.id} className={header.NotificationLi}>
+              <Divider />
+              <Typography gutterBottom>
+                <div className={header.notiRow}>
+                  {not.message}
+                  <div onClick={() => deleteNoti(not.id)}> <CancelTwoToneIcon /></div>
+                </div>
+              </Typography>
+              <div className={header.notiTime}>{not.time}</div>
               {index === notifications.length - 1 ? null : <hr />}
             </div>
           );
