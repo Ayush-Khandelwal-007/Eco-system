@@ -108,3 +108,8 @@
 .NotifyTitle {
   display: flex;
 }
+
+.SendBtnDiv {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -317,7 +317,7 @@ export default function FnaNotification() {
             autoComplete="off"
             variant="outlined"
             multiline
-            rows={4}
+            rows={8}
             rowsMax={8}
             id="outlined-multiline-static"
             label="Notification"
@@ -326,6 +326,10 @@ export default function FnaNotification() {
               setNotification(e.target.value);
             }}
           />
+          <Divider className={classes.divider} />
+          <div className={FnADesign.SendBtnDiv}>
+            <Button color="primary">SEND</Button>
+          </div>
         </div>
       </div>
     </div>
