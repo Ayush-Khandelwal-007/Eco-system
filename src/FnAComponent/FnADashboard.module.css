@@ -59,7 +59,7 @@
   display: flex;
 }
 
-.row{
+.row {
   display: flex;
   justify-content: space-between;
   padding: 3vh 2vw;
@@ -67,17 +67,22 @@
   font-weight: 600;
 }
 
-.row label{
+.row label {
   color: green;
 }
 
-
-.disp{
+.disp {
   margin-bottom: 3vh;
   color: brown;
   font-weight: 600;
 }
 
-.disp>label{
+.disp > label {
   color: green;
+}
+
+.notificationDiv {
+  height: 100%;
+  width: 100%;
+  display: flex;
 }

@@ -190,6 +190,7 @@ export default function FnaNotification() {
           Go&nbsp;Back&nbsp;to&nbsp;Menu
         </GoBackBtn>
       </div>
+      <div className={FnADesign.notificationDiv}></div>
     </div>
   );
 }
