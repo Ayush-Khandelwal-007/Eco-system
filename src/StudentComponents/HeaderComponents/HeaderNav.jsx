@@ -43,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
   chevicon: {
     marginLeft: "auto",
   },
+  NotificationLi: {
+    background: "#fff",
+    padding: "0 10px",
+  },
 }));
 function HeaderNav() {
   const [state, dispatch] = useUser();
@@ -127,7 +131,7 @@ function HeaderNav() {
         </div>
         {notifications.map((not, index) => {
           return (
-            <div key={not.id}>
+            <div key={not.id} className={classes.NotificationLi}>
               <Typography gutterBottom>{not.message}</Typography>
               {index === notifications.length - 1 ? null : <hr />}
             </div>

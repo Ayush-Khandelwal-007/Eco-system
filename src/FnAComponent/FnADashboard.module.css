@@ -18,7 +18,7 @@
 .Nav {
   display: flex;
   justify-content: space-between;
-  margin: 10px 20px;
+  margin: 10px 35px;
 }
 
 .paperTxt {
@@ -59,7 +59,7 @@
   display: flex;
 }
 
-.row{
+.row {
   display: flex;
   justify-content: space-between;
   padding: 3vh 2vw;
@@ -67,17 +67,49 @@
   font-weight: 600;
 }
 
-.row label{
+.row label {
   color: green;
 }
 
-
-.disp{
+.disp {
   margin-bottom: 3vh;
   color: brown;
   font-weight: 600;
 }
 
-.disp>label{
+.disp > label {
   color: green;
+}
+
+.notificationDiv {
+  height: 100%;
+  display: flex;
+  margin: 10px 35px;
+  padding: 50px 0;
+  justify-content: space-between;
+}
+
+.SelectionList {
+  height: 585px;
+  width: 500px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 5px;
+}
+
+.MsgDiv {
+  height: 304px;
+  width: 820px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 15px;
+}
+
+.NotifyTitle {
+  display: flex;
+}
+
+.SendBtnDiv {
+  display: flex;
+  justify-content: flex-end;
 }
