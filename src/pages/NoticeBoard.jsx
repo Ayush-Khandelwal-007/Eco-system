@@ -11,17 +11,6 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 
-var items = [
-  {
-    name: "Notice #1",
-    description: "Probably the most random thing you have ever seen!",
-  },
-  {
-    name: "Notice #2",
-    description: "Hello World!",
-  },
-];
-
 const LoginBtn = withStyles(() => ({
   root: {
     width: "20vw",
@@ -62,15 +51,6 @@ function NoticeBoard() {
         Login
       </LoginBtn>
     </div>
-  );
-}
-
-function Item(props) {
-  return (
-    <Paper>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-    </Paper>
   );
 }
 
