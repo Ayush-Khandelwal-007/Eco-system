@@ -11,17 +11,3 @@
   min-width: 100%;
   min-height: 100%;
 }
-
-.NoticeList {
-  width: 550px;
-  height: 450px;
-  background: #fff;
-  border-radius: 16px;
-}
-
-.Content {
-  width: 100%;
-  justify-content: space-around;
-  display: flex;
-  align-items: center;
-}

@@ -14,6 +14,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import design from "./NoticeBoardComponent/NoticeBoard.module.css";
 import { db } from "../Firebase";
 import { logo, crousel1, crousel2, crousel3 } from "../images";
@@ -31,7 +33,41 @@ function NoticeBoard() {
           <img src={crousel2} alt="" />
           <img src={crousel3} alt="" />
         </Carousel>
-        <div className={design.NoticeList}></div>
+        <div className={design.NoticeListDiv}>
+          <div className={design.AddNew}>
+            <div className={design.AddNewTxt}>Add a new notice</div>
+            <Button variant="outlined" color="primary">
+              <AddRoundedIcon
+                style={{
+                  color: "green",
+                }}
+              />
+            </Button>
+          </div>
+          <Divider />
+          <div className={design.NoticesList}>
+            <div className={design.NoticeItem}>
+              <div className={design.NoticeName}>Notice1.jpg</div>
+              <Button variant="outlined" color="secondary">
+                <DeleteForeverTwoToneIcon
+                  style={{
+                    color: "red",
+                  }}
+                />
+              </Button>
+            </div>
+            <div className={design.NoticeItem}>
+              <div className={design.NoticeName}>Notice1.jpg</div>
+              <Button variant="outlined" color="secondary">
+                <DeleteForeverTwoToneIcon
+                  style={{
+                    color: "red",
+                  }}
+                />
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

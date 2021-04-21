@@ -15,3 +15,48 @@
   top: 55px;
   text-transform: uppercase;
 }
+
+.NoticeListDiv {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 450px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.Content {
+  width: 100%;
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+}
+
+.AddNew {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+}
+
+.NoticeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.NoticesList {
+  padding: 10px 0px 0 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.NoticeName {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.AddNewTxt {
+  font-size: 20px;
+}
