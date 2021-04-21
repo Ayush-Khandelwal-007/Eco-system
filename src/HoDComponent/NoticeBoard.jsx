@@ -21,7 +21,7 @@ function NoticeBoard() {
   return (
     <div className={design.main}>
       <div className={design.heading}>
-        <h1>Profile View</h1>
+        <h1>Notice Board Management</h1>
       </div>
     </div>
   );
