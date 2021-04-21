@@ -16,6 +16,8 @@ import {
   courseAllotment,
   Hod,
   profileViewIcon,
+  Events,
+  NoticeBoard,
 } from "../images";
 import {
   Button,
@@ -272,7 +274,7 @@ function HodDashboard(props) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={4} className={design.imgGrid}>
-                    <img alt="complex" src={courseUpdate} />
+                    <img alt="complex" src={Events} />
                   </Grid>
                 </Grid>
               </Paper>
@@ -288,7 +290,7 @@ function HodDashboard(props) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={4} className={design.imgGrid}>
-                    <img alt="complex" src={courseUpdate} />
+                    <img alt="complex" src={NoticeBoard} />
                   </Grid>
                 </Grid>
               </Paper>
