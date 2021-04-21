@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -22,8 +22,24 @@ import { logo, crousel1, crousel2, crousel3 } from "../images";
 import Carousel from "react-material-ui-carousel";
 
 function NoticeBoard() {
+  const [openNewNotice, SetOpenNewNotice] = useState(false);
+  const handleCloseAddNewNoice = () => {
+    SetOpenNewNotice(false);
+  };
+
   return (
     <div className={design.main}>
+      <Dialog onClose={handleCloseAddNewNoice} open={openNewNotice}>
+        <DialogTitle>Add a new notice</DialogTitle>
+        <DialogContent dividers>
+          <input type="file" id="file" class="file" />
+          <label for="file">Select file</label>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary">Close</Button>
+          <Button color="primary">Add</Button>
+        </DialogActions>
+      </Dialog>
       <div className={design.heading}>
         <h1>Notice Board Management</h1>
       </div>
@@ -36,7 +52,11 @@ function NoticeBoard() {
         <div className={design.NoticeListDiv}>
           <div className={design.AddNew}>
             <div className={design.AddNewTxt}>Add a new notice</div>
-            <Button variant="outlined" color="primary">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => SetOpenNewNotice(true)}
+            >
               <AddRoundedIcon
                 style={{
                   color: "green",

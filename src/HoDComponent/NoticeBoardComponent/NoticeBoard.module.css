@@ -60,3 +60,7 @@
 .AddNewTxt {
   font-size: 20px;
 }
+
+.InputToHide {
+  opacity: 0;
+}
