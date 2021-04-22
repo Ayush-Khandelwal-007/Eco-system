@@ -12,7 +12,7 @@ import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import design from "./NoticeBoardComponent/NoticeBoard.module.css";
 import { db } from "../Firebase";
-import { logo, crousel1, crousel2, crousel3 } from "../images";
+import { logo, crousel1, crousel2, crousel3, LoginGif } from "../images";
 import Carousel from "react-material-ui-carousel";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -138,6 +138,9 @@ function NoticeBoard() {
           </div>
           <div className={design.CrouselItem}>
             <img src={crousel3} alt="" />
+          </div>
+          <div className={design.CrouselItem}>
+            <img src={LoginGif} alt="" />
           </div>
         </Carousel>
         <div className={design.NoticeListDiv}>

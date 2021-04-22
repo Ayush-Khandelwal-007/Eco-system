@@ -1,6 +1,6 @@
 import React from "react";
 import design from "../StudentComponents/NoticeBoardComponent/NoticeBoard.module.css";
-import { logo, crousel1, crousel2, crousel3 } from "../images";
+import { logo, crousel1, crousel2, crousel3, LoginGif } from "../images";
 import Carousel from "react-material-ui-carousel";
 import { useHistory } from "react-router-dom";
 import { Paper, Button } from "@material-ui/core";
@@ -43,6 +43,9 @@ function NoticeBoard() {
         </div>
         <div className={design.CrouselItem}>
           <img src={crousel3} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={LoginGif} alt="" />
         </div>
       </Carousel>
       <LoginBtn

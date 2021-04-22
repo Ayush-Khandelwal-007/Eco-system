@@ -16,5 +16,8 @@
   width: 334px;
   height: 351px;
   background-color: #fff;
+  display: flex;
+  justify-content: center;
   border-radius: 12px;
+  overflow: hidden;
 }
