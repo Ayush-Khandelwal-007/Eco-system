@@ -64,3 +64,10 @@
 .InputToHide {
   opacity: 0;
 }
+
+.CrouselItem {
+  width: 334px;
+  height: 351px;
+  background-color: #fff;
+  border-radius: 12px;
+}
