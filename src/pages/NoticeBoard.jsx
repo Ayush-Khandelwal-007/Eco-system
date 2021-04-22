@@ -35,9 +35,15 @@ function NoticeBoard() {
     <div className={design.main}>
       <img src={logo} alt="" />
       <Carousel>
-        <img src={crousel1} alt="" />
-        <img src={crousel2} alt="" />
-        <img src={crousel3} alt="" />
+        <div className={design.CrouselItem}>
+          <img src={crousel1} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={crousel2} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={crousel3} alt="" />
+        </div>
       </Carousel>
       <LoginBtn
         style={{ background: "#27AE60" }}

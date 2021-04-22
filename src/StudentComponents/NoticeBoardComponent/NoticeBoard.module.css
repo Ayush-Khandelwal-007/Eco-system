@@ -11,3 +11,10 @@
   min-width: 100%;
   min-height: 100%;
 }
+
+.CrouselItem {
+  width: 334px;
+  height: 351px;
+  background-color: #fff;
+  border-radius: 12px;
+}
