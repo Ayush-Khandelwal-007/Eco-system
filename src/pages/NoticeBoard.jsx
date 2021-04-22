@@ -1,6 +1,6 @@
 import React from "react";
 import design from "../StudentComponents/NoticeBoardComponent/NoticeBoard.module.css";
-import { logo, crousel1, crousel2, crousel3 } from "../images";
+import { logo, crousel1, crousel2, crousel3, LoginGif } from "../images";
 import Carousel from "react-material-ui-carousel";
 import { useHistory } from "react-router-dom";
 import { Paper, Button } from "@material-ui/core";
@@ -10,17 +10,6 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
-
-var items = [
-  {
-    name: "Notice #1",
-    description: "Probably the most random thing you have ever seen!",
-  },
-  {
-    name: "Notice #2",
-    description: "Hello World!",
-  },
-];
 
 const LoginBtn = withStyles(() => ({
   root: {
@@ -46,9 +35,18 @@ function NoticeBoard() {
     <div className={design.main}>
       <img src={logo} alt="" />
       <Carousel>
-        <img src={crousel1} alt="" />
-        <img src={crousel2} alt="" />
-        <img src={crousel3} alt="" />
+        <div className={design.CrouselItem}>
+          <img src={crousel1} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={crousel2} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={crousel3} alt="" />
+        </div>
+        <div className={design.CrouselItem}>
+          <img src={LoginGif} alt="" />
+        </div>
       </Carousel>
       <LoginBtn
         style={{ background: "#27AE60" }}
@@ -62,15 +60,6 @@ function NoticeBoard() {
         Login
       </LoginBtn>
     </div>
-  );
-}
-
-function Item(props) {
-  return (
-    <Paper>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-    </Paper>
   );
 }
 

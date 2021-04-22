@@ -20,6 +20,7 @@ import ExamSchedule from "../HoDComponent/ExamSchedule";
 import Courses from "../HoDComponent/Courses";
 import ProfileView from "../HoDComponent/ProfileView";
 import Calendar from "../HoDComponent/Calendar";
+import NoticeBoard from "../HoDComponent/NoticeBoard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,6 +129,9 @@ function Hod(props) {
             </Route>
             <Route exact path="/HODDashboard/Events">
               <Calendar />
+            </Route>
+            <Route exact path="/HODDashboard/NoticeBoardManagement">
+              <NoticeBoard />
             </Route>
           </Switch>
         </Router>
