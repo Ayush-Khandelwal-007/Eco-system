@@ -1,15 +1,13 @@
-import React from "react";
-import design from "../StudentComponents/NoticeBoardComponent/NoticeBoard.module.css";
-import { logo, crousel1, crousel2, crousel3, LoginGif } from "../images";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import { useHistory } from "react-router-dom";
 import { Paper, Button } from "@material-ui/core";
 import {
-  createMuiTheme,
   withStyles,
-  makeStyles,
-  ThemeProvider,
 } from "@material-ui/core/styles";
+import { db } from "../Firebase";
+import renderHTML from 'react-render-html';
+import design from "../HoDComponent/NoticeBoardComponent/NoticeBoard.module.css";
 
 const LoginBtn = withStyles(() => ({
   root: {
@@ -30,24 +28,43 @@ const LoginBtn = withStyles(() => ({
 function NoticeBoard() {
   const history = useHistory();
   const goLogin = () => history.push("login");
+  const [noticies, setNoticies] = useState([])
 
+  useEffect(() => {
+    var unsubscribe =db.collection("noticeBoard")
+      .onSnapshot((querySnapshot) => {
+        var list = [];
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: doc.id });
+        });
+        setNoticies(list);
+      });
+    return unsubscribe;
+  }, [db]);
   return (
-    <div className={design.main}>
-      <img src={logo} alt="" />
+    <div className={design.main2}>
       <Carousel>
-        <div className={design.CrouselItem}>
-          <img src={crousel1} alt="" />
-        </div>
-        <div className={design.CrouselItem}>
-          <img src={crousel2} alt="" />
-        </div>
-        <div className={design.CrouselItem}>
-          <img src={crousel3} alt="" />
-        </div>
-        <div className={design.CrouselItem}>
-          <img src={LoginGif} alt="" />
-        </div>
-      </Carousel>
+          {
+            noticies.map((notice) => {
+              return notice.type === 'image' ? (
+                <div key={notice.id}>
+                  <div className={design.CrouselItem}>
+                    <img src={notice.file} alt="" />
+                  </div>
+                  <p>{notice.topic}</p>
+                </div>
+              ) : (
+                <div key={notice.id}>
+                  <div>
+                    {renderHTML(notice.file)}
+                  </div>
+                  <p>{notice.topic}</p>
+                </div>
+              )
+            })
+          }
+
+        </Carousel>
       <LoginBtn
         style={{ background: "#27AE60" }}
         variant="contained"
