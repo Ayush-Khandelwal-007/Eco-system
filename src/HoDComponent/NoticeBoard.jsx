@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -11,11 +10,28 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import design from "./NoticeBoardComponent/NoticeBoard.module.css";
-import { db } from "../Firebase";
-import { logo, crousel1, crousel2, crousel3, LoginGif } from "../images";
+import { db, storage } from "../Firebase";
 import Carousel from "react-material-ui-carousel";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import renderHTML from 'react-render-html';
+import { Box, Input, TextareaAutosize } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box display="flex" alignItems="center" justifyContent="center">
+      <Box width="70%" mr={1}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box minWidth={35}>
+        <Typography variant="body2" color="textSecondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 const styles = (theme) => ({
   root: {
@@ -63,6 +79,16 @@ const DialogActions = withStyles((theme) => ({
 
 function NoticeBoard() {
   const [openNewNotice, SetOpenNewNotice] = useState(false);
+  const [uploadType, setUploadType] = useState('html');
+  const [topic, setTopic] = useState('');
+  const [htmlText, setHtmlText] = useState('');
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [progress, setProgress] = useState(0);
+
+  const [noticies, setNoticies] = useState([])
+  const [selectedForDelete, setSelectedForDelete] = useState('');
+
   const handleCloseAddNewNoice = () => {
     SetOpenNewNotice(false);
   };
@@ -72,14 +98,134 @@ function NoticeBoard() {
     SetOpenDelete(false);
   };
 
+  const upload = () => {
+    if ((file || !(htmlText === '')) && topic !== '') {
+      AddToNoticeBoard();
+    }
+  }
+
+  const DeleteNotice = (id) => {
+    db.collection('noticeBoard').doc(id).delete().then(() => {
+      SetOpenDelete(false);
+    });
+  }
+
+  const AddToNoticeBoard = () => {
+    if (uploadType === 'html') {
+      db.collection('noticeBoard').add({
+        type: uploadType,
+        topic: topic,
+        file: htmlText,
+      })
+      setTopic('');
+      setHtmlText('');
+      SetOpenNewNotice(false);
+    }
+    else {
+      const uploadTask = storage.ref(`noticeBoard/${file.name}`).put(file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(prog);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("noticeBoard")
+            .child(file.name)
+            .getDownloadURL()
+            .then((url) => {
+              db.collection('noticeBoard').add({
+                type: uploadType,
+                topic: topic,
+                file: url,
+              })
+              setProgress(0);
+              setFile(null);
+              setTopic('');
+              SetOpenNewNotice(false);
+            });
+        }
+      );
+    }
+  }
+
+  const onImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setPreview(e.target.result)
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  }
+
+  useEffect(() => {
+    var unsubscribe =db.collection("noticeBoard")
+      .onSnapshot((querySnapshot) => {
+        var list = [];
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data(), id: doc.id });
+        });
+        setNoticies(list);
+      });
+    return unsubscribe;
+  }, [db]);
+
   return (
     <div className={design.main}>
       {/* Add new Notice Dailog */}
       <Dialog onClose={handleCloseAddNewNoice} open={openNewNotice}>
         <DialogTitle>Add a new notice</DialogTitle>
         <DialogContent dividers>
-          <input type="file" id="file" class="file" />
-          <label for="file">Select file</label>
+          <div className={design.dialogDiv}>
+            <div className={design.selectUploadType}>
+              <div onClick={() => setUploadType('html')} className={uploadType === 'html' ? design.active : null}>HTML</div>
+              <div onClick={() => setUploadType('image')} className={uploadType === 'image' ? design.active : null}>IMAGE</div>
+            </div>
+            <div className={design.inputBox}>
+              {
+                uploadType === 'image' ? (
+                  <div>
+                    <label htmlFor="Topic">
+                      Add a topic:
+                      <Input type="text" id="Topic" value={topic} onChange={(e) => { setTopic(e.target.value) }} />
+                    </label>
+                    <label htmlFor="file">
+                      Select the Image:
+                      <Input type="file" id="file" accept="image/*" onChange={(e)=>onImageChange(e)} />
+                    </label>
+                    <label>
+                      Preview:
+                      <div><img id="target" src={preview}/></div>
+                    </label>
+                    <LinearProgressWithLabel value={progress} />
+                  </div>
+                ) : (
+                  <div>
+                    <label htmlFor="Topic">
+                      Add a topic:
+                      <Input type="text" id="Topic" value={topic} onChange={(e) => { setTopic(e.target.value) }} />
+                    </label>
+                    <label>
+                      Paste the HTML file below
+                      <TextareaAutosize aria-label="minimum height" placeholder="Enter HTML text" type="text" id="file" value={htmlText} onChange={(e) => { setHtmlText(e.target.value) }} />
+                    </label>
+                    <label>
+                      Preview:
+                      <div>{renderHTML(htmlText)}</div>
+                    </label>
+                  </div>
+                )
+              }
+            </div>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button
@@ -93,7 +239,7 @@ function NoticeBoard() {
           <Button
             color="primary"
             onClick={() => {
-              SetOpenNewNotice(false);
+              upload()
             }}
           >
             Add
@@ -118,7 +264,7 @@ function NoticeBoard() {
           <Button
             color="primary"
             onClick={() => {
-              SetOpenDelete(false);
+              DeleteNotice(selectedForDelete)
             }}
           >
             Yes
@@ -130,18 +276,26 @@ function NoticeBoard() {
       </div>
       <div className={design.Content}>
         <Carousel>
-          <div className={design.CrouselItem}>
-            <img src={crousel1} alt="" />
-          </div>
-          <div className={design.CrouselItem}>
-            <img src={crousel2} alt="" />
-          </div>
-          <div className={design.CrouselItem}>
-            <img src={crousel3} alt="" />
-          </div>
-          <div className={design.CrouselItem}>
-            <img src={LoginGif} alt="" />
-          </div>
+          {
+            noticies.map((notice) => {
+              return notice.type === 'image' ? (
+                <div key={notice.id}>
+                  <div className={design.CrouselItem}>
+                    <img src={notice.file} alt="" />
+                  </div>
+                  <p>{notice.topic}</p>
+                </div>
+              ) : (
+                <div key={notice.id}>
+                  <div>
+                    {renderHTML(notice.file)}
+                  </div>
+                  <p>{notice.topic}</p>
+                </div>
+              )
+            })
+          }
+
         </Carousel>
         <div className={design.NoticeListDiv}>
           <div className={design.AddNew}>
@@ -160,38 +314,29 @@ function NoticeBoard() {
           </div>
           <Divider />
           <div className={design.NoticesList}>
-            <div className={design.NoticeItem}>
-              <div className={design.NoticeName}>Notice1.jpg</div>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  SetOpenDelete(true);
-                }}
-              >
-                <DeleteForeverTwoToneIcon
-                  style={{
-                    color: "red",
-                  }}
-                />
-              </Button>
-            </div>
-            <div className={design.NoticeItem}>
-              <div className={design.NoticeName}>Notice1.jpg</div>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  SetOpenDelete(true);
-                }}
-              >
-                <DeleteForeverTwoToneIcon
-                  style={{
-                    color: "red",
-                  }}
-                />
-              </Button>
-            </div>
+            {
+              noticies.map((notice) => {
+                return (
+                  <div className={design.NoticeItem} key={notice.id}>
+                    <div className={design.NoticeName}>{notice.topic}</div>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => {
+                        setSelectedForDelete(notice.id);
+                        SetOpenDelete(true);
+                      }}
+                    >
+                      <DeleteForeverTwoToneIcon
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    </Button>
+                  </div>
+                )
+              })
+            }
           </div>
         </div>
       </div>

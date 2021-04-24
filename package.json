@@ -25,6 +25,7 @@
     "react-dom": "^17.0.1",
     "react-material-ui-carousel": "^2.2.4",
     "react-pdf": "^5.2.0",
+    "react-render-html": "^0.6.0",
     "react-responsive-carousel": "^3.2.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
