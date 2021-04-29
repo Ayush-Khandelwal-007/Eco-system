@@ -29,7 +29,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
-import firebase from 'firebase';
+import firebase from "firebase";
 
 const NotificationInput = withStyles(() => ({
   root: {
@@ -148,8 +148,8 @@ export default function FnaNotification() {
   const [notification, setNotification] = useState("");
   const [checked, setChecked] = useState([]);
   const [checkedh, setCheckedh] = useState([]);
-  const [students, setStudents] = useState([])
-  const [hods, setHods] = useState([])
+  const [students, setStudents] = useState([]);
+  const [hods, setHods] = useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -194,20 +194,20 @@ export default function FnaNotification() {
 
   const handleSend = () => {
     checked.forEach((item) => {
-      db.collection('Students').doc(item.email).collection('notification').add({
+      db.collection("Students").doc(item.email).collection("notification").add({
         message: notification,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
-    })
-    setChecked([])
+    });
+    setChecked([]);
 
     checkedh.forEach((item) => {
-      db.collection('HoD').doc(item.email).collection('notification').add({
+      db.collection("HoD").doc(item.email).collection("notification").add({
         message: notification,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
-    })
-    setCheckedh([])
+    });
+    setCheckedh([]);
     setNotification("");
     setOpen(false);
     setOpenAlert(true);
@@ -218,28 +218,32 @@ export default function FnaNotification() {
   // }, [checked, checkedh])
 
   useEffect(() => {
-    db.collection('Students')
-      .onSnapshot((snapshot) => {
+    db.collection("Students").onSnapshot(
+      (snapshot) => {
         var list = [];
         snapshot.forEach((doc) => {
           list.push(doc.data());
         });
         setStudents(list);
-      }, (error) => {
+      },
+      (error) => {
         console.log("error", error);
-      });
+      }
+    );
 
-    db.collection('HoD')
-      .onSnapshot((snapshot) => {
+    db.collection("HoD").onSnapshot(
+      (snapshot) => {
         var list = [];
         snapshot.forEach((doc) => {
           list.push(doc.data());
         });
         setHods(list);
-      }, (error) => {
+      },
+      (error) => {
         console.log("error", error);
-      });
-  }, [])
+      }
+    );
+  }, []);
 
   return (
     <div className={FnADesign.main}>

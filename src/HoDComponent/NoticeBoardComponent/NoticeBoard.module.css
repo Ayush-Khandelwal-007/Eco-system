@@ -68,66 +68,63 @@
 }
 
 .CrouselItem {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 12px;
   overflow: hidden;
+  height: 374px;
+  width: 350px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.CrouselItem img{
-  width: 50vw;
-  height: 100%;
-}
-
-.dialogDiv{
+.dialogDiv {
   display: flex;
   flex-direction: column;
 }
 
-.selectUploadType{
+.selectUploadType {
   display: flex;
   font-size: calc(3px + 2vw);
-  gap:2vw;
+  gap: 2vw;
 }
 
-.selectUploadType>div{
+.selectUploadType > div {
   cursor: pointer;
   padding: 5px;
   border-radius: 5px 5px 0 0;
 }
 
-.active{
+.active {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-.inputBox{
+.inputBox {
   border-radius: 5px;
   min-height: 40vh;
   background-color: rgba(0, 0, 0, 0.02);
-  padding:4vh 2vw ;
+  padding: 4vh 2vw;
 }
 
-.inputBox>div{
+.inputBox > div {
   display: flex;
   flex-direction: column;
-  gap:10vh
+  gap: 10vh;
 }
 
-.inputBox label{
+.inputBox label {
   width: 50vw;
   font-size: calc(3px + 1vw);
   display: flex;
   flex-direction: column;
 }
 
-.inputBox textarea{
+.inputBox textarea {
   min-width: 50vw;
   min-height: 30vh;
 }
 
-.inputBox img{
+.inputBox img {
   width: 100%;
   border: 2px solid green;
 }

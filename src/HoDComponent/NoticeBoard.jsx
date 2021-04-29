@@ -14,7 +14,7 @@ import { db, storage } from "../Firebase";
 import Carousel from "react-material-ui-carousel";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import renderHTML from 'react-render-html';
+import renderHTML from "react-render-html";
 import { Box, Input, TextareaAutosize } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -79,15 +79,15 @@ const DialogActions = withStyles((theme) => ({
 
 function NoticeBoard() {
   const [openNewNotice, SetOpenNewNotice] = useState(false);
-  const [uploadType, setUploadType] = useState('html');
-  const [topic, setTopic] = useState('');
-  const [htmlText, setHtmlText] = useState('');
+  const [uploadType, setUploadType] = useState("html");
+  const [topic, setTopic] = useState("");
+  const [htmlText, setHtmlText] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [progress, setProgress] = useState(0);
 
-  const [noticies, setNoticies] = useState([])
-  const [selectedForDelete, setSelectedForDelete] = useState('');
+  const [noticies, setNoticies] = useState([]);
+  const [selectedForDelete, setSelectedForDelete] = useState("");
 
   const handleCloseAddNewNoice = () => {
     SetOpenNewNotice(false);
@@ -99,29 +99,31 @@ function NoticeBoard() {
   };
 
   const upload = () => {
-    if ((file || !(htmlText === '')) && topic !== '') {
+    if ((file || !(htmlText === "")) && topic !== "") {
       AddToNoticeBoard();
     }
-  }
+  };
 
   const DeleteNotice = (id) => {
-    db.collection('noticeBoard').doc(id).delete().then(() => {
-      SetOpenDelete(false);
-    });
-  }
+    db.collection("noticeBoard")
+      .doc(id)
+      .delete()
+      .then(() => {
+        SetOpenDelete(false);
+      });
+  };
 
   const AddToNoticeBoard = () => {
-    if (uploadType === 'html') {
-      db.collection('noticeBoard').add({
+    if (uploadType === "html") {
+      db.collection("noticeBoard").add({
         type: uploadType,
         topic: topic,
         file: htmlText,
-      })
-      setTopic('');
-      setHtmlText('');
+      });
+      setTopic("");
+      setHtmlText("");
       SetOpenNewNotice(false);
-    }
-    else {
+    } else {
       const uploadTask = storage.ref(`noticeBoard/${file.name}`).put(file);
       uploadTask.on(
         "state_changed",
@@ -140,34 +142,35 @@ function NoticeBoard() {
             .child(file.name)
             .getDownloadURL()
             .then((url) => {
-              db.collection('noticeBoard').add({
+              db.collection("noticeBoard").add({
                 type: uploadType,
                 topic: topic,
                 file: url,
-              })
+              });
               setProgress(0);
               setFile(null);
-              setTopic('');
+              setTopic("");
               SetOpenNewNotice(false);
             });
         }
       );
     }
-  }
+  };
 
   const onImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
       let reader = new FileReader();
       reader.onload = (e) => {
-        setPreview(e.target.result)
+        setPreview(e.target.result);
       };
       reader.readAsDataURL(e.target.files[0]);
     }
-  }
+  };
 
   useEffect(() => {
-    var unsubscribe =db.collection("noticeBoard")
+    var unsubscribe = db
+      .collection("noticeBoard")
       .onSnapshot((querySnapshot) => {
         var list = [];
         querySnapshot.forEach((doc) => {
@@ -186,44 +189,82 @@ function NoticeBoard() {
         <DialogContent dividers>
           <div className={design.dialogDiv}>
             <div className={design.selectUploadType}>
-              <div onClick={() => setUploadType('html')} className={uploadType === 'html' ? design.active : null}>HTML</div>
-              <div onClick={() => setUploadType('image')} className={uploadType === 'image' ? design.active : null}>IMAGE</div>
+              <div
+                onClick={() => setUploadType("html")}
+                className={uploadType === "html" ? design.active : null}
+              >
+                HTML
+              </div>
+              <div
+                onClick={() => setUploadType("image")}
+                className={uploadType === "image" ? design.active : null}
+              >
+                IMAGE
+              </div>
             </div>
             <div className={design.inputBox}>
-              {
-                uploadType === 'image' ? (
-                  <div>
-                    <label htmlFor="Topic">
-                      Add a topic:
-                      <Input type="text" id="Topic" value={topic} onChange={(e) => { setTopic(e.target.value) }} />
-                    </label>
-                    <label htmlFor="file">
-                      Select the Image:
-                      <Input type="file" id="file" accept="image/*" onChange={(e)=>onImageChange(e)} />
-                    </label>
-                    <label>
-                      Preview:
-                      <div><img id="target" src={preview}/></div>
-                    </label>
-                    <LinearProgressWithLabel value={progress} />
-                  </div>
-                ) : (
-                  <div>
-                    <label htmlFor="Topic">
-                      Add a topic:
-                      <Input type="text" id="Topic" value={topic} onChange={(e) => { setTopic(e.target.value) }} />
-                    </label>
-                    <label>
-                      Paste the HTML file below
-                      <TextareaAutosize aria-label="minimum height" placeholder="Enter HTML text" type="text" id="file" value={htmlText} onChange={(e) => { setHtmlText(e.target.value) }} />
-                    </label>
-                    <label>
-                      Preview:
-                      <div>{renderHTML(htmlText)}</div>
-                    </label>
-                  </div>
-                )
-              }
+              {uploadType === "image" ? (
+                <div>
+                  <label htmlFor="Topic">
+                    Add a topic:
+                    <Input
+                      type="text"
+                      id="Topic"
+                      value={topic}
+                      onChange={(e) => {
+                        setTopic(e.target.value);
+                      }}
+                    />
+                  </label>
+                  <label htmlFor="file">
+                    Select the Image:
+                    <Input
+                      type="file"
+                      id="file"
+                      accept="image/*"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </label>
+                  <label>
+                    Preview:
+                    <div>
+                      <img id="target" src={preview} />
+                    </div>
+                  </label>
+                  <LinearProgressWithLabel value={progress} />
+                </div>
+              ) : (
+                <div>
+                  <label htmlFor="Topic">
+                    Add a topic:
+                    <Input
+                      type="text"
+                      id="Topic"
+                      value={topic}
+                      onChange={(e) => {
+                        setTopic(e.target.value);
+                      }}
+                    />
+                  </label>
+                  <label>
+                    Paste the HTML file below
+                    <TextareaAutosize
+                      aria-label="minimum height"
+                      placeholder="Enter HTML text"
+                      type="text"
+                      id="file"
+                      value={htmlText}
+                      onChange={(e) => {
+                        setHtmlText(e.target.value);
+                      }}
+                    />
+                  </label>
+                  <label>
+                    Preview:
+                    <div>{renderHTML(htmlText)}</div>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -239,7 +280,7 @@ function NoticeBoard() {
           <Button
             color="primary"
             onClick={() => {
-              upload()
+              upload();
             }}
           >
             Add
@@ -264,7 +305,7 @@ function NoticeBoard() {
           <Button
             color="primary"
             onClick={() => {
-              DeleteNotice(selectedForDelete)
+              DeleteNotice(selectedForDelete);
             }}
           >
             Yes
@@ -276,26 +317,19 @@ function NoticeBoard() {
       </div>
       <div className={design.Content}>
         <Carousel>
-          {
-            noticies.map((notice) => {
-              return notice.type === 'image' ? (
-                <div key={notice.id}>
-                  <div className={design.CrouselItem}>
-                    <img src={notice.file} alt="" />
-                  </div>
-                  <p>{notice.topic}</p>
-                </div>
-              ) : (
-                <div key={notice.id}>
-                  <div>
-                    {renderHTML(notice.file)}
-                  </div>
-                  <p>{notice.topic}</p>
-                </div>
-              )
-            })
-          }
-
+          {noticies.map((notice) => {
+            return notice.type === "image" ? (
+              <div key={notice.id} className={design.CrouselItem}>
+                <img src={notice.file} alt="" />
+                <p>{notice.topic}</p>
+              </div>
+            ) : (
+              <div key={notice.id} className={design.CrouselItem}>
+                <div>{renderHTML(notice.file)}</div>
+                <p>{notice.topic}</p>
+              </div>
+            );
+          })}
         </Carousel>
         <div className={design.NoticeListDiv}>
           <div className={design.AddNew}>
@@ -314,29 +348,27 @@ function NoticeBoard() {
           </div>
           <Divider />
           <div className={design.NoticesList}>
-            {
-              noticies.map((notice) => {
-                return (
-                  <div className={design.NoticeItem} key={notice.id}>
-                    <div className={design.NoticeName}>{notice.topic}</div>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => {
-                        setSelectedForDelete(notice.id);
-                        SetOpenDelete(true);
+            {noticies.map((notice) => {
+              return (
+                <div className={design.NoticeItem} key={notice.id}>
+                  <div className={design.NoticeName}>{notice.topic}</div>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setSelectedForDelete(notice.id);
+                      SetOpenDelete(true);
+                    }}
+                  >
+                    <DeleteForeverTwoToneIcon
+                      style={{
+                        color: "red",
                       }}
-                    >
-                      <DeleteForeverTwoToneIcon
-                        style={{
-                          color: "red",
-                        }}
-                      />
-                    </Button>
-                  </div>
-                )
-              })
-            }
+                    />
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
