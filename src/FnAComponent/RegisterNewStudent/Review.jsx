@@ -49,9 +49,6 @@ export default function Review() {
           <div>IT</div>
         </div>
       </div>
-      <Typography variant="h7" gutterBottom>
-        Courses
-      </Typography>
       <List>
         <Typography variant="h8">Core Courses</Typography>
         {generate(
