@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import StudentDetailsForm from "./StudentDetailsForm";
 import CoursesForm from "./CoursesForm";
 import Review from "./Review";
+import { db } from "../../Firebase";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -58,20 +59,60 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Student details", "Courses details", "Review application"];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <StudentDetailsForm />;
-    case 1:
-      return <CoursesForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 export default function Register() {
+
+  const [checkedCore, setCheckedCore] = React.useState([]);
+  const [checkedProjectTypeCourse, setCheckedProjectTypeCourse] = React.useState([]);
+  const [checkedElective, setCheckedElective] = React.useState([]);
+
+  const initialInfo={
+    address: "",
+    branch: "ECE",
+    city: "",
+    country: "",
+    dob: "1990-01-01",
+    feesPaid: false,
+    firstName: "",
+    lastName: "",
+    roll: "",
+    state: "",
+    zip: "",
+  }
+
+  const [studentInfo, setStudentInfo] = React.useState(initialInfo);
+  // React.useEffect(() => {
+  //   console.log(checkedCore, checkedProjectTypeCourse, checkedElective);
+  // })
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <StudentDetailsForm studentInfo={studentInfo} setStudentInfo={setStudentInfo} />;
+      case 1:
+        return <CoursesForm studentInfo={studentInfo} setStudentInfo={setStudentInfo} checkedCore={checkedCore} setCheckedCore={setCheckedCore} checkedProjectTypeCourse={checkedProjectTypeCourse} setCheckedProjectTypeCourse={setCheckedProjectTypeCourse} checkedElective={checkedElective} setCheckedElective={setCheckedElective} />;
+      case 2:
+        return <Review studentInfo={studentInfo} checkedCore={checkedCore} checkedProjectTypeCourse={checkedProjectTypeCourse} checkedElective={checkedElective} />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
+
+  const updateFee = (feesPaid) => {
+    if (feesPaid) {
+      return {
+        due: 0,
+        latefee: 0,
+        paid: 80000,
+        semfee: 80000,
+      }
+    }
+    return {
+      due: 80000,
+      latefee: 0,
+      paid: 0,
+      semfee: 80000,
+    }
+  }
+
   const history = useHistory();
   const gotoDashboard = () => {
     history.push("/FnADashBoard");
@@ -80,11 +121,41 @@ export default function Register() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+    if (activeStep < 2) {
+      setActiveStep(activeStep + 1);
+    }
+    else {
+      db.collection('Students').doc(`${studentInfo.roll.toLowerCase()}@amigo.com`).set({
+        alert: false,
+        homeAddress: {
+          address: studentInfo.address,
+          city: studentInfo.city,
+          state: studentInfo.state,
+          zip: studentInfo.zip,
+          country: studentInfo.country
+        },
+        branch: studentInfo.branch,
+        courses: [...checkedCore, ...checkedElective, ...checkedProjectTypeCourse],
+        email: `${studentInfo.roll.toLowerCase()}@amigo.com`,
+        feeStatusAtAdmis: studentInfo.feesPaid,
+        feeStatusAtReg: studentInfo.feesPaid,
+        fee: updateFee(studentInfo.feesPaid),
+        feesApproved: studentInfo.feesPaid,
+        name: `${studentInfo.firstName} ${studentInfo.lastName}`,
+        password: studentInfo.dob,
+        dob: studentInfo.dob,
+        roll: studentInfo.roll.toUpperCase(),
+        semester: "1",
+      })
+      setActiveStep(activeStep + 1);
+    }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
+    setCheckedCore([]);
+    setCheckedProjectTypeCourse([]);
+    setCheckedElective([]);
   };
 
   return (
@@ -116,22 +187,25 @@ export default function Register() {
                   Student registration successfully completed
                 </Typography>
                 <Typography variant="subtitle1">
-                  Student with enrollment no. IIT2019101 has been successfully
+                  Student with enrollment no. {studentInfo.roll.toUpperCase()} has been successfully
                   registered
                 </Typography>
                 <Grid container spacing={2} className={classes.marginer}>
                   <Grid item>Email</Grid>
-                  <Grid item>iit2019101@amigo.com</Grid>
+                  <Grid item>{studentInfo.roll.toLowerCase()}@amigo.com</Grid>
                 </Grid>
                 <Grid container spacing={2}>
                   <Grid item>Password</Grid>
-                  <Grid item>123</Grid>
+                  <Grid item>{studentInfo.dob}</Grid>
                 </Grid>
                 <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={gotoDashboard}
+                  onClick={()=>{
+                    gotoDashboard();
+                    setStudentInfo(initialInfo);
+                  }}
                 >
                   Next
                 </Button>

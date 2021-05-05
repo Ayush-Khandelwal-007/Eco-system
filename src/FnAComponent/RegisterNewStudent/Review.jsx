@@ -20,15 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
-
-export default function Review() {
+export default function Review({ studentInfo, checkedCore, checkedProjectTypeCourse, checkedElective }) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -38,40 +30,34 @@ export default function Review() {
       <div className={design.main}>
         <div className={design.Name}>
           <div>Name :&nbsp;</div>
-          <div>Nischay Nagar</div>
+          <div>{`${studentInfo.firstName} ${studentInfo.lastName}`}</div>
         </div>
         <div className={design.Address}>
           <div>Address :&nbsp;</div>
-          <div>Hoshangabad road ,Bhopal</div>
+          <div>{`${studentInfo.address},${studentInfo.city}`}</div>
         </div>
         <div className={design.Address}>
           <div>Branch :&nbsp;</div>
-          <div>IT</div>
+          <div>{studentInfo.branch}</div>
         </div>
       </div>
       <List>
         <Typography variant="h8">Core Courses</Typography>
-        {generate(
-          <ListItem>
-            <ListItemText primary="Course" />
-          </ListItem>
-        )}
+        {checkedCore.map((course,index) => <ListItem key={course.CouseId}>{index+1+".)  "}
+          <ListItemText primary={course.CourseCode}/>
+        </ListItem>)}
       </List>
       <List>
-        <Typography variant="h8">Addons</Typography>
-        {generate(
-          <ListItem>
-            <ListItemText primary="Course" />
-          </ListItem>
-        )}
+        <Typography variant="h8">Project Type</Typography>
+        {checkedProjectTypeCourse.map((course,index) => <ListItem key={course.CouseId}>{index+1+".)  "}
+          <ListItemText primary={course.CourseCode}/>
+        </ListItem>)}
       </List>
       <List>
         <Typography variant="h8">Electives</Typography>
-        {generate(
-          <ListItem>
-            <ListItemText primary="Course" />
-          </ListItem>
-        )}
+        {checkedElective.map((course,index) => <ListItem key={course.CouseId}>{index+1+".)  "}
+          <ListItemText primary={course.CourseCode}/>
+        </ListItem>)}
       </List>
     </React.Fragment>
   );
