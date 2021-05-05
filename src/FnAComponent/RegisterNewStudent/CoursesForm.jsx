@@ -92,7 +92,11 @@ export default function CoursesForm() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <FormControl variant="outlined" className={classes.formControl}>
+          <FormControl
+            variant="outlined"
+            className={classes.formControl}
+            required
+          >
             <InputLabel id="demo-simple-select-outlined-label">
               Branch
             </InputLabel>
@@ -103,9 +107,6 @@ export default function CoursesForm() {
               onChange={handleChange}
               label="Branch"
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               <MenuItem value={"IT"}>IT</MenuItem>
               <MenuItem value={"ECE"}>ECE</MenuItem>
             </Select>
