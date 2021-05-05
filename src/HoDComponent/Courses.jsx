@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import "./CoursesComponent/course.css";
 import CRUDTable, {
@@ -18,6 +19,16 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
@@ -86,6 +97,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       background: "#3ac728",
     },
+  },
+  formControl: {
+    width: "100%",
   },
 }));
 
@@ -250,6 +264,29 @@ function Courses() {
       });
   }, [db, teachers]);
 
+  //Create Course Dailog
+  const [openCreateDailog, setOpenCreateDailog] = React.useState(false);
+
+  const handleClickOpenCreateDailog = () => {
+    setOpenCreateDailog(true);
+  };
+
+  const handleCloseCreateDailog = () => {
+    setOpenCreateDailog(false);
+  };
+
+  const [courseType, setCourseType] = React.useState("");
+
+  const handleChangeCourseType = (e) => {
+    setCourseType(e.target.value);
+  };
+
+  const [courseCredit, setCourseCredit] = React.useState("");
+
+  const handleChangeCourseCredit = (e) => {
+    setCourseCredit(e.target.value);
+  };
+
   return (
     <div style={styles.container}>
       {/* <CRUDTable
@@ -336,7 +373,96 @@ function Courses() {
           }}
         />
       </CRUDTable> */}
-      <Button variant="contained" className={classes.createBtn}>
+      <Dialog
+        open={openCreateDailog}
+        onClose={handleCloseCreateDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Creation</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course ID"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Code"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Coordinator"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Branch
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Type"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Credits
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCredit}
+                  onChange={handleChangeCourseCredit}
+                  label="Course Type"
+                >
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"4"}>4</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreateDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseCreateDailog} color="primary">
+            Subscribe
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Button
+        variant="contained"
+        className={classes.createBtn}
+        onClick={handleClickOpenCreateDailog}
+      >
         Create Course
       </Button>
       <TableContainer component={Paper}>
