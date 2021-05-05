@@ -9,6 +9,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
 import StudentDetailsForm from "./StudentDetailsForm";
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
+  },
+  marginer: {
+    marginTop: "10px",
   },
 }));
 
@@ -115,6 +119,14 @@ export default function Register() {
                   Student with enrollment no. IIT2019101 has been successfully
                   registered
                 </Typography>
+                <Grid container spacing={2} className={classes.marginer}>
+                  <Grid item>Email</Grid>
+                  <Grid item>iit2019101@amigo.com</Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item>Password</Grid>
+                  <Grid item>123</Grid>
+                </Grid>
                 <Button
                   variant="contained"
                   color="primary"
