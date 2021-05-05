@@ -1,22 +1,17 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import CommentIcon from "@material-ui/icons/Comment";
+import { db } from "../../Firebase"
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -29,17 +24,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CoursesForm() {
+export default function CoursesForm({ studentInfo, setStudentInfo ,checkedCore, setCheckedCore,checkedProjectTypeCourse, setCheckedProjectTypeCourse,checkedElective, setCheckedElective}) {
   const classes = useStyles();
-  const [branch, setBranch] = React.useState("");
+
+  const [coursesIT, setCoursesIT] = React.useState([]);
+  const [coursesECE, setCoursesECE] = React.useState([]);
 
   const handleChange = (event) => {
-    setBranch(event.target.value);
+    setCheckedCore([]);
+    setCheckedProjectTypeCourse([]);
+    setCheckedElective([]);
+    setStudentInfo({ ...studentInfo, branch: event.target.value });
   };
+
+  React.useEffect(() => {
+
+    db.collection("HoD").doc("ece@amigo.com").collection("courses")
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data()});
+        });
+        setCoursesECE(list)
+      })
+  }, [db])
+
+  React.useEffect(() => {
+    db.collection("HoD").doc("it@amigo.com").collection("courses")
+      .onSnapshot((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data()});
+        });
+        setCoursesIT(list)
+      })
+  }, [db])
 
   // Courses list
   //Core
-  const [checkedCore, setCheckedCore] = React.useState([0]);
 
   const handleToggleCore = (value) => () => {
     const currentIndex = checkedCore.indexOf(value);
@@ -54,12 +76,11 @@ export default function CoursesForm() {
     setCheckedCore(newChecked);
   };
 
-  //AddOn
-  const [checkedAddOn, setCheckedAddOn] = React.useState([0]);
+  //ProjectTypeCourse
 
   const handleToggleAddOn = (value) => () => {
-    const currentIndex = checkedAddOn.indexOf(value);
-    const newChecked = [...checkedAddOn];
+    const currentIndex = checkedProjectTypeCourse.indexOf(value);
+    const newChecked = [...checkedProjectTypeCourse];
 
     if (currentIndex === -1) {
       newChecked.push(value);
@@ -67,10 +88,10 @@ export default function CoursesForm() {
       newChecked.splice(currentIndex, 1);
     }
 
-    setCheckedAddOn(newChecked);
+    setCheckedProjectTypeCourse(newChecked);
   };
   //Elective
-  const [checkedElective, setCheckedElective] = React.useState([0]);
+
 
   const handleToggleElective = (value) => () => {
     const currentIndex = checkedElective.indexOf(value);
@@ -84,7 +105,6 @@ export default function CoursesForm() {
 
     setCheckedElective(newChecked);
   };
-
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -103,7 +123,7 @@ export default function CoursesForm() {
             <Select
               labelId="demo-simple-select-outlined-label"
               id="demo-simple-select-outlined"
-              value={branch}
+              value={studentInfo.branch}
               onChange={handleChange}
               label="Branch"
             >
@@ -113,117 +133,201 @@ export default function CoursesForm() {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h7" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Core Courses
           </Typography>
           <List className={classes.root}>
-            {[0, 1, 2, 3].map((value) => {
-              const labelId = `checkbox-list-label-${value}`;
+            {
+              studentInfo.branch === "IT" ? (
+                coursesIT.filter((course)=>course.CourseType==="CORE").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
 
-              return (
-                <ListItem
-                  key={value}
-                  role={undefined}
-                  dense
-                  button
-                  onClick={handleToggleCore(value)}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checkedCore.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ "aria-labelledby": labelId }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    id={labelId}
-                    primary={`Core Course ${value + 1}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedCore.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              ) : (
+                coursesECE.filter((course)=>course.CourseType==="CORE").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
+
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedCore.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              )
+            }
           </List>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h7" gutterBottom>
-            Addons
+          <Typography variant="h6" gutterBottom>
+            Project Type
           </Typography>
           <List className={classes.root}>
-            {[0, 1, 2, 3].map((value) => {
-              const labelId = `checkbox-list-label-${value}`;
+          {
+              studentInfo.branch === "IT" ? (
+                coursesIT.filter((course)=>course.CourseType==="PROJECT").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
 
-              return (
-                <ListItem
-                  key={value}
-                  role={undefined}
-                  dense
-                  button
-                  onClick={handleToggleAddOn(value)}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checkedAddOn.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ "aria-labelledby": labelId }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText id={labelId} primary={`Addon ${value + 1}`} />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedProjectTypeCourse.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              ) : (
+                coursesECE.filter((course)=>course.CourseType==="PROJECT").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
+
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedProjectTypeCourse.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              )
+            }
           </List>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h7" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Electives
           </Typography>
           <List className={classes.root}>
-            {[0, 1, 2, 3].map((value) => {
-              const labelId = `checkbox-list-label-${value}`;
+          {
+              studentInfo.branch === "IT" ? (
+                coursesIT.filter((course)=>course.CourseType==="ELECTIVE").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
 
-              return (
-                <ListItem
-                  key={value}
-                  role={undefined}
-                  dense
-                  button
-                  onClick={handleToggleElective(value)}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checkedElective.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ "aria-labelledby": labelId }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    id={labelId}
-                    primary={`Elective ${value + 1}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedElective.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              ) : (
+                coursesECE.filter((course)=>course.CourseType==="ELECTIVE").map((value) => {
+                  const labelId = `checkbox-list-label-${value}`;
+
+                  return (
+                    <ListItem
+                      key={value.CourseId}
+                      role={undefined}
+                      dense
+                      button
+                      onClick={handleToggleCore(value)}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={checkedElective.indexOf(value) !== -1}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={value.CourseCode}
+                      />
+                    </ListItem>
+                  );
+                })
+              )
+            }
           </List>
         </Grid>
       </Grid>
