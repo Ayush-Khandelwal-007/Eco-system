@@ -80,6 +80,13 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 700,
   },
+  createBtn: {
+    background: "#35b056",
+    color: "#fff",
+    "&:hover": {
+      background: "#3ac728",
+    },
+  },
 }));
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
@@ -329,6 +336,9 @@ function Courses() {
           }}
         />
       </CRUDTable> */}
+      <Button variant="contained" className={classes.createBtn}>
+        Create Course
+      </Button>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
