@@ -53,9 +53,26 @@ export default function Review() {
         Courses
       </Typography>
       <List>
+        <Typography variant="h8">Core Courses</Typography>
         {generate(
           <ListItem>
-            <ListItemText primary="Single-line item" />
+            <ListItemText primary="Course" />
+          </ListItem>
+        )}
+      </List>
+      <List>
+        <Typography variant="h8">Addons</Typography>
+        {generate(
+          <ListItem>
+            <ListItemText primary="Course" />
+          </ListItem>
+        )}
+      </List>
+      <List>
+        <Typography variant="h8">Electives</Typography>
+        {generate(
+          <ListItem>
+            <ListItemText primary="Course" />
           </ListItem>
         )}
       </List>
