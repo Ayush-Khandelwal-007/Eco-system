@@ -209,6 +209,12 @@ export default function Register() {
     } else {
       setFilledDetails(false);
     }
+    let m = checkedCore;
+    if (m.length != 0) {
+      setFilledCourses(true);
+    } else {
+      setFilledCourses(false);
+    }
   });
 
   return (
