@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import "./CoursesComponent/course.css";
 import CRUDTable, {
   Fields,
@@ -10,9 +11,57 @@ import CRUDTable, {
   UpdateForm,
   DeleteForm,
 } from "react-crud-table";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 
-import { db } from '../Firebase';
+import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +88,26 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: "none",
     },
   },
+  table: {
+    minWidth: 700,
+  },
+  createBtn: {
+    background: "#35b056",
+    color: "#fff",
+    marginBottom: "25px",
+    "&:hover": {
+      background: "#3ac728",
+    },
+  },
+  formControl: {
+    width: "100%",
+  },
+  DailogContentRoot: {
+    width: 270,
+  },
+  updateBtn: {
+    marginRight: 10,
+  },
 }));
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
@@ -49,7 +118,7 @@ let COURSES = [
     CourseCode: "test-PPL",
     CourseType: "test-CORE",
     Credits: "test-1",
-    courseCO: "teacher-1"
+    courseCO: "teacher-1",
     // description: "Create an example of how to use the component",
   },
   {
@@ -57,7 +126,7 @@ let COURSES = [
     CourseCode: "test-NOB",
     CourseType: "test-ADD-ON",
     Credits: "test-3",
-    courseCO: "teacher-2"
+    courseCO: "teacher-2",
     // description: "Improve the component!",
   },
 ];
@@ -97,8 +166,7 @@ function Courses() {
   const history = useHistory();
   const classes = useStyles();
   const [teachers, setTeachers] = React.useState([]);
-  const [courses, setCourses] = useState([])
-
+  const [courses, setCourses] = useState([]);
 
   let count = courses.length;
   const service = {
@@ -108,7 +176,11 @@ function Courses() {
       return Promise.resolve(result);
     },
     create: (course) => {
-      db.collection("HoD").doc(state.user.email).collection("courses").doc(course.CourseId).set(course)
+      db.collection("HoD")
+        .doc(state.user.email)
+        .collection("courses")
+        .doc(course.CourseId)
+        .set(course)
         .then(() => {
           console.log("Document successfully written!");
         })
@@ -118,30 +190,40 @@ function Courses() {
       return Promise.resolve(course);
     },
     update: (data) => {
-      console.log(data)
+      console.log(data);
       var id;
       teachers.forEach((teacher) => {
         if (data.courseCO === teacher.name) {
-          id = teacher.id
+          id = teacher.id;
         }
-      })
+      });
 
-      db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).update({
-        CourseId: data.CourseId,
-        CourseCode: data.CourseCode,
-        CourseType: data.CourseType,
-        Credits: data.Credits,
-        courseCO:id,
-      })
+      db.collection("HoD")
+        .doc(state.user.email)
+        .collection("courses")
+        .doc(data.CourseId)
+        .update({
+          CourseId: data.CourseId,
+          CourseCode: data.CourseCode,
+          CourseType: data.CourseType,
+          Credits: data.Credits,
+          courseCO: id,
+        });
 
       return Promise.resolve(data);
     },
     delete: (data) => {
-      db.collection("HoD").doc(state.user.email).collection("courses").doc(data.CourseId).delete().then(() => {
-        console.log("Document successfully deleted!");
-      }).catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+      db.collection("HoD")
+        .doc(state.user.email)
+        .collection("courses")
+        .doc(data.CourseId)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
 
       return Promise.resolve(data);
     },
@@ -153,46 +235,88 @@ function Courses() {
         list.push({ ...doc.data(), id: doc.id });
       });
       setTeachers(list);
-      console.log(teachers)
+      console.log(teachers);
     });
   }, [db]);
 
-
   useEffect(() => {
-    db.collection("HoD").doc(state.user.email).collection("courses")
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
       .onSnapshot((querySnapshot) => {
-        var list = []
+        var list = [];
         var x = 0;
         querySnapshot.forEach((doc) => {
           list.push({ ...doc.data(), id: x });
           x = x + 1;
         });
 
-
         var newlist = list.map((ele) => {
           var name;
-          console.log(teachers)
+          console.log(teachers);
           teachers.forEach((teacher) => {
             if (ele.courseCO === teacher.id) {
-              name = teacher.name
+              name = teacher.name;
             }
-          })
-          return ({
+          });
+          return {
             ...ele,
-            courseCO: name
-          })
-        })
+            courseCO: name,
+          };
+        });
 
-
-        console.log(teachers)
+        console.log(teachers);
 
         setCourses(newlist);
-      })
-  }, [db, teachers])
+      });
+  }, [db, teachers]);
+
+  //Create Course Dailog
+  const [openCreateDailog, setOpenCreateDailog] = React.useState(false);
+
+  const handleClickOpenCreateDailog = () => {
+    setOpenCreateDailog(true);
+  };
+
+  const handleCloseCreateDailog = () => {
+    setOpenCreateDailog(false);
+  };
+
+  const [courseType, setCourseType] = React.useState("");
+
+  const handleChangeCourseType = (e) => {
+    setCourseType(e.target.value);
+  };
+
+  const [courseCredit, setCourseCredit] = React.useState("");
+
+  const handleChangeCourseCredit = (e) => {
+    setCourseCredit(e.target.value);
+  };
+
+  //Update Course
+  const [openUpdateDailog, setOpenUpdateDailog] = React.useState(false);
+  const handleClickOpenUpdateDailog = () => {
+    setOpenUpdateDailog(true);
+  };
+
+  const handleCloseUpdateDailog = () => {
+    setOpenUpdateDailog(false);
+  };
+
+  //Delete Course
+  const [openDeleteDailog, setOpenDeleteDialog] = React.useState(false);
+  const handleClickOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDailog = () => {
+    setOpenDeleteDialog(false);
+  };
 
   return (
     <div style={styles.container}>
-      <CRUDTable
+      {/* <CRUDTable
         caption="Courses"
         items={courses}
       >
@@ -275,7 +399,254 @@ function Courses() {
             return errors;
           }}
         />
-      </CRUDTable>
+      </CRUDTable> */}
+      {/* Create dailog */}
+      <Dialog
+        open={openCreateDailog}
+        onClose={handleCloseCreateDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Creation</DialogTitle>
+        <DialogContent className={classes.DailogContentRoot}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course ID"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Code"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Coordinator"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Course Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Type"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Credits
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCredit}
+                  onChange={handleChangeCourseCredit}
+                  label="Course Type"
+                >
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"4"}>4</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCreateDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseCreateDailog} color="primary">
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Update dialog */}
+
+      <Dialog
+        open={openUpdateDailog}
+        onClose={handleCloseUpdateDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Update</DialogTitle>
+        <DialogContent className={classes.DailogContentRoot}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course ID"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Code"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Coordinator"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Course Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Type"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Credits
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCredit}
+                  onChange={handleChangeCourseCredit}
+                  label="Course Type"
+                >
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"4"}>4</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseUpdateDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseUpdateDailog} color="primary">
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete dialog */}
+
+      <Dialog
+        open={openDeleteDailog}
+        onClose={handleCloseDeleteDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Delete</DialogTitle>
+        <DialogContent>
+          Are you sure, you want to delete this course ?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseDeleteDailog} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Button
+        variant="contained"
+        className={classes.createBtn}
+        onClick={handleClickOpenCreateDailog}
+      >
+        Create Course
+      </Button>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Course ID</StyledTableCell>
+              <StyledTableCell align="center">Course Code</StyledTableCell>
+              <StyledTableCell align="center">Course Type</StyledTableCell>
+              <StyledTableCell align="center">
+                Course Coordinator
+              </StyledTableCell>
+              <StyledTableCell align="center">Credits</StyledTableCell>
+              <StyledTableCell align="center">Actions</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <StyledTableRow key={row.name}>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {row.name}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.calories}</StyledTableCell>
+                <StyledTableCell align="center">{row.fat}</StyledTableCell>
+                <StyledTableCell align="center">{row.carbs}</StyledTableCell>
+                <StyledTableCell align="center">{row.protein}</StyledTableCell>
+                <StyledTableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClickOpenUpdateDailog}
+                    className={classes.updateBtn}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleClickOpenDeleteDialog}
+                  >
+                    Delete
+                  </Button>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }
