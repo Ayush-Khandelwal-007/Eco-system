@@ -287,6 +287,26 @@ function Courses() {
     setCourseCredit(e.target.value);
   };
 
+  //Update Course
+  const [openUpdateDailog, setOpenUpdateDailog] = React.useState(false);
+  const handleClickOpenUpdateDailog = () => {
+    setOpenUpdateDailog(true);
+  };
+
+  const handleCloseUpdateDailog = () => {
+    setOpenUpdateDailog(false);
+  };
+
+  //Delete Course
+  const [openDeleteDailog, setOpenDeleteDialog] = React.useState(false);
+  const handleClickOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDailog = () => {
+    setOpenDeleteDialog(false);
+  };
+
   return (
     <div style={styles.container}>
       {/* <CRUDTable
@@ -373,6 +393,7 @@ function Courses() {
           }}
         />
       </CRUDTable> */}
+      {/* Create dailog */}
       <Dialog
         open={openCreateDailog}
         onClose={handleCloseCreateDailog}
@@ -409,7 +430,7 @@ function Courses() {
                 required
               >
                 <InputLabel id="demo-simple-select-outlined-label">
-                  Branch
+                  Course Type
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
@@ -453,7 +474,115 @@ function Courses() {
             Cancel
           </Button>
           <Button onClick={handleCloseCreateDailog} color="primary">
-            Subscribe
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Update dialog */}
+
+      <Dialog
+        open={openUpdateDailog}
+        onClose={handleCloseUpdateDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Update</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course ID"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Code"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-basic"
+                label="Course Coordinator"
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Course Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Type"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Credits
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCredit}
+                  onChange={handleChangeCourseCredit}
+                  label="Course Type"
+                >
+                  <MenuItem value={"2"}>2</MenuItem>
+                  <MenuItem value={"4"}>4</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseUpdateDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseUpdateDailog} color="primary">
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Delete dialog */}
+
+      <Dialog
+        open={openDeleteDailog}
+        onClose={handleCloseDeleteDailog}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Course Delete</DialogTitle>
+        <DialogContent>
+          Are you sure, you want to delete this course ?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDailog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCloseDeleteDailog} color="primary">
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
@@ -490,10 +619,18 @@ function Courses() {
                 <StyledTableCell align="center">{row.carbs}</StyledTableCell>
                 <StyledTableCell align="center">{row.protein}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClickOpenUpdateDailog}
+                  >
                     Update
                   </Button>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleClickOpenDeleteDialog}
+                  >
                     Delete
                   </Button>
                 </StyledTableCell>
