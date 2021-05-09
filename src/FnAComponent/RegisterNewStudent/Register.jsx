@@ -60,12 +60,14 @@ const useStyles = makeStyles((theme) => ({
 const steps = ["Student details", "Courses details", "Review application"];
 
 export default function Register() {
-
   const [checkedCore, setCheckedCore] = React.useState([]);
-  const [checkedProjectTypeCourse, setCheckedProjectTypeCourse] = React.useState([]);
+  const [
+    checkedProjectTypeCourse,
+    setCheckedProjectTypeCourse,
+  ] = React.useState([]);
   const [checkedElective, setCheckedElective] = React.useState([]);
 
-  const initialInfo={
+  const initialInfo = {
     address: "",
     branch: "ECE",
     city: "",
@@ -77,7 +79,7 @@ export default function Register() {
     roll: "",
     state: "",
     zip: "",
-  }
+  };
 
   const [studentInfo, setStudentInfo] = React.useState(initialInfo);
   // React.useEffect(() => {
@@ -86,11 +88,34 @@ export default function Register() {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <StudentDetailsForm studentInfo={studentInfo} setStudentInfo={setStudentInfo} />;
+        return (
+          <StudentDetailsForm
+            studentInfo={studentInfo}
+            setStudentInfo={setStudentInfo}
+          />
+        );
       case 1:
-        return <CoursesForm studentInfo={studentInfo} setStudentInfo={setStudentInfo} checkedCore={checkedCore} setCheckedCore={setCheckedCore} checkedProjectTypeCourse={checkedProjectTypeCourse} setCheckedProjectTypeCourse={setCheckedProjectTypeCourse} checkedElective={checkedElective} setCheckedElective={setCheckedElective} />;
+        return (
+          <CoursesForm
+            studentInfo={studentInfo}
+            setStudentInfo={setStudentInfo}
+            checkedCore={checkedCore}
+            setCheckedCore={setCheckedCore}
+            checkedProjectTypeCourse={checkedProjectTypeCourse}
+            setCheckedProjectTypeCourse={setCheckedProjectTypeCourse}
+            checkedElective={checkedElective}
+            setCheckedElective={setCheckedElective}
+          />
+        );
       case 2:
-        return <Review studentInfo={studentInfo} checkedCore={checkedCore} checkedProjectTypeCourse={checkedProjectTypeCourse} checkedElective={checkedElective} />;
+        return (
+          <Review
+            studentInfo={studentInfo}
+            checkedCore={checkedCore}
+            checkedProjectTypeCourse={checkedProjectTypeCourse}
+            checkedElective={checkedElective}
+          />
+        );
       default:
         throw new Error("Unknown step");
     }
@@ -103,15 +128,15 @@ export default function Register() {
         latefee: 0,
         paid: 80000,
         semfee: 80000,
-      }
+      };
     }
     return {
       due: 80000,
       latefee: 0,
       paid: 0,
       semfee: 80000,
-    }
-  }
+    };
+  };
 
   const history = useHistory();
   const gotoDashboard = () => {
@@ -123,30 +148,35 @@ export default function Register() {
   const handleNext = () => {
     if (activeStep < 2) {
       setActiveStep(activeStep + 1);
-    }
-    else {
-      db.collection('Students').doc(`${studentInfo.roll.toLowerCase()}@amigo.com`).set({
-        alert: false,
-        homeAddress: {
-          address: studentInfo.address,
-          city: studentInfo.city,
-          state: studentInfo.state,
-          zip: studentInfo.zip,
-          country: studentInfo.country
-        },
-        branch: studentInfo.branch,
-        courses: [...checkedCore, ...checkedElective, ...checkedProjectTypeCourse],
-        email: `${studentInfo.roll.toLowerCase()}@amigo.com`,
-        feeStatusAtAdmis: studentInfo.feesPaid,
-        feeStatusAtReg: studentInfo.feesPaid,
-        fee: updateFee(studentInfo.feesPaid),
-        feesApproved: studentInfo.feesPaid,
-        name: `${studentInfo.firstName} ${studentInfo.lastName}`,
-        password: studentInfo.dob,
-        dob: studentInfo.dob,
-        roll: studentInfo.roll.toUpperCase(),
-        semester: "1",
-      })
+    } else {
+      db.collection("Students")
+        .doc(`${studentInfo.roll.toLowerCase()}@amigo.com`)
+        .set({
+          alert: false,
+          homeAddress: {
+            address: studentInfo.address,
+            city: studentInfo.city,
+            state: studentInfo.state,
+            zip: studentInfo.zip,
+            country: studentInfo.country,
+          },
+          branch: studentInfo.branch,
+          courses: [
+            ...checkedCore,
+            ...checkedElective,
+            ...checkedProjectTypeCourse,
+          ],
+          email: `${studentInfo.roll.toLowerCase()}@amigo.com`,
+          feeStatusAtAdmis: studentInfo.feesPaid,
+          feeStatusAtReg: studentInfo.feesPaid,
+          fee: updateFee(studentInfo.feesPaid),
+          feesApproved: studentInfo.feesPaid,
+          name: `${studentInfo.firstName} ${studentInfo.lastName}`,
+          password: studentInfo.dob,
+          dob: studentInfo.dob,
+          roll: studentInfo.roll.toUpperCase(),
+          semester: "1",
+        });
       setActiveStep(activeStep + 1);
     }
   };
@@ -157,6 +187,28 @@ export default function Register() {
     setCheckedProjectTypeCourse([]);
     setCheckedElective([]);
   };
+
+  const [filled, setFilled] = React.useState(false);
+
+  React.useEffect(() => {
+    let k = studentInfo;
+    if (
+      k.address &&
+      k.branch &&
+      k.city &&
+      k.country &&
+      k.dob &&
+      k.firstName &&
+      k.lastName &&
+      k.roll &&
+      k.state &&
+      k.zip
+    ) {
+      setFilled(true);
+    } else {
+      setFilled(false);
+    }
+  });
 
   return (
     <React.Fragment>
@@ -187,8 +239,8 @@ export default function Register() {
                   Student registration successfully completed
                 </Typography>
                 <Typography variant="subtitle1">
-                  Student with enrollment no. {studentInfo.roll.toUpperCase()} has been successfully
-                  registered
+                  Student with enrollment no. {studentInfo.roll.toUpperCase()}{" "}
+                  has been successfully registered
                 </Typography>
                 <Grid container spacing={2} className={classes.marginer}>
                   <Grid item>Email</Grid>
@@ -202,7 +254,7 @@ export default function Register() {
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={()=>{
+                  onClick={() => {
                     gotoDashboard();
                     setStudentInfo(initialInfo);
                   }}
@@ -227,6 +279,7 @@ export default function Register() {
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={!filled}
                     onClick={handleNext}
                     className={classes.button}
                   >
