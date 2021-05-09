@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "./CoursesComponent/course.css";
-import CRUDTable, {
-  Fields,
-  Field,
-  CreateForm,
-  UpdateForm,
-  DeleteForm,
-} from "react-crud-table";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,14 +14,12 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
 import { Snackbar } from "@material-ui/core";
@@ -91,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   table: {
-    width: "100vw",
+    width: "90vw",
   },
   createBtn: {
     background: "#35b056",
@@ -320,7 +310,7 @@ function Courses() {
   }
 
   return (
-    <div style={classes.container}>
+    <div style={styles.container}>
       <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
         <Alert className={classes.snackbarDiv} severity="error">
           <strong>{error}</strong>
