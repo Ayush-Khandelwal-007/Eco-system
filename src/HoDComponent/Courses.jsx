@@ -32,6 +32,8 @@ import FormControl from "@material-ui/core/FormControl";
 
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -89,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   table: {
-    width:"90vw",
+    width: "100vw",
   },
   createBtn: {
     background: "#35b056",
@@ -108,6 +110,13 @@ const useStyles = makeStyles((theme) => ({
   updateBtn: {
     marginRight: 10,
   },
+  snackbarDiv: {
+    backgroundColor: "red !important",
+    color: "white !important",
+    "&>div": {
+      color: "white !important"
+    }
+  }
 }));
 
 
@@ -141,24 +150,39 @@ function Courses() {
   const classes = useStyles();
   const [teachers, setTeachers] = React.useState([]);
   const [courses, setCourses] = useState([]);
-  const [courseId,setCourseId]=useState('');
+  const [courseId, setCourseId] = useState('');
   const [courseCode, setCourseCode] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [error, setError] = useState('')
+
+  const createNewCourse = (e) => {
+    e.preventDefault();
+    if (courses.filter((course) => course.CourseId === courseId).length > 0) {
+      setError('This Id is already in use , Please choose another ID.')
+      setOpenSnack(true);
+      return
+    }
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
+      .doc(courseId)
+      .set({
+        CourseId: courseId,
+        CourseCode: courseCode,
+        CourseType: courseType,
+        Credits: courseCredit,
+        courseCO: courseCord,
+        semester:courseSem,
+      })
+      .then(() => {
+        console.log("Document successfully written!");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
+  }
 
   const service = {
-    create: (course) => {
-      db.collection("HoD")
-        .doc(state.user.email)
-        .collection("courses")
-        .doc(course.CourseId)
-        .set(course)
-        .then(() => {
-          console.log("Document successfully written!");
-        })
-        .catch((error) => {
-          console.error("Error writing document: ", error);
-        });
-      return Promise.resolve(course);
-    },
     update: (data) => {
       console.log(data);
       var id;
@@ -212,7 +236,7 @@ function Courses() {
   useEffect(() => {
     db.collection("HoD")
       .doc(state.user.email)
-      .collection("courses")
+      .collection("courses").orderBy("semester","asc")
       .onSnapshot((querySnapshot) => {
         var list = [];
         var x = 0;
@@ -251,16 +275,27 @@ function Courses() {
     setOpenCreateDailog(false);
   };
 
-  const [courseType, setCourseType] = React.useState("");
+  const [courseType, setCourseType] = React.useState("CORE");
+  const [courseCord, setCourseCord] = React.useState("");
 
   const handleChangeCourseType = (e) => {
     setCourseType(e.target.value);
   };
 
-  const [courseCredit, setCourseCredit] = React.useState("");
+  const handleChangeCourseCord = (e) => {
+    setCourseCord(e.target.value);
+  };
+
+  const [courseCredit, setCourseCredit] = React.useState(4);
 
   const handleChangeCourseCredit = (e) => {
     setCourseCredit(e.target.value);
+  };
+
+  const [courseSem, setCourseSem] = React.useState(1);
+
+  const handleChangeCourseSem = (e) => {
+    setCourseSem(e.target.value);
   };
 
   //Update Course
@@ -283,11 +318,25 @@ function Courses() {
     setOpenDeleteDialog(false);
   };
 
+  const disableCreate = courseId === '' || courseCode === '' || courseCord === ''
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8]
+
   return (
-    <div style={styles.container}>
-      {
-        console.log("teachers",teachers,"courses",courses)
-      }
+    <div style={classes.container}>
+      <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        <Alert className={classes.snackbarDiv} severity="error">
+          <strong>{error}</strong>
+        </Alert>
+      </Snackbar>
       <Dialog
         open={openCreateDailog}
         onClose={handleCloseCreateDailog}
@@ -298,6 +347,8 @@ function Courses() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                value={courseId}
+                onChange={e => setCourseId(e.target.value)}
                 id="outlined-basic"
                 label="Course ID"
                 variant="outlined"
@@ -305,12 +356,37 @@ function Courses() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={courseCode}
+                onChange={e => setCourseCode(e.target.value)}
                 id="outlined-basic"
                 label="Course Code"
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
+              <Grid item xs={12}>
+                <FormControl
+                  variant="outlined"
+                  className={classes.formControl}
+                  required
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Course Coordinator
+                </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={courseCord}
+                    onChange={handleChangeCourseCord}
+                    label="Course Coordinator"
+                  >
+                    {
+                      teachers.map((teacher) => <MenuItem key={teacher.id} value={teacher.id}>{teacher.name}</MenuItem>)
+                    }
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
             <Grid item xs={12}>
               <FormControl
                 variant="outlined"
@@ -318,21 +394,20 @@ function Courses() {
                 required
               >
                 <InputLabel id="demo-simple-select-outlined-label">
-                Course Coordinator
+                  Semester
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={courseType}
-                  onChange={handleChangeCourseType}
-                  label="Course Coordinator"
+                  value={courseSem}
+                  onChange={handleChangeCourseSem}
+                  label="Semester"
                 >
-                  <MenuItem value={"Core"}>Core</MenuItem>
-                  <MenuItem value={"Elective"}>Elective</MenuItem>
-                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                  {
+                    semesters.map(sem => <MenuItem key={sem} value={sem}>{sem}</MenuItem>)
+                  }
                 </Select>
               </FormControl>
-            </Grid>
             </Grid>
             <Grid item xs={12}>
               <FormControl
@@ -350,9 +425,9 @@ function Courses() {
                   onChange={handleChangeCourseType}
                   label="Course Type"
                 >
-                  <MenuItem value={"Core"}>Core</MenuItem>
-                  <MenuItem value={"Elective"}>Elective</MenuItem>
-                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                  <MenuItem value={"CORE"}>Core</MenuItem>
+                  <MenuItem value={"PROJECT"}>Project Type</MenuItem>
+                  <MenuItem value={"ELECTIVE"}>Elective</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -370,10 +445,10 @@ function Courses() {
                   id="demo-simple-select-outlined"
                   value={courseCredit}
                   onChange={handleChangeCourseCredit}
-                  label="Course Type"
+                  label="Credite"
                 >
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"4"}>4</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -383,7 +458,7 @@ function Courses() {
           <Button onClick={handleCloseCreateDailog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseCreateDailog} color="primary">
+          <Button disabled={disableCreate} onClick={createNewCourse} color="primary">
             Create
           </Button>
         </DialogActions>
@@ -414,13 +489,13 @@ function Courses() {
               />
             </Grid>
             <Grid item xs={12}>
-            <FormControl
+              <FormControl
                 variant="outlined"
                 className={classes.formControl}
                 required
               >
                 <InputLabel id="demo-simple-select-outlined-label">
-                Course Coordinator
+                  Course Coordinator
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
@@ -523,19 +598,21 @@ function Courses() {
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell align="center">Course Semester</StyledTableCell>
               <StyledTableCell align="center">Course ID</StyledTableCell>
               <StyledTableCell align="left">Course Code</StyledTableCell>
               <StyledTableCell align="center">Course Type</StyledTableCell>
               <StyledTableCell align="center">
-                Course Coordinator
+                Credits
               </StyledTableCell>
-              <StyledTableCell align="center">Credits</StyledTableCell>
+              <StyledTableCell align="center">Course Coordinator</StyledTableCell>
               <StyledTableCell align="center">Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {courses.map((row) => (
+            {courses.map((row) => (
               <StyledTableRow key={row.CourseId}>
+                <StyledTableCell component="th" scope="row"  align="center">{row.semester}</StyledTableCell>
                 <StyledTableCell component="th" scope="row" align="center">
                   {row.CourseId}
                 </StyledTableCell>
