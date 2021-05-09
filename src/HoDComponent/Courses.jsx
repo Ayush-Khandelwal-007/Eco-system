@@ -153,7 +153,8 @@ function Courses() {
   const [courseId, setCourseId] = useState('');
   const [courseCode, setCourseCode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
+  const [selectedIdToDalete, setSelectedIdToDalete] = useState('');
 
   const createNewCourse = (e) => {
     e.preventDefault();
@@ -176,6 +177,7 @@ function Courses() {
       })
       .then(() => {
         console.log("Document successfully written!");
+        setOpenCreateDailog(false);
       })
       .catch((error) => {
         console.error("Error writing document: ", error);
@@ -206,21 +208,6 @@ function Courses() {
 
       return Promise.resolve(data);
     },
-    delete: (data) => {
-      db.collection("HoD")
-        .doc(state.user.email)
-        .collection("courses")
-        .doc(data.CourseId)
-        .delete()
-        .then(() => {
-          console.log("Document successfully deleted!");
-        })
-        .catch((error) => {
-          console.error("Error removing document: ", error);
-        });
-
-      return Promise.resolve(data);
-    },
   };
   useEffect(() => {
     db.collection("teachers").onSnapshot((querySnapshot) => {
@@ -229,7 +216,6 @@ function Courses() {
         list.push({ ...doc.data(), id: doc.id });
       });
       setTeachers(list);
-      console.log(teachers);
     });
   }, [db]);
 
@@ -257,9 +243,6 @@ function Courses() {
             courseCO: name,
           };
         });
-
-        console.log(teachers);
-
         setCourses(newlist);
       });
   }, [db, teachers]);
@@ -328,7 +311,22 @@ function Courses() {
     setOpenSnack(false);
   };
 
-  const semesters = [1, 2, 3, 4, 5, 6, 7, 8]
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const DeleteSelected=()=>{
+    db.collection("HoD")
+    .doc(state.user.email)
+    .collection("courses")
+    .doc(selectedIdToDalete)
+    .delete()
+    .then(() => {
+      console.log("Document successfully deleted!");
+      setOpenDeleteDialog(false);
+    })
+    .catch((error) => {
+      console.error("Error removing document: ", error);
+    });
+  }
 
   return (
     <div style={classes.container}>
@@ -581,7 +579,7 @@ function Courses() {
           <Button onClick={handleCloseDeleteDailog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseDeleteDailog} color="primary">
+          <Button onClick={DeleteSelected} color="primary">
             Delete
           </Button>
         </DialogActions>
@@ -652,7 +650,10 @@ function Courses() {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={handleClickOpenDeleteDialog}
+                    onClick={()=>{
+                      handleClickOpenDeleteDialog();
+                      setSelectedIdToDalete(row.CourseId);
+                      }}
                   >
                     Delete
                   </Button>
