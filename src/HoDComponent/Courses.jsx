@@ -94,12 +94,19 @@ const useStyles = makeStyles((theme) => ({
   createBtn: {
     background: "#35b056",
     color: "#fff",
+    marginBottom: "25px",
     "&:hover": {
       background: "#3ac728",
     },
   },
   formControl: {
     width: "100%",
+  },
+  DailogContentRoot: {
+    width: 270,
+  },
+  updateBtn: {
+    marginRight: 10,
   },
 }));
 
@@ -400,7 +407,7 @@ function Courses() {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Course Creation</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.DailogContentRoot}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -487,7 +494,7 @@ function Courses() {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Course Update</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.DailogContentRoot}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -623,6 +630,7 @@ function Courses() {
                     variant="contained"
                     color="primary"
                     onClick={handleClickOpenUpdateDailog}
+                    className={classes.updateBtn}
                   >
                     Update
                   </Button>
