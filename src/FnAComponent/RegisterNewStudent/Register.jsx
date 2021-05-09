@@ -188,7 +188,8 @@ export default function Register() {
     setCheckedElective([]);
   };
 
-  const [filled, setFilled] = React.useState(false);
+  const [filledDetails, setFilledDetails] = React.useState(false);
+  const [filledCourse, setFilledCourses] = React.useState(false);
 
   React.useEffect(() => {
     let k = studentInfo;
@@ -204,9 +205,9 @@ export default function Register() {
       k.state &&
       k.zip
     ) {
-      setFilled(true);
+      setFilledDetails(true);
     } else {
-      setFilled(false);
+      setFilledDetails(false);
     }
   });
 
@@ -266,25 +267,56 @@ export default function Register() {
               <React.Fragment>
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
                   {activeStep == 0 && (
-                    <Button onClick={gotoDashboard} className={classes.button}>
-                      Back
-                    </Button>
+                    <>
+                      <Button
+                        onClick={gotoDashboard}
+                        className={classes.button}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={!filledDetails}
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        Next
+                      </Button>
+                    </>
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    disabled={!filled}
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Submit" : "Next"}
-                  </Button>
+                  {activeStep === 1 && (
+                    <>
+                      <Button onClick={handleBack} className={classes.button}>
+                        Back
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={!filledCourse}
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        Next
+                      </Button>
+                    </>
+                  )}
+                  {activeStep === 2 && (
+                    <>
+                      <Button onClick={handleBack} className={classes.button}>
+                        Back
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        Submit
+                      </Button>
+                    </>
+                  )}
                 </div>
               </React.Fragment>
             )}
