@@ -143,7 +143,6 @@ function Courses() {
   const [courses, setCourses] = useState([]);
   const [courseId,setCourseId]=useState('');
   const [courseCode, setCourseCode] = useState('');
-  const [courseType, setCourseType] = useState('');
 
   const service = {
     create: (course) => {
