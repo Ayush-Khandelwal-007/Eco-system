@@ -172,7 +172,7 @@ function Courses() {
         CourseType: courseType,
         Credits: courseCredit,
         courseCO: courseCord,
-        semester:courseSem,
+        semester: courseSem,
       })
       .then(() => {
         console.log("Document successfully written!");
@@ -236,7 +236,7 @@ function Courses() {
   useEffect(() => {
     db.collection("HoD")
       .doc(state.user.email)
-      .collection("courses").orderBy("semester","asc")
+      .collection("courses").orderBy("semester", "asc")
       .onSnapshot((querySnapshot) => {
         var list = [];
         var x = 0;
@@ -594,6 +594,26 @@ function Courses() {
       >
         Create Course
       </Button>
+      <FormControl
+        variant="outlined"
+        className={classes.formControl}
+        required
+      >
+        <InputLabel id="demo-simple-select-outlined-label">
+          Semester
+                </InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={courseSem}
+          onChange={handleChangeCourseSem}
+          label="Semester"
+        >
+          {
+            semesters.map(sem => <MenuItem key={sem} value={sem}>{sem}</MenuItem>)
+          }
+        </Select>
+      </FormControl>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
@@ -610,9 +630,9 @@ function Courses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {courses.map((row) => (
+            {courses.filter((row)=>row.semester===courseSem).map((row) => (
               <StyledTableRow key={row.CourseId}>
-                <StyledTableCell component="th" scope="row"  align="center">{row.semester}</StyledTableCell>
+                <StyledTableCell component="th" scope="row" align="center">{row.semester}</StyledTableCell>
                 <StyledTableCell component="th" scope="row" align="center">
                   {row.CourseId}
                 </StyledTableCell>
