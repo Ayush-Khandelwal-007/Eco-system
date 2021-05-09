@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   table: {
-    minWidth: 700,
+    width:"90vw",
   },
   createBtn: {
     background: "#35b056",
@@ -110,7 +110,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
 let COURSES = [
   {
@@ -131,31 +130,6 @@ let COURSES = [
   },
 ];
 
-const SORTERS = {
-  NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
-  NUMBER_DESCENDING: (mapper) => (a, b) => mapper(b) - mapper(a),
-  STRING_ASCENDING: (mapper) => (a, b) => mapper(a).localeCompare(mapper(b)),
-  STRING_DESCENDING: (mapper) => (a, b) => mapper(b).localeCompare(mapper(a)),
-};
-
-const getSorter = (data) => {
-  const mapper = (x) => x[data.field];
-  let sorter = SORTERS.STRING_ASCENDING(mapper);
-
-  if (data.field === "id") {
-    sorter =
-      data.direction === "ascending"
-        ? SORTERS.NUMBER_ASCENDING(mapper)
-        : SORTERS.NUMBER_DESCENDING(mapper);
-  } else {
-    sorter =
-      data.direction === "ascending"
-        ? SORTERS.STRING_ASCENDING(mapper)
-        : SORTERS.STRING_DESCENDING(mapper);
-  }
-
-  return sorter;
-};
 
 const styles = {
   container: { margin: "auto", width: "fit-content" },
@@ -167,14 +141,11 @@ function Courses() {
   const classes = useStyles();
   const [teachers, setTeachers] = React.useState([]);
   const [courses, setCourses] = useState([]);
+  const [courseId,setCourseId]=useState('');
+  const [courseCode, setCourseCode] = useState('');
+  const [courseType, setCourseType] = useState('');
 
-  let count = courses.length;
   const service = {
-    fetchItems: (payload) => {
-      let result = Array.from(courses);
-      result = result.sort(getSorter(payload.sort));
-      return Promise.resolve(result);
-    },
     create: (course) => {
       db.collection("HoD")
         .doc(state.user.email)
@@ -253,7 +224,6 @@ function Courses() {
 
         var newlist = list.map((ele) => {
           var name;
-          console.log(teachers);
           teachers.forEach((teacher) => {
             if (ele.courseCO === teacher.id) {
               name = teacher.name;
@@ -316,91 +286,9 @@ function Courses() {
 
   return (
     <div style={styles.container}>
-      {/* <CRUDTable
-        caption="Courses"
-        items={courses}
-      >
-        <Fields>
-          <Field name="CourseId" label="Course ID" placeholder="Course ID" />
-          <Field
-            name="CourseCode"
-            label="Course Code"
-            placeholder="Course Code"
-          />
-          <Field
-            name="CourseType"
-            label="Course Type"
-            placeholder="Course Type"
-          />
-          <Field
-            name="courseCO"
-            label="Course Coordinator"
-            placeholder="Course Coordinator"
-          />
-          <Field name="Credits" label="Credits" placeholder="Credits" />
-        </Fields>
-        <CreateForm
-          title="Course Creation"
-          message="Create a new Course!"
-          trigger="Create Course"
-          onSubmit={(course) => service.create(course)}
-          submitText="Create"
-          validate={(values) => {
-            const errors = {};
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-
-            if (!values.CourseType) {
-              errors.CourseType = "Please, provide Course Type";
-            }
-            if (!values.courseCO) {
-              errors.courseCO = "Please, provide Course Coordinator";
-            }
-            return errors;
-          }}
-        />
-
-        <UpdateForm
-          title="Course Update Process"
-          message="Update Course"
-          trigger="Update"
-          onSubmit={(course) => service.update(course)}
-          submitText="Update"
-          validate={(values) => {
-            const errors = {};
-
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-
-            if (!values.CourseType) {
-              errors.CourseType = "Please, provide Course Type";
-            }
-            if (!values.courseCO) {
-              errors.courseCO = "Please, provide Course Coordinator";
-            }
-
-            return errors;
-          }}
-        />
-
-        <DeleteForm
-          title="Course Delete Process"
-          message="Are you sure you want to delete the Course?"
-          trigger="Delete"
-          onSubmit={(course) => service.delete(course)}
-          submitText="Delete"
-          validate={(values) => {
-            const errors = {};
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-            return errors;
-          }}
-        />
-      </CRUDTable> */}
-      {/* Create dailog */}
+      {
+        console.log("teachers",teachers,"courses",courses)
+      }
       <Dialog
         open={openCreateDailog}
         onClose={handleCloseCreateDailog}
@@ -424,11 +312,28 @@ function Courses() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Course Coordinator"
+            <Grid item xs={12}>
+              <FormControl
                 variant="outlined"
-              />
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                Course Coordinator
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Coordinator"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
             </Grid>
             <Grid item xs={12}>
               <FormControl
@@ -447,7 +352,6 @@ function Courses() {
                   label="Course Type"
                 >
                   <MenuItem value={"Core"}>Core</MenuItem>
-                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
                   <MenuItem value={"Elective"}>Elective</MenuItem>
                   <MenuItem value={"ProjectType"}>Project Type</MenuItem>
                 </Select>
@@ -511,11 +415,26 @@ function Courses() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Course Coordinator"
+            <FormControl
                 variant="outlined"
-              />
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                Course Coordinator
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseType}
+                  onChange={handleChangeCourseType}
+                  label="Course Coordinator"
+                >
+                  <MenuItem value={"Core"}>Core</MenuItem>
+                  <MenuItem value={"Elective"}>Elective</MenuItem>
+                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl
@@ -606,7 +525,7 @@ function Courses() {
           <TableHead>
             <TableRow>
               <StyledTableCell align="center">Course ID</StyledTableCell>
-              <StyledTableCell align="center">Course Code</StyledTableCell>
+              <StyledTableCell align="left">Course Code</StyledTableCell>
               <StyledTableCell align="center">Course Type</StyledTableCell>
               <StyledTableCell align="center">
                 Course Coordinator
@@ -616,15 +535,15 @@ function Courses() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+          {courses.map((row) => (
+              <StyledTableRow key={row.CourseId}>
                 <StyledTableCell component="th" scope="row" align="center">
-                  {row.name}
+                  {row.CourseId}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.calories}</StyledTableCell>
-                <StyledTableCell align="center">{row.fat}</StyledTableCell>
-                <StyledTableCell align="center">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="center">{row.protein}</StyledTableCell>
+                <StyledTableCell align="left">{row.CourseCode}</StyledTableCell>
+                <StyledTableCell align="center">{row.CourseType}</StyledTableCell>
+                <StyledTableCell align="center">{row.Credits}</StyledTableCell>
+                <StyledTableCell align="center">{row.courseCO}</StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
                     variant="contained"
