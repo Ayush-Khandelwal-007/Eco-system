@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "./CoursesComponent/course.css";
-import CRUDTable, {
-  Fields,
-  Field,
-  CreateForm,
-  UpdateForm,
-  DeleteForm,
-} from "react-crud-table";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,16 +14,16 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
-
 import { db } from "../Firebase";
 import { useUser } from "../contexts/User";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -89,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   table: {
-    minWidth: 700,
+    width: "90vw",
   },
   createBtn: {
     background: "#35b056",
@@ -108,54 +100,16 @@ const useStyles = makeStyles((theme) => ({
   updateBtn: {
     marginRight: 10,
   },
+  snackbarDiv: {
+    backgroundColor: "red !important",
+    color: "white !important",
+    "&>div": {
+      color: "white !important"
+    }
+  }
 }));
 
-const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
-let COURSES = [
-  {
-    CourseId: "test-AX101",
-    CourseCode: "test-PPL",
-    CourseType: "test-CORE",
-    Credits: "test-1",
-    courseCO: "teacher-1",
-    // description: "Create an example of how to use the component",
-  },
-  {
-    CourseId: "test-PBJ21",
-    CourseCode: "test-NOB",
-    CourseType: "test-ADD-ON",
-    Credits: "test-3",
-    courseCO: "teacher-2",
-    // description: "Improve the component!",
-  },
-];
-
-const SORTERS = {
-  NUMBER_ASCENDING: (mapper) => (a, b) => mapper(a) - mapper(b),
-  NUMBER_DESCENDING: (mapper) => (a, b) => mapper(b) - mapper(a),
-  STRING_ASCENDING: (mapper) => (a, b) => mapper(a).localeCompare(mapper(b)),
-  STRING_DESCENDING: (mapper) => (a, b) => mapper(b).localeCompare(mapper(a)),
-};
-
-const getSorter = (data) => {
-  const mapper = (x) => x[data.field];
-  let sorter = SORTERS.STRING_ASCENDING(mapper);
-
-  if (data.field === "id") {
-    sorter =
-      data.direction === "ascending"
-        ? SORTERS.NUMBER_ASCENDING(mapper)
-        : SORTERS.NUMBER_DESCENDING(mapper);
-  } else {
-    sorter =
-      data.direction === "ascending"
-        ? SORTERS.STRING_ASCENDING(mapper)
-        : SORTERS.STRING_DESCENDING(mapper);
-  }
-
-  return sorter;
-};
 
 const styles = {
   container: { margin: "auto", width: "fit-content" },
@@ -167,67 +121,68 @@ function Courses() {
   const classes = useStyles();
   const [teachers, setTeachers] = React.useState([]);
   const [courses, setCourses] = useState([]);
+  const [courseId, setCourseId] = useState('');
+  const [courseCode, setCourseCode] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+  const [error, setError] = useState('');
+  const [selectedIdToDalete, setSelectedIdToDalete] = useState('');
 
-  let count = courses.length;
-  const service = {
-    fetchItems: (payload) => {
-      let result = Array.from(courses);
-      result = result.sort(getSorter(payload.sort));
-      return Promise.resolve(result);
-    },
-    create: (course) => {
-      db.collection("HoD")
-        .doc(state.user.email)
-        .collection("courses")
-        .doc(course.CourseId)
-        .set(course)
-        .then(() => {
-          console.log("Document successfully written!");
-        })
-        .catch((error) => {
-          console.error("Error writing document: ", error);
-        });
-      return Promise.resolve(course);
-    },
-    update: (data) => {
-      console.log(data);
-      var id;
-      teachers.forEach((teacher) => {
-        if (data.courseCO === teacher.name) {
-          id = teacher.id;
-        }
+  const createNewCourse = (e) => {
+    e.preventDefault();
+    if (courses.filter((course) => course.CourseId === courseId).length > 0) {
+      setError('This Id is already in use , Please choose another ID.')
+      setOpenSnack(true);
+      return
+    }
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
+      .doc(courseId)
+      .set({
+        CourseId: courseId,
+        CourseCode: courseCode,
+        CourseType: courseType,
+        Credits: courseCredit,
+        courseCO: courseCord,
+        semester: courseSem,
+      })
+      .then(() => {
+        console.log("Document successfully written!");
+        setOpenCreateDailog(false);
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
       });
+  }
 
-      db.collection("HoD")
-        .doc(state.user.email)
-        .collection("courses")
-        .doc(data.CourseId)
-        .update({
-          CourseId: data.CourseId,
-          CourseCode: data.CourseCode,
-          CourseType: data.CourseType,
-          Credits: data.Credits,
-          courseCO: id,
-        });
+  const UpdateCourse = (e) =>{
+    e.preventDefault();
+    if (courses.filter((course) => course.CourseId === courseId).length = 0) {
+      setError('Something Wrong Happened')
+      setOpenSnack(true);
+      return
+    }
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
+      .doc(courseId)
+      .set({
+        CourseId: courseId,
+        CourseCode: courseCode,
+        CourseType: courseType,
+        Credits: courseCredit,
+        courseCO: courseCord,
+        semester: courseSem,
+      },{merge:true})
+      .then(() => {
+        console.log("Document successfully Updated!");
+        setOpenUpdateDailog(false);
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
+  }
 
-      return Promise.resolve(data);
-    },
-    delete: (data) => {
-      db.collection("HoD")
-        .doc(state.user.email)
-        .collection("courses")
-        .doc(data.CourseId)
-        .delete()
-        .then(() => {
-          console.log("Document successfully deleted!");
-        })
-        .catch((error) => {
-          console.error("Error removing document: ", error);
-        });
-
-      return Promise.resolve(data);
-    },
-  };
   useEffect(() => {
     db.collection("teachers").onSnapshot((querySnapshot) => {
       var list = [];
@@ -235,14 +190,13 @@ function Courses() {
         list.push({ ...doc.data(), id: doc.id });
       });
       setTeachers(list);
-      console.log(teachers);
     });
   }, [db]);
 
   useEffect(() => {
     db.collection("HoD")
       .doc(state.user.email)
-      .collection("courses")
+      .collection("courses").orderBy("semester", "asc")
       .onSnapshot((querySnapshot) => {
         var list = [];
         var x = 0;
@@ -253,7 +207,6 @@ function Courses() {
 
         var newlist = list.map((ele) => {
           var name;
-          console.log(teachers);
           teachers.forEach((teacher) => {
             if (ele.courseCO === teacher.id) {
               name = teacher.name;
@@ -264,9 +217,6 @@ function Courses() {
             courseCO: name,
           };
         });
-
-        console.log(teachers);
-
         setCourses(newlist);
       });
   }, [db, teachers]);
@@ -282,21 +232,39 @@ function Courses() {
     setOpenCreateDailog(false);
   };
 
-  const [courseType, setCourseType] = React.useState("");
+  const [courseType, setCourseType] = React.useState("CORE");
+  const [courseCord, setCourseCord] = React.useState("");
 
   const handleChangeCourseType = (e) => {
     setCourseType(e.target.value);
   };
 
-  const [courseCredit, setCourseCredit] = React.useState("");
+  const handleChangeCourseCord = (e) => {
+    setCourseCord(e.target.value);
+  };
+
+  const [courseCredit, setCourseCredit] = React.useState(4);
 
   const handleChangeCourseCredit = (e) => {
     setCourseCredit(e.target.value);
   };
 
+  const [courseSem, setCourseSem] = React.useState(1);
+
+  const handleChangeCourseSem = (e) => {
+    setCourseSem(e.target.value);
+  };
+
   //Update Course
   const [openUpdateDailog, setOpenUpdateDailog] = React.useState(false);
-  const handleClickOpenUpdateDailog = () => {
+  const handleClickOpenUpdateDailog = (course) => {
+    console.log(course)
+    setCourseId(course.CourseId);
+    setCourseCode(course.CourseCode);
+    setCourseType(course.CourseType);
+    setCourseCredit(course.Credits);
+    setCourseCord(teachers.filter((teacher)=>teacher.name===course.courseCO)[0].id)
+    setCourseSem(course.semester);
     setOpenUpdateDailog(true);
   };
 
@@ -314,93 +282,40 @@ function Courses() {
     setOpenDeleteDialog(false);
   };
 
+  const disableCreate = courseId === '' || courseCode === '' || courseCord === ''
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+
+  const semesters = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const DeleteSelected = () => {
+    db.collection("HoD")
+      .doc(state.user.email)
+      .collection("courses")
+      .doc(selectedIdToDalete)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+        setOpenDeleteDialog(false);
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  }
+
   return (
     <div style={styles.container}>
-      {/* <CRUDTable
-        caption="Courses"
-        items={courses}
-      >
-        <Fields>
-          <Field name="CourseId" label="Course ID" placeholder="Course ID" />
-          <Field
-            name="CourseCode"
-            label="Course Code"
-            placeholder="Course Code"
-          />
-          <Field
-            name="CourseType"
-            label="Course Type"
-            placeholder="Course Type"
-          />
-          <Field
-            name="courseCO"
-            label="Course Coordinator"
-            placeholder="Course Coordinator"
-          />
-          <Field name="Credits" label="Credits" placeholder="Credits" />
-        </Fields>
-        <CreateForm
-          title="Course Creation"
-          message="Create a new Course!"
-          trigger="Create Course"
-          onSubmit={(course) => service.create(course)}
-          submitText="Create"
-          validate={(values) => {
-            const errors = {};
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-
-            if (!values.CourseType) {
-              errors.CourseType = "Please, provide Course Type";
-            }
-            if (!values.courseCO) {
-              errors.courseCO = "Please, provide Course Coordinator";
-            }
-            return errors;
-          }}
-        />
-
-        <UpdateForm
-          title="Course Update Process"
-          message="Update Course"
-          trigger="Update"
-          onSubmit={(course) => service.update(course)}
-          submitText="Update"
-          validate={(values) => {
-            const errors = {};
-
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-
-            if (!values.CourseType) {
-              errors.CourseType = "Please, provide Course Type";
-            }
-            if (!values.courseCO) {
-              errors.courseCO = "Please, provide Course Coordinator";
-            }
-
-            return errors;
-          }}
-        />
-
-        <DeleteForm
-          title="Course Delete Process"
-          message="Are you sure you want to delete the Course?"
-          trigger="Delete"
-          onSubmit={(course) => service.delete(course)}
-          submitText="Delete"
-          validate={(values) => {
-            const errors = {};
-            if (!values.CourseId) {
-              errors.CourseId = "Please, provide Course ID";
-            }
-            return errors;
-          }}
-        />
-      </CRUDTable> */}
-      {/* Create dailog */}
+      <Snackbar open={openSnack} autoHideDuration={4000} onClose={handleCloseSnack}>
+        <Alert className={classes.snackbarDiv} severity="error">
+          <strong>{error}</strong>
+        </Alert>
+      </Snackbar>
       <Dialog
         open={openCreateDailog}
         onClose={handleCloseCreateDailog}
@@ -411,6 +326,8 @@ function Courses() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                value={courseId}
+                onChange={e => setCourseId(e.target.value)}
                 id="outlined-basic"
                 label="Course ID"
                 variant="outlined"
@@ -418,17 +335,56 @@ function Courses() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={courseCode}
+                onChange={e => setCourseCode(e.target.value)}
                 id="outlined-basic"
                 label="Course Code"
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Course Coordinator"
+              <FormControl
                 variant="outlined"
-              />
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Course Coordinator
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCord}
+                  onChange={handleChangeCourseCord}
+                  label="Course Coordinator"
+                >
+                  {
+                    teachers.map((teacher) => <MenuItem key={teacher.id} value={teacher.id}>{teacher.name}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Semester
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseSem}
+                  onChange={handleChangeCourseSem}
+                  label="Semester"
+                >
+                  {
+                    semesters.map(sem => <MenuItem key={sem} value={sem}>{sem}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl
@@ -446,10 +402,9 @@ function Courses() {
                   onChange={handleChangeCourseType}
                   label="Course Type"
                 >
-                  <MenuItem value={"Core"}>Core</MenuItem>
-                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
-                  <MenuItem value={"Elective"}>Elective</MenuItem>
-                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                  <MenuItem value={"CORE"}>Core</MenuItem>
+                  <MenuItem value={"PROJECT"}>Project Type</MenuItem>
+                  <MenuItem value={"ELECTIVE"}>Elective</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -467,10 +422,10 @@ function Courses() {
                   id="demo-simple-select-outlined"
                   value={courseCredit}
                   onChange={handleChangeCourseCredit}
-                  label="Course Type"
+                  label="Credite"
                 >
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"4"}>4</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -480,7 +435,7 @@ function Courses() {
           <Button onClick={handleCloseCreateDailog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseCreateDailog} color="primary">
+          <Button disabled={disableCreate} onClick={createNewCourse} color="primary">
             Create
           </Button>
         </DialogActions>
@@ -498,6 +453,9 @@ function Courses() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                disabled
+                value={courseId}
+                onChange={e => setCourseId(e.target.value)}
                 id="outlined-basic"
                 label="Course ID"
                 variant="outlined"
@@ -505,17 +463,56 @@ function Courses() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                value={courseCode}
+                onChange={e => setCourseCode(e.target.value)}
                 id="outlined-basic"
                 label="Course Code"
                 variant="outlined"
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                id="outlined-basic"
-                label="Course Coordinator"
+              <FormControl
                 variant="outlined"
-              />
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Course Coordinator
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseCord}
+                  onChange={handleChangeCourseCord}
+                  label="Course Coordinator"
+                >
+                  {
+                    teachers.map((teacher) => <MenuItem key={teacher.id} value={teacher.id}>{teacher.name}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                required
+              >
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Semester
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={courseSem}
+                  onChange={handleChangeCourseSem}
+                  label="Semester"
+                >
+                  {
+                    semesters.map(sem => <MenuItem key={sem} value={sem}>{sem}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <FormControl
@@ -533,10 +530,9 @@ function Courses() {
                   onChange={handleChangeCourseType}
                   label="Course Type"
                 >
-                  <MenuItem value={"Core"}>Core</MenuItem>
-                  <MenuItem value={"AddOn"}>Add ON</MenuItem>
-                  <MenuItem value={"Elective"}>Elective</MenuItem>
-                  <MenuItem value={"ProjectType"}>Project Type</MenuItem>
+                  <MenuItem value={"CORE"}>Core</MenuItem>
+                  <MenuItem value={"PROJECT"}>Project Type</MenuItem>
+                  <MenuItem value={"ELECTIVE"}>Elective</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -554,10 +550,10 @@ function Courses() {
                   id="demo-simple-select-outlined"
                   value={courseCredit}
                   onChange={handleChangeCourseCredit}
-                  label="Course Type"
+                  label="Credite"
                 >
-                  <MenuItem value={"2"}>2</MenuItem>
-                  <MenuItem value={"4"}>4</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -567,7 +563,7 @@ function Courses() {
           <Button onClick={handleCloseUpdateDailog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseUpdateDailog} color="primary">
+          <Button onClick={UpdateCourse} color="primary">
             Update
           </Button>
         </DialogActions>
@@ -588,7 +584,7 @@ function Courses() {
           <Button onClick={handleCloseDeleteDailog} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCloseDeleteDailog} color="primary">
+          <Button onClick={DeleteSelected} color="primary">
             Delete
           </Button>
         </DialogActions>
@@ -601,35 +597,57 @@ function Courses() {
       >
         Create Course
       </Button>
+      <FormControl
+        variant="outlined"
+        className={classes.formControl}
+        required
+      >
+        <InputLabel id="demo-simple-select-outlined-label">
+          Semester
+                </InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={courseSem}
+          onChange={handleChangeCourseSem}
+          label="Semester"
+        >
+          {
+            semesters.map(sem => <MenuItem key={sem} value={sem}>{sem}</MenuItem>)
+          }
+        </Select>
+      </FormControl>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell align="center">Course Semester</StyledTableCell>
               <StyledTableCell align="center">Course ID</StyledTableCell>
-              <StyledTableCell align="center">Course Code</StyledTableCell>
+              <StyledTableCell align="left">Course Code</StyledTableCell>
               <StyledTableCell align="center">Course Type</StyledTableCell>
               <StyledTableCell align="center">
-                Course Coordinator
+                Credits
               </StyledTableCell>
-              <StyledTableCell align="center">Credits</StyledTableCell>
+              <StyledTableCell align="center">Course Coordinator</StyledTableCell>
               <StyledTableCell align="center">Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
+            {courses.filter((row) => row.semester === courseSem).map((row) => (
+              <StyledTableRow key={row.CourseId}>
+                <StyledTableCell component="th" scope="row" align="center">{row.semester}</StyledTableCell>
                 <StyledTableCell component="th" scope="row" align="center">
-                  {row.name}
+                  {row.CourseId}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.calories}</StyledTableCell>
-                <StyledTableCell align="center">{row.fat}</StyledTableCell>
-                <StyledTableCell align="center">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="center">{row.protein}</StyledTableCell>
+                <StyledTableCell align="left">{row.CourseCode}</StyledTableCell>
+                <StyledTableCell align="center">{row.CourseType}</StyledTableCell>
+                <StyledTableCell align="center">{row.Credits}</StyledTableCell>
+                <StyledTableCell align="center">{row.courseCO}</StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleClickOpenUpdateDailog}
+                    onClick={() => handleClickOpenUpdateDailog(row)}
                     className={classes.updateBtn}
                   >
                     Update
@@ -637,7 +655,10 @@ function Courses() {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={handleClickOpenDeleteDialog}
+                    onClick={() => {
+                      handleClickOpenDeleteDialog();
+                      setSelectedIdToDalete(row.CourseId);
+                    }}
                   >
                     Delete
                   </Button>
