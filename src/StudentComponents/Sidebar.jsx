@@ -21,11 +21,11 @@ function Sidebar() {
         <div className={sidebar.sem}>
           {" "}
           Semester - {state?.user?.semester}
-          {state?.user?.semester === 1
+          {state?.user?.semester == 1
             ? "st"
-            : state?.user?.semester === 2
+            : state?.user?.semester == 2
             ? "nd"
-            : state?.user?.semester === 3
+            : state?.user?.semester == 3
             ? "rd"
             : "th"}
         </div>
