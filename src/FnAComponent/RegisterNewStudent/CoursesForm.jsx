@@ -39,7 +39,7 @@ export default function CoursesForm({ studentInfo, setStudentInfo ,checkedCore, 
 
   React.useEffect(() => {
 
-    db.collection("HoD").doc("ece@amigo.com").collection("courses")
+    db.collection("HoD").doc("ece@amigo.com").collection("courses").where('semester','==',1)
       .onSnapshot((querySnapshot) => {
         var list = []
         querySnapshot.forEach((doc) => {
@@ -50,7 +50,7 @@ export default function CoursesForm({ studentInfo, setStudentInfo ,checkedCore, 
   }, [db])
 
   React.useEffect(() => {
-    db.collection("HoD").doc("it@amigo.com").collection("courses")
+    db.collection("HoD").doc("it@amigo.com").collection("courses").where('semester','==',1)
       .onSnapshot((querySnapshot) => {
         var list = []
         querySnapshot.forEach((doc) => {

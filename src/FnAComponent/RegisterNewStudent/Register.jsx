@@ -154,7 +154,6 @@ export default function Register() {
     }
   }
 
-  console.log(students.includes(studentInfo.roll.toUpperCase()));
   const updateFee = (feesPaid) => {
     if (feesPaid) {
       return {
@@ -200,11 +199,6 @@ export default function Register() {
             country: studentInfo.country,
           },
           branch: studentInfo.branch,
-          courses: [
-            ...checkedCore,
-            ...checkedElective,
-            ...checkedProjectTypeCourse,
-          ],
           email: `${studentInfo.roll.toLowerCase()}@amigo.com`,
           feeStatusAtAdmis: studentInfo.feesPaid,
           feeStatusAtReg: studentInfo.feesPaid,
@@ -215,6 +209,11 @@ export default function Register() {
           dob: studentInfo.dob,
           roll: studentInfo.roll.toUpperCase(),
           semester: "1",
+        });
+        checkedCore.map((course)=>course.CourseId).concat(checkedElective.map((course)=>course.CourseId)).concat(checkedProjectTypeCourse.map((course)=>course.CourseId)).forEach((course)=>{
+          db.collection("Students").doc(`${studentInfo.roll.toLowerCase()}@amigo.com`).collection('onGoingCourses').add({
+            courseId:course,
+          });
         });
       setActiveStep(activeStep + 1);
     }
