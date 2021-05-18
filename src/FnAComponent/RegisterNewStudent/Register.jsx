@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,6 +16,12 @@ import StudentDetailsForm from "./StudentDetailsForm";
 import CoursesForm from "./CoursesForm";
 import Review from "./Review";
 import { db } from "../../Firebase";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -85,6 +91,33 @@ export default function Register() {
   // React.useEffect(() => {
   //   console.log(checkedCore, checkedProjectTypeCourse, checkedElective);
   // })
+  const [students, setStudents] = useState([])
+  const [error, setError] = useState('')
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+
+
+  useEffect(() => {
+    db.collection("Students")
+      .get()
+      .then((querySnapshot) => {
+        var list = []
+        querySnapshot.forEach((doc) => {
+          list.push(doc.data().roll)
+        });
+        setStudents(list);
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  }, [db])
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -121,6 +154,7 @@ export default function Register() {
     }
   }
 
+  console.log(students.includes(studentInfo.roll.toUpperCase()));
   const updateFee = (feesPaid) => {
     if (feesPaid) {
       return {
@@ -146,6 +180,11 @@ export default function Register() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
+    if (students.includes(studentInfo.roll.toUpperCase())) {
+      setError('Enrollment Number Alredy registered.')
+      setOpenAlert(true);
+      return;
+    }
     if (activeStep < 2) {
       setActiveStep(activeStep + 1);
     } else {
@@ -219,6 +258,15 @@ export default function Register() {
 
   return (
     <React.Fragment>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity="warning">
+          {error}
+        </Alert>
+      </Snackbar>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>

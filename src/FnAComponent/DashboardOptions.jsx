@@ -212,10 +212,6 @@ export default function DashboardOptions() {
   //Alert
   const [openAlert, setOpenAlert] = useState(false);
 
-  const handleClickAlert = () => {
-    setOpenAlert(true);
-  };
-
   const handleCloseAlert = (event, reason) => {
     if (reason === "clickaway") {
       return;
