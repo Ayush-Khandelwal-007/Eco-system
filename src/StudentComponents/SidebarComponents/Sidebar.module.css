@@ -25,6 +25,25 @@
     border-radius: 50%;
     border: 3px solid #222831;
     margin-bottom: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color:rgb(0, 230, 0);
+    cursor: pointer;
+    background-position: center center;
+    background-size: 100% 100%;
+}
+
+.addIcon{
+    position: relative;
+    top: 35%;
+    left: 35%;
+    transform:scale(2);
+}
+
+.profilepic>img{
+    height:20px;
 }
 
 .enroll{
