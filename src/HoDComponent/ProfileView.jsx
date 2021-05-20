@@ -15,7 +15,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import design from "./ProfileViewComponent/ProfileView.module.css";
-import {db} from "../Firebase"
+import { db } from "../Firebase"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     display: "inline",
   },
   divider: {
-    width: "30ch",
+    width: "100%",
   },
 }));
 
@@ -58,7 +58,7 @@ function ProfileView() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [students, setStudents] = React.useState([]);
-  const [showStudent,setShowStudent]=React.useState({});
+  const [showStudent, setShowStudent] = React.useState({});
 
 
   useEffect(() => {
@@ -93,37 +93,46 @@ function ProfileView() {
         open={open}
         onClose={handleClose}
         scroll="paper"
+        maxWidth='lg'
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id="scroll-dialog-title">Profile</DialogTitle>
-        <DialogContent>
+        <DialogContent classes={{
+          root:design.dialogcontent,
+        }}>
 
-        <img src={showStudent?.imageurl} className={design.profileimage}/>
-          <div > 
+          <img src={showStudent?.imageurl} className={design.profileimage} />
+            <hr/>
+          <div >
             <div>
               <label>Name:</label>
               <div>{showStudent?.name}</div>
             </div>
+            <hr/>
             <div>
               <label>Enrollment Number:</label>
               <div>{showStudent?.roll}</div>
             </div>
+            <hr/>
             <div>
               <label>Semester:</label>
               <div>{showStudent?.semester}</div>
             </div>
+            <hr/>
             <div>
               <label>Branch:</label>
               <div>{showStudent?.branch}</div>
             </div>
+            <hr/>
             <div>
               <label>Fees:</label>
               <div>
-                <div>Semester Fee:{showStudent?.fees?.semfee}</div>
-                <div>Late Fee:{showStudent?.fees?.latefee}</div>
+                <div><u>Semester Fee</u>:{showStudent?.fees?.semfee}</div>
+                <div><u>Late Fee</u>:{showStudent?.fees?.latefee}</div>
               </div>
             </div>
+            <hr/>
           </div>
 
         </DialogContent>
@@ -141,10 +150,10 @@ function ProfileView() {
       <div className={design.ProfileList}>
         <List className={classes.Listroot}>
           {
-            students.map((student,index)=>{
-              return(
+            students.map((student, index) => {
+              return (
                 <>
-                  <ListItem alignItems="flex-start" button onClick={()=>handleClickOpen(student)}>
+                  <ListItem alignItems="flex-start" button onClick={() => handleClickOpen(student)}>
                     <ListItemAvatar>
                       <Avatar alt={student.name} src={student.imageurl} />
                     </ListItemAvatar>
@@ -165,7 +174,7 @@ function ProfileView() {
                     />
                   </ListItem>
                   {
-                    index===students.length-1 ?(null):(<Divider variant="inset" component="li" className={classes.divider} />)
+                    index === students.length - 1 ? (null) : (<Divider variant="inset" component="li" className={classes.divider} />)
                   }
                 </>
               )
