@@ -25,7 +25,6 @@ function FeesPortal() {
     }
 
     const [state, dispatch] = useUser();
-    console.log(JSON.stringify(state.user.fees))
     const fee = state?.user?.fees;
     const payFees = async () => {
         var userType = path(parseInt(state.userType));
@@ -104,7 +103,7 @@ function FeesPortal() {
                 </div>
                 {
                     state.user.feesApproved === true ? (null) : (
-                        fee.semfee + fee.latefee === fee.paid ? (
+                        fee?.semfee + fee?.latefee === fee?.paid ? (
                             <div className={feesPortal.ApprovalDiv}>Fees Submitted. Under Approval Process</div>
                         ) : (
                             <div className={feesPortal.buttonDiv}><Button onClick={() => payFees()}>Pay Fees</Button></div>
