@@ -123,7 +123,7 @@ export default function FeeApproval() {
                 <StyledTableCell>{row.data}</StyledTableCell>
                 <StyledTableCell> <div style={{ cursor: 'pointer' }} onClick={() => {
                   approveFee(row.email)
-                }} >approve</div> </StyledTableCell>
+                }} >Approve</div> </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

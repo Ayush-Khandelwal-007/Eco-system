@@ -32,7 +32,7 @@ function FeesPortal() {
     const fetchFees=()=>{
         db.collection('Students').doc(state.user.email)
         .onSnapshot((doc) => {
-            setFee(doc.data().fee);
+            setFee(doc.data().fees);
             setFeesApproved(doc.data().feesApproved)
         });
     }
