@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../contexts/User';
 import { db } from '../Firebase';
 import feesPortal from './FeesPortalComponent/FeesPortal.module.css'
@@ -24,47 +24,42 @@ function FeesPortal() {
         return userType
     }
 
+    const [fee, setFee] = useState({});
+    const [feesApproved, setFeesApproved] = useState(false);
+
     const [state, dispatch] = useUser();
-    console.log(JSON.stringify(state.user.fees))
-    const fee = state?.user?.fees;
+
+    const fetchFees=()=>{
+        db.collection('Students').doc(state.user.email)
+        .onSnapshot((doc) => {
+            setFee(doc.data().fee);
+            setFeesApproved(doc.data().feesApproved)
+        });
+    }
+    useEffect(() => {
+        fetchFees();
+    })
+    // const fee = state?.user?.fees;
     const payFees = async () => {
         var userType = path(parseInt(state.userType));
         var email = state.user.email;
         db.collection('Students').doc(email).update({
             fees: {
-                latefee: state.user.fees.latefee,
-                semfee: state.user.fees.semfee,
-                paid: state.user.fees.semfee + state.user.fees.latefee,
+                latefee: fee.latefee,
+                semfee: fee.semfee,
+                paid: fee.semfee + fee.latefee,
                 due: 0,
             },
         });
-
-        try{
-
-            var docRef = db.collection(userType).doc(email);
-
-            docRef.get().then((doc) => {
-              if (doc.exists) {
-                  dispatch({
-                    type: "SET_USER",
-                    user: { ...doc.data() },
-                    userType: state.userType,
-                  });
-        
-                  localStorage.setItem("user", JSON.stringify(doc.data()));
-              } else {
-                console.log(doc.data());
-              }
-          }).catch((error) => {
-              console.log("Error getting document:", error);
-          });
-        } catch(error){
-            console.log(error);
-        }
-        localStorage.setItem('user', JSON.stringify(state.user));
         db.collection("feeapproval").doc(state.user.email).set({
-            description: JSON.stringify(state.user.fees)
+            description: JSON.stringify({
+                latefee: fee.latefee,
+                semfee: fee.semfee,
+                paid: fee.semfee + fee.latefee,
+                due: 0,
+            })
         })
+        fetchFees();
     }
     return (
         state.user && (
@@ -72,7 +67,7 @@ function FeesPortal() {
                 <div className={feesPortal.infoDiv} >
                     <h1>FEE STATUS</h1>
                     {
-                        state.user.feesApproved === true ? (
+                        feesApproved === true ? (
                             <div>
                                 Fees Paid And Approved
                             </div>
@@ -103,8 +98,8 @@ function FeesPortal() {
                     }
                 </div>
                 {
-                    state.user.feesApproved === true ? (null) : (
-                        fee.semfee + fee.latefee === fee.paid ? (
+                    feesApproved === true ? (null) : (
+                        fee?.semfee + fee?.latefee === fee?.paid ? (
                             <div className={feesPortal.ApprovalDiv}>Fees Submitted. Under Approval Process</div>
                         ) : (
                             <div className={feesPortal.buttonDiv}><Button onClick={() => payFees()}>Pay Fees</Button></div>

@@ -37,6 +37,8 @@ const useStyles = makeStyles({
   container: {
     width: "auto",
     margin: 25,
+    height: '80vh',
+    overflowY: 'scroll',
   },
 });
 

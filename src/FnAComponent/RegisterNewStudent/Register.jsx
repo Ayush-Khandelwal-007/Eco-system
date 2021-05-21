@@ -202,7 +202,7 @@ export default function Register() {
           email: `${studentInfo.roll.toLowerCase()}@amigo.com`,
           feeStatusAtAdmis: studentInfo.feesPaid,
           feeStatusAtReg: studentInfo.feesPaid,
-          fee: updateFee(studentInfo.feesPaid),
+          fees: updateFee(studentInfo.feesPaid),
           feesApproved: studentInfo.feesPaid,
           name: `${studentInfo.firstName} ${studentInfo.lastName}`,
           password: studentInfo.dob,

@@ -6,9 +6,13 @@ import {
   DialogContent,
   IconButton,
   Menu,
+  DialogActions,
+  DialogContentText,
   MenuItem,
   Typography,
-  withStyles,
+  DialogTitle,
+  TextField,
+  Snackbar,
 } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
@@ -24,6 +28,11 @@ import { useUser } from "../../contexts/User";
 import { db } from "../../Firebase";
 import moment from "moment";
 import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -50,6 +59,46 @@ function HeaderNav() {
   const [state, dispatch] = useUser();
   const history = useHistory();
   const [notifications, setNotifications] = useState([]);
+  const [openChangePassword, setOpenChangePassword] = useState(false);
+  const [type,setType]=useState('error')
+  const [prevPass, setPrevPass] = useState('');
+  const [newPass, setNewPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [error, setError] = useState('')
+  const [openAlert, setOpenAlert] = useState(false);
+
+
+  const handleCloseAlert =(event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
+
+  const handlesubmitevent = () => {
+    if(newPass===confirmPass){
+
+      if(state.user.password!==prevPass){
+        setError('Please enter the corect Present password')
+        setOpenAlert(true);
+      }
+      else{
+        db.collection('Students').doc(state.user.email).set({
+          password:newPass,
+        },{merge:true})
+
+        setPrevPass('');
+        setNewPass('');
+        setConfirmPass('');
+        setOpenChangePassword(false);
+      }
+    }
+    else {
+      setError('Please Confirm your password as New password and confirm password dont match.')
+      setOpenAlert(true);
+    }
+  }
 
   useEffect(() => {
     db.collection('Students').doc(state.user.email).collection("notification").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
@@ -111,6 +160,61 @@ function HeaderNav() {
 
   return (
     <div className={header.nav}>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity={type}>
+          {error}
+        </Alert>
+      </Snackbar>
+      <Dialog
+        open={openChangePassword}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Change Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            The Password Could be seen and changed by the administration.
+          </DialogContentText>
+          <form className={header.changePassForm}>
+            <TextField
+              type='password'
+              label={'Present Password'}
+              value={prevPass}
+              onChange={(e) => {
+                setPrevPass(e.target.value);
+              }}
+            />
+
+            <TextField
+              type='password'
+              label={'New Password'}
+              value={newPass}
+              onChange={(e) => {
+                setNewPass(e.target.value);
+              }}
+            />
+            <TextField
+              type='password'
+              label={'Confirm Password'}
+              value={confirmPass}
+              onChange={(e) => {
+                setConfirmPass(e.target.value);
+              }}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenChangePassword(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handlesubmitevent} color="primary">
+            Change Password
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Drawer
         className={classes.drawer}
         classes={{
@@ -178,6 +282,7 @@ function HeaderNav() {
         >
           {/* <MenuItem onClick={handleClose}>Profile</MenuItem> */}
           <MenuItem onClick={goLogout}>Logout</MenuItem>
+          <MenuItem onClick={() => setOpenChangePassword(true)}>Change Password</MenuItem>
         </Menu>
       </div>
     </div>

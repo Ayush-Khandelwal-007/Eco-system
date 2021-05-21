@@ -210,14 +210,14 @@ function HoDNav() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem
         onClick={() => {
           setNotificationDrawer(true);
@@ -226,7 +226,7 @@ function HoDNav() {
         }}
       >
         <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+          <Badge badgeContent={notifications.length} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -318,11 +318,11 @@ function HoDNav() {
         </div>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <IconButton aria-label="show 4 new mails" color="inherit">
+          {/* <IconButton aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="secondary">
               <MailIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
           <IconButton
             aria-label={"show new notifications"}
             color="inherit"

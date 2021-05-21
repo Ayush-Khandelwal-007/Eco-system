@@ -40,3 +40,202 @@
     transform: rotate(360deg);
   }
 }
+
+
+.dialoghf{
+  background-color: #0d1137;
+  color:white;
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center !important;
+  margin-top: 10%;
+  color: #4aa1f3;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+  padding:5px  0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  transform: translateY(-100%);
+}
+
+.container p {
+  color: red;
+  text-align: center;
+}
+
+.drop-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: 70vw;
+  height: 50vh;
+  border: 2px dashed #D8D8D8;
+}
+
+.upload-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #4aa1f3;
+  text-align: center;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.drop-message {
+  cursor: default;
+  text-align: center;
+  color: #C5C5C5;
+  font-family: Arial;
+  font-size: 20px;
+}
+
+.drop-message>small{
+  font-size: 13px;
+}
+
+.MuiDialog-paperWidthSm{
+  max-width: 100vw !important;
+}
+
+.uploadButton{
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: -webkit-linear-gradient(#4d90fe,#4787ed);
+  background: linear-gradient(#4d90fe,#4787ed);
+  background: -o-linear-gradient(#4d90fe,#4787ed);
+  border: 1px solid #3079ed;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 0.7vw;
+  font-weight: bold;
+  height: 3.5vh;
+  width: 13vw;
+  outline: 0;
+  padding: 0 2px;
+}
+
+.uploadButton:hover{
+  background: linear-gradient(#4787ed,#4d90fe);
+}
+
+.uploadButton:active,.uploadButton:focus{
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 30%);
+  background: #357ae8;
+  border: 1px solid #2f5bb7;
+  border-top: 1px solid #2f5bb7;
+  
+}
+
+.file-display-container {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width: 100%;
+}
+
+.file-status-bar{
+  width: 60vw;
+  vertical-align:top;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  line-height: 50px;
+  height: 50px;
+}
+
+.file-status-bar > div {
+  overflow: hidden;
+}
+
+.file-type {
+  display: inline-block!important;
+  position: absolute;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 13px;
+  margin-top: 25px;
+  padding: 0 4px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px #abc;
+  color: #fff;
+  background: #0080c8;
+  text-transform: uppercase;
+}
+
+.file-name {
+  display: inline-block;
+  vertical-align:top;
+  margin-left: 50px;
+  color: #4aa1f3;
+}
+
+.file-error {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 50px;
+  color: #9aa9bb;
+}
+
+.file-error-message {
+  color: red;
+}
+
+.file-type-logo {
+  width: 50px;
+  height: 50px;
+  background: url(./images/file.png) no-repeat center center;  
+  background-size: 100%; 
+  position: absolute;
+}
+
+.file-size {
+  display:inline-block;
+  vertical-align:top;
+  color:#30693D;
+  margin-left:10px;
+  margin-right:5px;
+  margin-left: 10px;
+  color: #444242;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.file-remove  {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  line-height: 15px;
+  cursor: pointer;
+  color: red;
+  margin-right: -10px;
+}
+
+.file-input {
+  display: none;
+} 
+
+.snackbarDiv{
+  background-color: red !important;
+}
+
+.snackbarDiv div{
+color: white !important;
+}
+
+.file-display-container  img{
+  max-width: 100%;
+  border: 2px solid green;
+}

@@ -212,9 +212,6 @@ function Login() {
           <LoginButton variant="contained" color="primary" onClick={verification}>
             LOGIN
           </LoginButton>
-          <ResetPassButton variant="contained" color="secondary">
-            Reset Password
-          </ResetPassButton>
         </motion.div>
         {/* </Fade> */}
       </div>
