@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# AMIGO
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## User Manual
 
-## Available Scripts
+#### Product Info
 
-In the project directory, you can run:
+_“Amigo” is basically a web application that offersa user-friendly interface for management of
+academic affairs (Admissions, Assessments, Awardsand Archives. The process of admission_
 
-### `yarn start`
+_and academic management of our institution is lessefficient and clumsy in various
+organizations (NU), as per one of the spokespersonfrom the Academic Department. Hence we
+aim to create a platform for smooth, easy and efficientinteraction between the students,_
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+_academic administration and Fees And Admission Department(FnA)._
 
-The page will reload once you make edits.\
-You will also see any lint errors in the console.
+---
+#### ➔ Hardware Requirements :
 
-### `yarn test`
+All the hardware on which a Web Browser can be installedcan act as an interface for the product and the user. The Hardware can be mobile,laptop, pc and tablet.To use the functionalities of the AMIGO application you needan internet connection to your device as well.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
+#### ➔ 3 User Levels :
 
-### `yarn build`
+```
+◆ Student
+◆ HoD
+◆ Fna
+```
+---
+#### ➔ Communication interfaces :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!!!
+The communication between the different parts of thesystem is important since they
+depend on each other. However, in what way the communicationis achieved is not
+important for the system and is therefore handledby the underlying operating systems
+for web application. But, any transaction on the webdeals with the following protocols.
+● TCP/IP
+● HTTP
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
+#### ➔ Web App Link :
 
-### `yarn eject`
+```
+https://amigo-73b2a.web.app/
+```
+---
+## LOGIN:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+##### Click on the login button after getting redirectedto home page of amigo from the link given above. After clicking the button you willbe redirected to the login page.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### After you come to the login page you will have 3 options(as users) to choose from namely as student or HoD or FnA. Select the typeof user and then enter the valid credentials for the selected user givenabove.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+##### The Login credentials for the 3 type of users are:-
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+##### STUDENT :
 
-## Learn More
+##### Username:iit2019198@amigo.com
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##### Password: 123
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### (Also new students can be registered and used).
 
-### Code Splitting
+##### FnA :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+##### Username:fna@amigo.com
 
-### Analyzing the Bundle Size
+##### Password: 123
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+##### HoD :
 
-### Making a Progressive Web App
+##### Username:it@amigo.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+##### Password: 123
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+PS: Further details could be seen in the user manual and the diagrams.
