@@ -58,7 +58,7 @@ const useStyles = makeStyles({
 const GoBackBtn = withStyles(() => ({
     root: {
       width: "180px",
-      height: "46px",
+      height: "47px",
       color: "#000000",
       background: "#FFCCBC",
       boxShadow: "0px 4px 20px #525CDD",
